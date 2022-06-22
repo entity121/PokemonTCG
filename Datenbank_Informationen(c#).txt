@@ -1,1 +1,1 @@
-datasource=localhost;port=3305;database=pokemon tcg;username=root;password=
+Server=localhost;Database=pokemon tcg;Uid=root;Password=
