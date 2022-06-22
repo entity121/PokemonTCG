@@ -1,1 +1,0 @@
-Server=localhost;Database=pokemon tcg;Uid=root;Password=
