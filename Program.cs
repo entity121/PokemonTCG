@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Text.Json;
 using System.IO;
+using PokemonTCG.Datenbanken;
 
 namespace PokemonTCG
 {
@@ -14,8 +15,16 @@ namespace PokemonTCG
             //     game.Run();
 
 
-            XAMPP x = new XAMPP();
-            x.Verbindung();
+            //XAMPP x = new XAMPP();
+            //x.alte_Datenbank_Übertragen();
+
+            //SQLiteDatenbank sql = new SQLiteDatenbank();
+            //var x = sql.Verbindung_Herstellen();
+            //sql.Tabelle_Erstellen(x);
+
+            SQLiteDatenbank s = new SQLiteDatenbank();
+            var v = s.Verbindung_Herstellen();
+            s.Test(v);
 
         }
     }
