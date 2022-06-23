@@ -12,9 +12,8 @@ namespace PokemonTCG.Datenbanken
         // DIESE FUNKTION IST DAZU DA, DIE DATEN AUS DER XAMPP DATENBANK AUSZULESEN UND IN DIE SQLITE DATENBANK ZU SCHREIBEN
         // STANDARTMÄßIG NICHT NÖTIG ABER FÜR NOTFÄLLE DA LASSEN
 
-
-        /*
         //###########################################################
+        /*
         public void alte_Datenbank_Übertragen()
         {
             // Aus der ehemaligen Datenbank werden die Einträge ausgelesen
@@ -72,8 +71,7 @@ namespace PokemonTCG.Datenbanken
                 MessageBox.Show(ex.Message);
             }
         }
-        //###########################################################
         */
-
+        //###########################################################
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using PokemonTCG.Karten;
 
 namespace PokemonTCG.Datenbanken
 {
@@ -30,26 +31,6 @@ namespace PokemonTCG.Datenbanken
             return verbindung;
         }
         //###########################################################
-
-
-        public void Test(SQLiteConnection c)
-        {
-            SQLiteDataReader reader;
-            SQLiteCommand sql;
-            sql = c.CreateCommand();
-            sql.CommandText = "SELECT * FROM karten";
-
-            reader = sql.ExecuteReader();
-
-            while (reader.Read())
-            {
-                string erg = reader.GetString(2);
-                MessageBox.Show(erg);
-            }
-
-            c.Close();
-        }
-
 
 
 
