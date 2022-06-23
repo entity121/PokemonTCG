@@ -20,7 +20,7 @@ namespace PokemonTCG
 
 
             KarteAbrufen abrufen = new KarteAbrufen();
-            Karte a = abrufen.Abrufen();
+            Karte a = abrufen.Abrufen(2);
 
             MessageBox.Show(a.kartenname);
 
