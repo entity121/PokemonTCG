@@ -11,18 +11,21 @@ namespace PokemonTCG
     {
         [STAThread]
         static void Main()
+        
         {
             // using (var game = new Game1())
             //     game.Run();
 
 
 
+            Deck deck = new Deck();
+
+            
+            deck.Deck_Erstellen();
 
 
-            KarteAbrufen abrufen = new KarteAbrufen();
-            Karte a = abrufen.Abrufen(2);
+            deck.Deck_Mischen();
 
-            MessageBox.Show(a.kartenname);
 
         }
     }
