@@ -17,15 +17,30 @@ namespace PokemonTCG
             //     game.Run();
 
 
+            // Spieler A
+            Deck deckA = new Deck();  
+            deckA.Deck_Füllen(1);
+            MessageBox.Show(deckA.Deck_Zeigen());
 
-            Deck deck = new Deck();
+            // Spieler B
+            Deck deckB = new Deck();
+            deckB.Deck_Füllen(2);
+            MessageBox.Show(deckB.Deck_Zeigen());
 
-            
-            deck.Deck_Erstellen();
 
+            int karteA = deckA.Karte_Ziehen();
+            MessageBox.Show("Gezogene Karte A: " + karteA);
+            MessageBox.Show(deckA.Deck_Zeigen());
 
-            deck.Deck_Mischen();
+            int karteB = deckB.Karte_Ziehen();
+            MessageBox.Show("Gezogene Karte B: " + karteB);
+            MessageBox.Show(deckB.Deck_Zeigen());
 
+            deckA.Karte_Zurücklegen(karteA);
+            deckB.Karte_Zurücklegen(karteB);
+
+            MessageBox.Show(deckA.Deck_Zeigen());
+            MessageBox.Show(deckB.Deck_Zeigen());
 
         }
     }
