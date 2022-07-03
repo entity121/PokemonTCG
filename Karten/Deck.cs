@@ -38,6 +38,8 @@ namespace PokemonTCG.Karten
 
 
 
+
+
         // Das Deck eines Spielers wird mit den Karten ID's eines gespeicherten Decks gefüllt
         //#################################################
         public void Deck_Füllen(int deckID)
@@ -56,6 +58,9 @@ namespace PokemonTCG.Karten
             }
         }
         //#################################################
+
+
+
 
 
 
@@ -99,20 +104,20 @@ namespace PokemonTCG.Karten
                 
 
                 // Die zweite hälfte kommt in "UMGEDREHTER" Reihenfolge an erste Stelle des Zwischenspeicher-Arrays
-                for(int stelle = 0; stelle < kartenAnzahl-schnitt; stelle++)
+                for(int index = 0; index < kartenAnzahl-schnitt; index++)
                 {
-                    vermischt[stelle] = inhalt[kartenAnzahl - stelle - 1];
+                    vermischt[index] = inhalt[kartenAnzahl - index - 1];
                 }
                 // Die erste Hälfte kommt in "NORMALER" Reihenfolge als zweites
-                for(int stelle = 0; stelle < schnitt; stelle++)
+                for(int index = 0; index < schnitt; index++)
                 {
-                    vermischt[(kartenAnzahl - schnitt) + stelle] = inhalt[stelle];
+                    vermischt[(kartenAnzahl - schnitt) + index] = inhalt[index];
                 }
 
                 // Zum Schluss das Deck mit dem Zwischengespeicherten Array überschreiben
-                for(int stelle = 0; stelle < kartenAnzahl; stelle++)
+                for(int index = 0; index < kartenAnzahl; index++)
                 {
-                    inhalt[stelle] = vermischt[stelle];
+                    inhalt[index] = vermischt[index];
                 }
 
             }
@@ -122,22 +127,28 @@ namespace PokemonTCG.Karten
 
 
 
+
+
+        // Anhand ihrem Index im Deck wird eine Karte heraus gezogen
         //#################################################
-        public int Karte_Ziehen()
+        public int Karte_Ziehen(int ind)
         {
             // oberste Karte vom Stapel nehmen
-            int obersteKarte = inhalt[0];
+            int karte = inhalt[ind];
 
             // Deckgröße anpassen
-            Deck_Größe_Ändern("kleiner", -1);
+            Deck_Größe_Ändern("kleiner", ind);
 
             // Karte ausgeben
-            return obersteKarte;
+            return karte;
         }
         //#################################################
 
 
 
+
+
+        // Eine Karte wird aufs Deck zurück gelegt
         //#################################################
         public void Karte_Zurücklegen(int karte)
         {
@@ -147,6 +158,9 @@ namespace PokemonTCG.Karten
 
 
 
+
+
+        // Die Größe des Decks ändert sich und die "Lücken" schließen sich
         //#################################################
         private void Deck_Größe_Ändern(string befehl,int karte)
         {
@@ -154,9 +168,9 @@ namespace PokemonTCG.Karten
             if (befehl == "kleiner")
             {
                 // Jede Stelle im Deck-Array nimmt den Wert der darauf folgenden Stelle an ...
-                for(int stelle = 0; stelle < deckGröße - 1; stelle++)
+                for(int index = karte; index < deckGröße - 1; index++)
                 {
-                    inhalt[stelle] = inhalt[stelle + 1];
+                    inhalt[index] = inhalt[index + 1];
                 }
 
                 //... die letzte Stelle wird bekommt den Wert '-1'  (-1 = lehrer Deck Platz)
@@ -168,37 +182,31 @@ namespace PokemonTCG.Karten
             // Eine Karte wird dem Deck hinzugefügt
             else if(befehl == "größer")
             {
-                for(int stelle = 0; stelle < deckGröße; stelle++)
+                for(int index = 0; index < deckGröße; index++)
                 {
-                    if (inhalt[stelle] == -1)
+                    if (inhalt[index] == -1)
                     {
-                        inhalt[stelle] = karte;
+                        inhalt[index] = karte;
                         // WICHTIG : Karten anzahl um 1 erhöhen
                         kartenAnzahl += 1;
 
-                        Deck_Mischen();
                         return;
                     }
                 }
             }
-
         }
         //#################################################
 
 
 
 
+
+
+        // Das ganze Deck wird als ein Array ausgegeben
         //#################################################
-        public string Deck_Zeigen()
+        public int[] Deck_Ausgeben()
         {
-            string str = "";
-
-            for(int i = 0; i < deckGröße; i++)
-            {
-                str += inhalt[i] + "|_|";
-            }
-
-            return str;
+            return inhalt;
         }
         //#################################################
     }
