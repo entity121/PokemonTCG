@@ -182,17 +182,15 @@ namespace PokemonTCG.Karten
             // Eine Karte wird dem Deck hinzugefügt
             else if(befehl == "größer")
             {
-                for(int index = 0; index < deckGröße; index++)
+                for(int index = deckGröße-1; index > 0; index--)
                 {
-                    if (inhalt[index] == -1)
-                    {
-                        inhalt[index] = karte;
-                        // WICHTIG : Karten anzahl um 1 erhöhen
-                        kartenAnzahl += 1;
-
-                        return;
-                    }
+                    inhalt[index] = inhalt[index - 1];      
                 }
+
+                inhalt[0] = karte;
+
+                // WICHTIG : Karten anzahl um 1 erhöhen
+                kartenAnzahl += 1;
             }
         }
         //#################################################
