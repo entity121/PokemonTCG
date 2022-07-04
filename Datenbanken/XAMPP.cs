@@ -13,7 +13,7 @@ namespace PokemonTCG.Datenbanken
         // STANDARTMÄßIG NICHT NÖTIG ABER FÜR NOTFÄLLE DA LASSEN
 
         //###########################################################
-        /*
+        
         public void alte_Datenbank_Übertragen()
         {
             // Aus der ehemaligen Datenbank werden die Einträge ausgelesen
@@ -71,7 +71,7 @@ namespace PokemonTCG.Datenbanken
                 MessageBox.Show(ex.Message);
             }
         }
-        */
+        
         //###########################################################
     }
 }
