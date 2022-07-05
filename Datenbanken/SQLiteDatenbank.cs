@@ -41,17 +41,17 @@ namespace PokemonTCG.Datenbanken
         public Karte Karte_Abrufen(int id)
         {
             // Eine Verbindung zur Datenbank herstellen
-            SQLiteDatenbank sqlite = new SQLiteDatenbank();
-            var verbindung = sqlite.Verbindung_Herstellen();
+            SQLiteConnection verbindung = Verbindung_Herstellen();
 
             // SQL Befehl verfassen
             SQLiteCommand sqlBefehl;
             sqlBefehl = verbindung.CreateCommand();
-            sqlBefehl.CommandText = "SELECT * FROM karten WHERE ID=" + id;
+            sqlBefehl.CommandText = "SELECT * FROM karten WHERE ID="+id;
 
             // SQL Befehl ausführen und Ergebniss empfangen
             SQLiteDataReader daten;
             daten = sqlBefehl.ExecuteReader();
+
 
             // Anhand des erhaltenen Datenbank Eintrages wird ein Karten Objekt erstellt
             while (daten.Read())
@@ -67,66 +67,13 @@ namespace PokemonTCG.Datenbanken
             // Verbindung schließen
             verbindung.Close();
 
+            //MessageBox.Show(karte.kartenname.ToString());
+
             // Das Objekt an die aufrufende Stelle zurück liefern
             return karte;
         }
         //###########################################################
 
-
-
-
-
-
-
-        // DIE NACHFOLGENDEN FUNKTIONEN BLEIBEN AUSKOMMENTIERT, BIS SIE BENÖTIGT WERDEN UM EINE TABELLE 
-        // ZU ERSTELLEN UND ZU FÜLLEN MIT EINTRÄGEN AUS DER XAMPP DATENBANK
-        
-        //###########################################################
-        public void Tabelle_Erstellen()
-        {
-            SQLiteConnection verbindung = Verbindung_Herstellen();
-            // Das Objekt für SQL Befehle wird erzeugt
-            SQLiteCommand sqlBefehl;
-            // Der SQL-Befehl zum erstellen der Tabelle in Form eines Strings
-
-            string tabelleErstellen = "CREATE TABLE karten ("
-                                                        + "ID int(5) , Art varchar(15) , Kartenname varchar(100) , Vorentwicklung varchar(100) ,"
-                                                        + "Weiterentwicklung varchar(100) , Typ varchar(20) , KP int(5) , Fähigkeit int(1) , Angriff1 varchar(100) ,"
-                                                        + "Kosten1 int(3) , Energie1 varchar(20) , Farblos1 int(3) , Schaden1 int(5) , Fähigkeit1 int(1) , Angriff2 varchar(100) ,"
-                                                        + "Kosten2 int(3) , Energie2 varchar(20) , Farblos2 int(3) , Schaden2 int(5) , Fähigkeit2 int(1) ,"
-                                                        + "Schwäche varchar(20) , Resistenz varchar(20) , Rückzugskosten int(3) , DexNummer int(5) ,"
-                                                        + "KartenNummer int(5) , Booster varchar(15) , BasisEnergie int(1)); ";
-
-            //string tabelleErstellen = "CREATE TABLE decks ("
-             //   + "ID int(1)"
-
-
-            // Dem Verbindungsobjekt, welches der Funktion übergeben wurde, wird der SQL Befehlhinzugefügt, 
-            // damit dieser Befehl ausgeführt werden und eine Tabelle erzeugt werden kann
-            sqlBefehl = verbindung.CreateCommand();
-            sqlBefehl.CommandText = tabelleErstellen;
-            sqlBefehl.ExecuteNonQuery();
-
-            verbindung.Close();
-        }
-        //###########################################################
-        
-
-
-
-        //###########################################################
-        public void Daten_Einfügen(SQLiteConnection varbindung,string sql)
-        {
-            SQLiteConnection verbindung = Verbindung_Herstellen();
-            // Das Objekt für SQL Befehle wird erzeugt
-            SQLiteCommand sqlBefehl;
-            // Ein Befehl wird vorbereitet
-            sqlBefehl = varbindung.CreateCommand();
-            // Der SQL Befehl wird als Parameter übergeben und ausgeführt
-            sqlBefehl.CommandText = sql;
-            sqlBefehl.ExecuteNonQuery();
-        }
-        //###########################################################
 
     }
 }

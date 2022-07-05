@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.IO;
 using PokemonTCG.Datenbanken;
 using PokemonTCG.Karten;
-using Newtonsoft.Json.Linq;  // install-package Newtonsoft.Json
+
 
 namespace PokemonTCG
 {
@@ -18,11 +18,26 @@ namespace PokemonTCG
             //     game.Run();
 
 
-            string[] json = File.ReadAllLines(@"..\..\..\Datenbank_Inhalt.txt");
+            DatenbankErstellen dbe = new DatenbankErstellen();
+            SQLiteDatenbank sqlite = new SQLiteDatenbank();
 
-            var erg = JObject.Parse(json[0]);
+            //dbe.Tabellen_Erstellen();
 
-            MessageBox.Show(erg["Kartenname"].ToString());
+            //dbe.Daten_Einfügen();
+
+            string str;
+            Karte karte;
+            for (int i = 1; i < 6; i++)
+            {
+                karte = sqlite.Karte_Abrufen(i);
+
+                str = "ID: " + karte.ID + "\nName: " + karte.kartenname + "\nPokedex: " + karte.dexNummer;
+
+                MessageBox.Show(str);
+            }
+
+
+
         }
     }
 }
