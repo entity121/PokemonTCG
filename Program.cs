@@ -24,25 +24,20 @@ namespace PokemonTCG
 
             dbe.Tabellen_Erstellen();
 
+            Deck deck = datenbank.Deck_Abrufen(7);
 
-            Karte karte = datenbank.Karte_Abrufen(6);
-
-            MessageBox.Show(karte.kartenname);
-
-            Deck deck = datenbank.Deck_Abrufen(6);
-
-            MessageBox.Show(deck.kartenAnzahl.ToString());
+            MessageBox.Show(deck.deckName);
             
 
-            //MessageBox.Show(deck.ToString());
 
-            /*int[] inhalt = deck.Deck_Ausgeben();
+            int[] inhalt = deck.Deck_Ausgeben();
 
             for(int i = 0; i < inhalt.Length; i++)
             {
-                MessageBox.Show(inhalt[i].ToString());
-            }*/
+                Karte k = datenbank.Karte_Abrufen(inhalt[i]);
 
+                MessageBox.Show(k.kartenname);
+            }
 
 
 

@@ -29,11 +29,11 @@ namespace PokemonTCG.Karten
 
         //Konstruktor
         //#######################################
-        public Deck(){
+        public Deck(string name,int[]deck){
             this.deckName = name;
             this.kartenAnzahl = deckGröße;
             //this.inhalt = new int[deckGröße];
-            //this.inhalt = deck;
+            this.inhalt = deck;
         }
         //#######################################
 
@@ -42,7 +42,7 @@ namespace PokemonTCG.Karten
 
 
 
-
+        /*
         // Das Deck eines Spielers wird mit den Karten ID's eines gespeicherten Decks gefüllt
         //#################################################
         public void Deck_Füllen(int deckID)
@@ -61,7 +61,7 @@ namespace PokemonTCG.Karten
             }
         }
         //#################################################
-
+        */
 
 
 

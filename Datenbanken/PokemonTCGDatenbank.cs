@@ -89,28 +89,21 @@ namespace PokemonTCG.Datenbanken
             SQLiteDataReader daten;
             daten = sqlBefehl.ExecuteReader();
 
-
-
-
-            int[] d = new int[deckGröße];
-
+          
+            int[] inhalt = new int[deckGröße];
 
             while (daten.Read())
             {
-                MessageBox.Show("OK");
-                for(int i = 0; i < d.Length; i++)
+
+                for(int i = 0; i < inhalt.Length; i++)
                 {
-                    d[i] = daten.GetInt32(i + 2);
+                   inhalt[i] = daten.GetInt32(i+2);
                 }
 
-                //deck = new Deck();
+                deck = new Deck(daten.GetString(1),inhalt);
             }
-
-
-            deck = new Deck();
-
-
-
+            
+       
             verbindung.Close();
 
             return deck;

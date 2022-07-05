@@ -55,7 +55,7 @@ namespace PokemonTCG.Datenbanken
             {
                 // Deck Tabelle
                 tabelleErstellen = "CREATE TABLE decks ("
-                    + "ID int(3) , Name varchar(20) , Starter int(1) , Gegner int(1) , "
+                    + "ID int(3) , Name varchar(20) , "
                     + "k1 int(3) , k2 int(3) , k3 int(3) , k4 int(3) , k5 int(3) , k6 int(3) , k7 int(3) , k8 int(3) , k9 int(3) , k10 int(3) , "
                     + "k11 int(3) , k12 int(3) , k13 int(3) , k14 int(3) , k15 int(3) , k16 int(3) , k17 int(3) , k18 int(3) , k19 int(3) , k20 int(3) , "
                     + "k21 int(3) , k22 int(3) , k23 int(3) , k24 int(3) , k25 int(3) , k26 int(3) , k27 int(3) , k28 int(3) , k29 int(3) , k30 int(3) , "
