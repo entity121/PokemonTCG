@@ -19,22 +19,30 @@ namespace PokemonTCG
 
 
             DatenbankErstellen dbe = new DatenbankErstellen();
-            SQLiteDatenbank sqlite = new SQLiteDatenbank();
+            PokemonTCGDatenbank datenbank = new PokemonTCGDatenbank();
 
-            //dbe.Tabellen_Erstellen();
 
-            //dbe.Daten_Einfügen();
+            dbe.Tabellen_Erstellen();
 
-            string str;
-            Karte karte;
-            for (int i = 1; i < 6; i++)
+
+            Karte karte = datenbank.Karte_Abrufen(6);
+
+            MessageBox.Show(karte.kartenname);
+
+            Deck deck = datenbank.Deck_Abrufen(6);
+
+            MessageBox.Show(deck.kartenAnzahl.ToString());
+            
+
+            //MessageBox.Show(deck.ToString());
+
+            /*int[] inhalt = deck.Deck_Ausgeben();
+
+            for(int i = 0; i < inhalt.Length; i++)
             {
-                karte = sqlite.Karte_Abrufen(i);
+                MessageBox.Show(inhalt[i].ToString());
+            }*/
 
-                str = "ID: " + karte.ID + "\nName: " + karte.kartenname + "\nPokedex: " + karte.dexNummer;
-
-                MessageBox.Show(str);
-            }
 
 
 

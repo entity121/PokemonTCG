@@ -18,10 +18,11 @@ namespace PokemonTCG.Karten
 
         // Variablen
         //#############################
-        private int deckGröße = 10;
+        public int deckGröße = 60;
 
-        private int kartenAnzahl;
-        private int[] inhalt;
+        public string deckName;
+        public int kartenAnzahl;
+        public int[] inhalt;
         //#############################
 
 
@@ -29,8 +30,10 @@ namespace PokemonTCG.Karten
         //Konstruktor
         //#######################################
         public Deck(){
+            this.deckName = name;
             this.kartenAnzahl = deckGröße;
-            this.inhalt = new int[deckGröße];
+            //this.inhalt = new int[deckGröße];
+            //this.inhalt = deck;
         }
         //#######################################
 

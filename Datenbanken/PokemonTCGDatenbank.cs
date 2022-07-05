@@ -10,7 +10,7 @@ using PokemonTCG.Karten;
 
 namespace PokemonTCG.Datenbanken
 {
-    class SQLiteDatenbank
+    class PokemonTCGDatenbank
     {
 
         // GIBT EINE VERBINDUNG ZURÜCK, DIE FÜR ALLE DATENBANK ANFRAGEN VERWENDET WIRD
@@ -67,10 +67,56 @@ namespace PokemonTCG.Datenbanken
             // Verbindung schließen
             verbindung.Close();
 
-            //MessageBox.Show(karte.kartenname.ToString());
-
             // Das Objekt an die aufrufende Stelle zurück liefern
             return karte;
+        }
+        //###########################################################
+
+
+
+        //###########################################################
+        Deck deck;
+        public Deck Deck_Abrufen(int id)
+        {
+            SQLiteConnection verbindung = Verbindung_Herstellen();
+            SQLiteCommand sqlBefehl;
+
+            int deckGröße = 60;
+
+            sqlBefehl = verbindung.CreateCommand();
+            sqlBefehl.CommandText = "SELECT * FROM decks WHERE ID=" + id;
+
+            SQLiteDataReader daten;
+            daten = sqlBefehl.ExecuteReader();
+
+
+
+
+            int[] d = new int[deckGröße];
+
+
+            while (daten.Read())
+            {
+                MessageBox.Show("OK");
+                for(int i = 0; i < d.Length; i++)
+                {
+                    d[i] = daten.GetInt32(i + 2);
+                }
+
+                //deck = new Deck();
+            }
+
+
+            deck = new Deck();
+
+
+
+
+            //MessageBox.Show(deck.ToString());
+
+            verbindung.Close();
+
+            return deck;
         }
         //###########################################################
 

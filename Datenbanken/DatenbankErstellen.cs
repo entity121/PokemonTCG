@@ -11,7 +11,7 @@ namespace PokemonTCG.Datenbanken
     class DatenbankErstellen
     {
 
-        SQLiteDatenbank sqlite = new SQLiteDatenbank();
+        PokemonTCGDatenbank datenbank = new PokemonTCGDatenbank();
 
 
         // In dieser Funktion werden die verschiedenen Tabellen der Datenbank angelegt
@@ -21,7 +21,7 @@ namespace PokemonTCG.Datenbanken
         public void Tabellen_Erstellen()
         {
 
-            SQLiteConnection verbindung = sqlite.Verbindung_Herstellen();
+            SQLiteConnection verbindung = datenbank.Verbindung_Herstellen();
 
             // Das Objekt für SQL Befehle wird erzeugt
             SQLiteCommand sqlBefehl;
@@ -44,12 +44,12 @@ namespace PokemonTCG.Datenbanken
                 sqlBefehl.CommandText = tabelleErstellen;
                 sqlBefehl.ExecuteNonQuery();
 
-                Karten_Einfügen();
-
                 MessageBox.Show("Karten erstellt");
+                Karten_Einfügen();
+                MessageBox.Show("Karten befüllt");
             }
             catch (System.Data.SQLite.SQLiteException e)
-            { MessageBox.Show("Karten existiert bereits"); };
+            { MessageBox.Show(e.ToString()); };
 
             try
             {
@@ -67,16 +67,12 @@ namespace PokemonTCG.Datenbanken
                 sqlBefehl.CommandText = tabelleErstellen;
                 sqlBefehl.ExecuteNonQuery();
 
-                Decks_Einfügen();
-
                 MessageBox.Show("Decks erstellt");
+                Decks_Einfügen();
+                MessageBox.Show("Decks befüllt");
             }
             catch (System.Data.SQLite.SQLiteException e)
-            { MessageBox.Show("Decks existiert bereits"); };
-
-
-
-
+            { MessageBox.Show(e.ToString()); };
 
 
             verbindung.Close();
@@ -89,7 +85,7 @@ namespace PokemonTCG.Datenbanken
         //###########################################################
         private void Karten_Einfügen()
         {
-            SQLiteConnection verbindung = sqlite.Verbindung_Herstellen();
+            SQLiteConnection verbindung = datenbank.Verbindung_Herstellen();
             SQLiteCommand sqlBefehl;
 
             string[] json = File.ReadAllLines(@"..\..\..\Datenbank_Karten.txt");
@@ -122,30 +118,35 @@ namespace PokemonTCG.Datenbanken
         //###########################################################
         private void Decks_Einfügen()
         {
-           /* SQLiteConnection verbindung = sqlite.Verbindung_Herstellen();
+            SQLiteConnection verbindung = datenbank.Verbindung_Herstellen();
             SQLiteCommand sqlBefehl;
 
-            string[] json = File.ReadAllLines(@"..\..\..\Datenbank_Karten.txt");
+            string[] json = File.ReadAllLines(@"..\..\..\Datenbank_Decks.txt");
 
             for (int i = 0; i < json.Length; i++)
             {
 
                 var eintrag = JObject.Parse(json[i]);
 
-                string tabelleFüllen = "INSERT INTO karten (ID, Art, Kartenname, Vorentwicklung, Weiterentwicklung, Typ, KP, Fähigkeit, " +
-                                            "Angriff1, Kosten1, Energie1, Farblos1, Schaden1, Fähigkeit1, Angriff2, Kosten2, Energie2, Farblos2, Schaden2, " +
-                                            "Fähigkeit2, Schwäche, Resistenz, Rückzugskosten, DexNummer, KartenNummer, Booster, BasisEnergie)" +
-                                            "VALUES (" + eintrag["ID"] + ",'" + eintrag["Art"] + "','" + eintrag["Kartenname"] + "','" + eintrag["Vorentwicklung"] +
-                                            "','" + eintrag["Weiterentwicklung"] + "','" + eintrag["Typ"] + "'," + eintrag["KP"] + "," + eintrag["Fähigkeit"] +
-                                            ",'" + eintrag["Angriff1"] + "'," + eintrag["Kosten1"] + ",'" + eintrag["Energie1"] + "'," + eintrag["Farblos1"] +
-                                            "," + eintrag["Schaden1"] + "," + eintrag["Fähigkeit1"] + ",'" + eintrag["Angriff2"] + "'," + eintrag["Kosten2"] +
-                                            ",'" + eintrag["Energie2"] + "'," + eintrag["Farblos2"] + "," + eintrag["Schaden2"] + "," + eintrag["Fähigkeit2"] +
-                                            ",'" + eintrag["Schwäche"] + "','" + eintrag["Resistenz"] + "'," + eintrag["Rückzugskosten"] + "," + eintrag["DexNummer"] +
-                                            "," + eintrag["KartenNummer"] + ",'" + eintrag["Booster"] + "'," + eintrag["BasisEnergie"] + ")";
+
+                string tabelleFüllen = "INSERT INTO decks (ID, Name, k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,k20," +
+                                                            "k21,k22,k23,k24,k25,k26,k27,k28,k29,k30,k31,k32,k33,k34,k35,k36,k37,k38,k39,k40,k41,k42,k43,k44,k45,k46,k47,k48,k49,k50," +
+                                                            "k51,k52,k53,k54,k55,k56,k57,k58,k59,k60)" +
+                            "VALUES (" + eintrag["ID"] + ",'" + eintrag["Name"] + "'," + eintrag["k1"] + "," + eintrag["k2"] + "," + eintrag["k3"] + "," + eintrag["k4"]
+                            + "," + eintrag["k5"] + "," + eintrag["k6"] + "," + eintrag["k7"] + "," + eintrag["k8"] + "," + eintrag["k9"] + "," + eintrag["k10"] + "," + eintrag["k11"]
+                            + "," + eintrag["k12"] + "," + eintrag["k13"] + "," + eintrag["k14"] + "," + eintrag["k15"] + "," + eintrag["k16"] + "," + eintrag["k17"] + "," + eintrag["k18"]
+                            + "," + eintrag["k19"] + "," + eintrag["k20"] + "," + eintrag["k21"] + "," + eintrag["k22"] + "," + eintrag["k23"] + "," + eintrag["k24"] + "," + eintrag["k25"]
+                            + "," + eintrag["k26"] + "," + eintrag["k27"] + "," + eintrag["k28"] + "," + eintrag["k29"] + "," + eintrag["k30"] + "," + eintrag["k31"] + "," + eintrag["k32"]
+                            + "," + eintrag["k33"] + "," + eintrag["k34"] + "," + eintrag["k35"] + "," + eintrag["k36"] + "," + eintrag["k37"] + "," + eintrag["k38"] + "," + eintrag["k39"]
+                            + "," + eintrag["k40"] + "," + eintrag["k41"] + "," + eintrag["k42"] + "," + eintrag["k43"] + "," + eintrag["k44"] + "," + eintrag["k45"] + "," + eintrag["k46"]
+                            + "," + eintrag["k47"] + "," + eintrag["k48"] + "," + eintrag["k49"] + "," + eintrag["k50"] + "," + eintrag["k51"] + "," + eintrag["k52"] + "," + eintrag["k53"]
+                            + "," + eintrag["k54"] + "," + eintrag["k55"] + "," + eintrag["k56"] + "," + eintrag["k57"] + "," + eintrag["k58"] + "," + eintrag["k59"] + "," + eintrag["k60"]
+                            + ")";
+
 
                 sqlBefehl = verbindung.CreateCommand();
                 sqlBefehl.CommandText = tabelleFüllen;
-                sqlBefehl.ExecuteNonQuery();*/
+                sqlBefehl.ExecuteNonQuery();
             }
         }
         //###########################################################
