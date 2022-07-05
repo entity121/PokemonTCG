@@ -111,9 +111,6 @@ namespace PokemonTCG.Datenbanken
 
 
 
-
-            //MessageBox.Show(deck.ToString());
-
             verbindung.Close();
 
             return deck;
