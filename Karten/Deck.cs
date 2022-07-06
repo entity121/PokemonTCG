@@ -5,63 +5,36 @@ using System.IO;
 using System.Windows.Forms;
 using System.Linq;
 using System.Security.Cryptography;
+using PokemonTCG.Datenbanken;
 
 namespace PokemonTCG.Karten
 {
     class Deck
     {
 
-        // !****! Schnittstelle für die gespeicherten Decks
-        public int[] deck_A = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        public int[] deck_B = { 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 
-
-        // Variablen
+        //VARIABLEN
         //#############################
-        public int deckGröße = 60;
+        private int deckGröße = 60;
 
-        public string deckName;
-        public int kartenAnzahl;
-        public int[] inhalt;
+        private string deckName;
+        private int kartenAnzahl;
+        private int[] inhalt;
         //#############################
 
 
 
-        //Konstruktor
+        //KONSTRUKTOR
         //#######################################
         public Deck(string name,int[]deck){
-            this.deckName = name;
+
             this.kartenAnzahl = deckGröße;
+            this.deckName = name;
             //this.inhalt = new int[deckGröße];
             this.inhalt = deck;
+
         }
         //#######################################
-
-
-
-
-
-
-        /*
-        // Das Deck eines Spielers wird mit den Karten ID's eines gespeicherten Decks gefüllt
-        //#################################################
-        public void Deck_Füllen(int deckID)
-        {
-            int[] deck = new int[60];
-
-            switch (deckID)
-            {
-                case 1: { deck = deck_A; }break;
-                case 2: { deck = deck_B; }break;
-            }
-
-            for (int x = 0; x < deckGröße; x++)
-            {
-                inhalt[x] = deck[x];
-            }
-        }
-        //#################################################
-        */
 
 
 
@@ -82,7 +55,7 @@ namespace PokemonTCG.Karten
             Random random = new Random();
 
             // 100 mal für bestes Mischergebnis
-            for(int durchlauf = 0; durchlauf < 100; durchlauf++)
+            for(int durchlauf = 0; durchlauf < 1000; durchlauf++)
             {
 
                 // Ein Array zum Zwischenspeichern der Werte
@@ -134,13 +107,17 @@ namespace PokemonTCG.Karten
 
         // Anhand ihrem Index im Deck wird eine Karte heraus gezogen
         //#################################################
-        public int Karte_Ziehen(int ind)
+        public Karte Karte_Ausgeben(int index)
         {
             // oberste Karte vom Stapel nehmen
-            int karte = inhalt[ind];
+            int id = inhalt[index];
 
             // Deckgröße anpassen
-            Deck_Größe_Ändern("kleiner", ind);
+            Deck_Größe_Ändern("kleiner", index);
+
+            PokemonTCGDatenbank datenbank = new PokemonTCGDatenbank();
+
+            Karte karte = datenbank.Karte_Abrufen(id);
 
             // Karte ausgeben
             return karte;
@@ -153,7 +130,7 @@ namespace PokemonTCG.Karten
 
         // Eine Karte wird aufs Deck zurück gelegt
         //#################################################
-        public void Karte_Zurücklegen(int karte)
+        public void Karte_Aufnehmen(int karte)
         {
             Deck_Größe_Ändern("größer", karte);
         }
@@ -203,11 +180,25 @@ namespace PokemonTCG.Karten
 
 
 
-        // Das ganze Deck wird als ein Array ausgegeben
+        // Getter
         //#################################################
-        public int[] Deck_Ausgeben()
+        public int[] Inhalt_Ausgeben()
         {
             return inhalt;
+        }
+        //#################################################
+
+        //#################################################
+        public string DeckNamen_Ausgeben()
+        {
+            return deckName;
+        }
+        //#################################################
+
+        //#################################################
+        public int Kartenanzahl_Ausgeben()
+        {
+            return kartenAnzahl;
         }
         //#################################################
     }

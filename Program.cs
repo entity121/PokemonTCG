@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.IO;
 using PokemonTCG.Datenbanken;
 using PokemonTCG.Karten;
+using PokemonTCG.Spielfeld;
 
 
 namespace PokemonTCG
@@ -20,25 +21,37 @@ namespace PokemonTCG
 
             DatenbankErstellen dbe = new DatenbankErstellen();
             PokemonTCGDatenbank datenbank = new PokemonTCGDatenbank();
-
-
-            dbe.Tabellen_Erstellen();
-
-            Deck deck = datenbank.Deck_Abrufen(7);
-
-            MessageBox.Show(deck.deckName);
             
 
-
-            int[] inhalt = deck.Deck_Ausgeben();
-
-            for(int i = 0; i < inhalt.Length; i++)
+            try
             {
-                Karte k = datenbank.Karte_Abrufen(inhalt[i]);
-
-                MessageBox.Show(k.kartenname);
+                dbe.Tabellen_Erstellen();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
             }
 
+
+            Spieler ich = new Spieler(6);
+
+
+
+            ich.Karte_Ziehen();
+
+            ich.Karten_Zählen();
+
+            ich.Karte_Ziehen();
+
+            ich.Karten_Zählen();
+
+            ich.Karte_Ziehen();
+
+            ich.Karten_Zählen();
+
+            ich.Karte_Zurücklegen(0);
+
+            ich.Karten_Zählen();
 
 
         }

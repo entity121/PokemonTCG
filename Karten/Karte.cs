@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace PokemonTCG.Karten
 {
     class Karte
     {
-
+        //VARIABLEN
+        //#############################
         public int ID;
         public string art;
         public string kartenname;
@@ -34,8 +36,10 @@ namespace PokemonTCG.Karten
         public int kartenNummer;
         public string booster;
         public int basisEnergie;
+        //#############################
 
 
+        //KONSTRUKTOR
         //###########################################################
         public Karte(
                 int id, string art, string nam, string vor, string weiter, string typ, int kp, int fäh,
@@ -74,6 +78,8 @@ namespace PokemonTCG.Karten
 
         }
         //###########################################################
+
+
 
     }
 }
