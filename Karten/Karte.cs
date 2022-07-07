@@ -9,33 +9,33 @@ namespace PokemonTCG.Karten
     {
         //VARIABLEN
         //#############################
-        public int ID;
-        public string art;
-        public string kartenname;
-        public string vorentwicklung;
-        public string weiterentwicklung;
-        public string typ;
-        public int kp;
-        public int fähigkeit;
-        public string angriff1;
-        public int kosten1;
-        public string energie1;
-        public int farblos1;
-        public int schaden1;
-        public int fähigkeit1;
-        public string angriff2;
-        public int kosten2;
-        public string energie2;
-        public int farblos2;
-        public int schaden2;
-        public int fähigkeit2;
-        public string schwäche;
-        public string resistenz;
-        public int rückzugskosten;
-        public int dexNummer;
-        public int kartenNummer;
-        public string booster;
-        public int basisEnergie;
+        public int I_ID;
+        public string S_art;
+        public string S_kartenname;
+        public string S_vorentwicklung;
+        public string S_weiterentwicklung;
+        public string S_typ;
+        public int I_kp;
+        public int I_fähigkeit;
+        public string S_angriff1;
+        public int I_kosten1;
+        public string S_energie1;
+        public int I_farblos1;
+        public int I_schaden1;
+        public int I_fähigkeit1;
+        public string S_angriff2;
+        public int I_kosten2;
+        public string S_energie2;
+        public int I_farblos2;
+        public int I_schaden2;
+        public int I_fähigkeit2;
+        public string S_schwäche;
+        public string S_resistenz;
+        public int I_rückzugskosten;
+        public int I_dexNummer;
+        public int I_kartenNummer;
+        public string S_booster;
+        public int I_basisEnergie;
         //#############################
 
 
@@ -48,33 +48,33 @@ namespace PokemonTCG.Karten
                 string schw, string res, int rück, int dex, int num, string booster, int bas)
         {
 
-            this.ID = id;
-            this.art = art;
-            this.kartenname = nam;
-            this.vorentwicklung = vor;
-            this.weiterentwicklung = weiter;
-            this.typ = typ;
-            this.kp = kp;
-            this.fähigkeit = fäh;
-            this.angriff1 = a1;
-            this.kosten1 = k1;
-            this.energie1 = e1;
-            this.farblos1 = f1;
-            this.schaden1 = s1;
-            this.fähigkeit1 = fä1;
-            this.angriff2 = a2;
-            this.kosten2 = k2;
-            this.energie2 = e2;
-            this.farblos2 = f2;
-            this.schaden2 = s2;
-            this.fähigkeit2 = fä2;
-            this.schwäche = schw;
-            this.resistenz = res;
-            this.rückzugskosten = rück;
-            this.dexNummer = dex;
-            this.kartenNummer = num;
-            this.booster = booster;
-            this.basisEnergie = bas;
+            this.I_ID = id;
+            this.S_art = art;
+            this.S_kartenname = nam;
+            this.S_vorentwicklung = vor;
+            this.S_weiterentwicklung = weiter;
+            this.S_typ = typ;
+            this.I_kp = kp;
+            this.I_fähigkeit = fäh;
+            this.S_angriff1 = a1;
+            this.I_kosten1 = k1;
+            this.S_energie1 = e1;
+            this.I_farblos1 = f1;
+            this.I_schaden1 = s1;
+            this.I_fähigkeit1 = fä1;
+            this.S_angriff2 = a2;
+            this.I_kosten2 = k2;
+            this.S_energie2 = e2;
+            this.I_farblos2 = f2;
+            this.I_schaden2 = s2;
+            this.I_fähigkeit2 = fä2;
+            this.S_schwäche = schw;
+            this.S_resistenz = res;
+            this.I_rückzugskosten = rück;
+            this.I_dexNummer = dex;
+            this.I_kartenNummer = num;
+            this.S_booster = booster;
+            this.I_basisEnergie = bas;
 
         }
         //###########################################################

@@ -13,8 +13,8 @@ namespace PokemonTCG.Spielfeld
         //#############################
         PokemonTCGDatenbank datenbank = new PokemonTCGDatenbank();
 
-        private Deck deck;
-        private Hand hand;
+        private Deck O_deck;
+        private Hand O_hand;
         //.......
         //.......
         //.......
@@ -24,8 +24,8 @@ namespace PokemonTCG.Spielfeld
         //#######################################
         public Spieler(int deck)
         {
-            this.hand = new Hand();
-            this.deck = datenbank.Deck_Abrufen(deck);
+            this.O_hand = new Hand();
+            this.O_deck = datenbank.Deck_Abrufen(deck);
         }
         //#######################################
 
@@ -36,9 +36,9 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Ziehen()
         {
-            Karte k = deck.Karte_Ausgeben(0);
+            Karte k = O_deck.Karte_Ausgeben(0);
 
-            hand.Karten_Aufnehmen(k);
+            O_hand.Karten_Aufnehmen(k);
         }
         //###########################################################
 
@@ -48,13 +48,13 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Zurücklegen(int index)
         {
-            Karte karte = hand.Karte_Entfernen(index);
+            Karte karte = O_hand.Karte_Entfernen(index);
 
-            int id = karte.ID;
+            int id = karte.I_ID;
 
             karte = null;
 
-            deck.Karte_Aufnehmen(id);
+            O_deck.Karte_Aufnehmen(id);
             
         }
         //###########################################################
@@ -63,23 +63,10 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Karten_Zählen()
+        public void Hand_Anschauen()
         {
-            string[] z = hand.Hand_Zeigen();
-            string erg = "";
+            int[] z = O_hand.Hand_Zeigen();
 
-
-
-            // HIER WIRD WEITER GEARBEITET, DESHALB FEHLER
-            stelle
-
-
-            for(int i = 0; i < z.Length; i++)
-            {
-                erg += z[i]+"--";
-            }
-
-            MessageBox.Show(erg);
         }
         //###########################################################
 

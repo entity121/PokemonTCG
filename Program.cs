@@ -12,46 +12,17 @@ namespace PokemonTCG
     public static class Program
     {
         [STAThread]
-        static void Main()
-        
+        static void Main()     
         {
-            // using (var game = new Game1())
-            //     game.Run();
 
-
+            /* Datenabank erzeugen 
             DatenbankErstellen dbe = new DatenbankErstellen();
-            PokemonTCGDatenbank datenbank = new PokemonTCGDatenbank();
-            
+            try{dbe.Tabellen_Erstellen();}
+            catch (Exception e){MessageBox.Show(e.ToString());}
+            */
 
-            try
-            {
-                dbe.Tabellen_Erstellen();
-            }
-            catch(Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-
-
-            Spieler ich = new Spieler(6);
-
-
-
-            ich.Karte_Ziehen();
-
-            ich.Karten_Zählen();
-
-            ich.Karte_Ziehen();
-
-            ich.Karten_Zählen();
-
-            ich.Karte_Ziehen();
-
-            ich.Karten_Zählen();
-
-            ich.Karte_Zurücklegen(0);
-
-            ich.Karten_Zählen();
+             using (var game = new Game1())
+                game.Run();
 
 
         }

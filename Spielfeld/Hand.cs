@@ -10,7 +10,7 @@ namespace PokemonTCG.Spielfeld
 
         //VARIABLEN
         //#############################
-        private List<Karte> karten;
+        private List<Karte> L_karten;
         //#############################
 
 
@@ -18,7 +18,7 @@ namespace PokemonTCG.Spielfeld
         //#######################################
         public Hand()
         {
-            this.karten = new List<Karte>();
+            this.L_karten = new List<Karte>();
         }
         //#######################################
 
@@ -28,7 +28,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karten_Aufnehmen(Karte k)
         {
-            karten.Add(k);
+            L_karten.Add(k);
         }
         //###########################################################
 
@@ -37,9 +37,9 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public Karte Karte_Entfernen(int index)
         {
-            Karte karte = karten[index];
+            Karte karte = L_karten[index];
 
-            karten.RemoveAt(index);
+            L_karten.RemoveAt(index);
 
             return karte;
         }
@@ -49,13 +49,13 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public string[] Hand_Zeigen()
+        public int[] Hand_Zeigen()
         {
-            string[] k = new string[karten.Count];
+            int[] k = new int[L_karten.Count];
 
-            for (int i = 0; i < karten.Count; i++)
+            for (int i = 0; i < L_karten.Count; i++)
             {
-                k[i] = karten[i].kartenname;
+                k[i] = L_karten[i].I_ID;
             }
 
             return k;

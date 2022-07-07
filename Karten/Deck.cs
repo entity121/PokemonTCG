@@ -15,11 +15,11 @@ namespace PokemonTCG.Karten
 
         //VARIABLEN
         //#############################
-        private int deckGröße = 60;
+        private int I_deckGröße = 60;
 
-        private string deckName;
-        private int kartenAnzahl;
-        private int[] inhalt;
+        private string S_deckName;
+        private int I_kartenAnzahl;
+        private int[] Ai_inhalt;
         //#############################
 
 
@@ -28,10 +28,10 @@ namespace PokemonTCG.Karten
         //#######################################
         public Deck(string name,int[]deck){
 
-            this.kartenAnzahl = deckGröße;
-            this.deckName = name;
+            this.I_kartenAnzahl = I_deckGröße;
+            this.S_deckName = name;
             //this.inhalt = new int[deckGröße];
-            this.inhalt = deck;
+            this.Ai_inhalt = deck;
 
         }
         //#######################################
@@ -59,17 +59,17 @@ namespace PokemonTCG.Karten
             {
 
                 // Ein Array zum Zwischenspeichern der Werte
-                int[] vermischt = new int[kartenAnzahl];
+                int[] vermischt = new int[I_kartenAnzahl];
 
 
                 // Zufallszahl bestimmt, an welcher Stelle das Array geteilt wird
                 int schnitt;
 
-                if (kartenAnzahl > 2) // mehr als 3 Karten
+                if (I_kartenAnzahl > 2) // mehr als 3 Karten
                 {
-                    schnitt = random.Next(1, kartenAnzahl - 1);
+                    schnitt = random.Next(1, I_kartenAnzahl - 1);
                 }
-                else if (kartenAnzahl == 2) // zwei Karten
+                else if (I_kartenAnzahl == 2) // zwei Karten
                 {
                     schnitt = 1;
                 }
@@ -80,20 +80,20 @@ namespace PokemonTCG.Karten
                 
 
                 // Die zweite hälfte kommt in "UMGEDREHTER" Reihenfolge an erste Stelle des Zwischenspeicher-Arrays
-                for(int index = 0; index < kartenAnzahl-schnitt; index++)
+                for(int index = 0; index < I_kartenAnzahl-schnitt; index++)
                 {
-                    vermischt[index] = inhalt[kartenAnzahl - index - 1];
+                    vermischt[index] = Ai_inhalt[I_kartenAnzahl - index - 1];
                 }
                 // Die erste Hälfte kommt in "NORMALER" Reihenfolge als zweites
                 for(int index = 0; index < schnitt; index++)
                 {
-                    vermischt[(kartenAnzahl - schnitt) + index] = inhalt[index];
+                    vermischt[(I_kartenAnzahl - schnitt) + index] = Ai_inhalt[index];
                 }
 
                 // Zum Schluss das Deck mit dem Zwischengespeicherten Array überschreiben
-                for(int index = 0; index < kartenAnzahl; index++)
+                for(int index = 0; index < I_kartenAnzahl; index++)
                 {
-                    inhalt[index] = vermischt[index];
+                    Ai_inhalt[index] = vermischt[index];
                 }
 
             }
@@ -110,7 +110,7 @@ namespace PokemonTCG.Karten
         public Karte Karte_Ausgeben(int index)
         {
             // oberste Karte vom Stapel nehmen
-            int id = inhalt[index];
+            int id = Ai_inhalt[index];
 
             // Deckgröße anpassen
             Deck_Größe_Ändern("kleiner", index);
@@ -148,29 +148,29 @@ namespace PokemonTCG.Karten
             if (befehl == "kleiner")
             {
                 // Jede Stelle im Deck-Array nimmt den Wert der darauf folgenden Stelle an ...
-                for(int index = karte; index < deckGröße - 1; index++)
+                for(int index = karte; index < I_deckGröße - 1; index++)
                 {
-                    inhalt[index] = inhalt[index + 1];
+                    Ai_inhalt[index] = Ai_inhalt[index + 1];
                 }
 
                 //... die letzte Stelle wird bekommt den Wert '-1'  (-1 = lehrer Deck Platz)
-                inhalt[deckGröße - 1] = -1;
+                Ai_inhalt[I_deckGröße - 1] = -1;
 
                 // WICHTIG : Karten anzahl um 1 verringern
-                kartenAnzahl -= 1;
+                I_kartenAnzahl -= 1;
             }
             // Eine Karte wird dem Deck hinzugefügt
             else if(befehl == "größer")
             {
-                for(int index = deckGröße-1; index > 0; index--)
+                for(int index = I_deckGröße-1; index > 0; index--)
                 {
-                    inhalt[index] = inhalt[index - 1];      
+                    Ai_inhalt[index] = Ai_inhalt[index - 1];      
                 }
 
-                inhalt[0] = karte;
+                Ai_inhalt[0] = karte;
 
                 // WICHTIG : Karten anzahl um 1 erhöhen
-                kartenAnzahl += 1;
+                I_kartenAnzahl += 1;
             }
         }
         //#################################################
@@ -184,21 +184,21 @@ namespace PokemonTCG.Karten
         //#################################################
         public int[] Inhalt_Ausgeben()
         {
-            return inhalt;
+            return Ai_inhalt;
         }
         //#################################################
 
         //#################################################
         public string DeckNamen_Ausgeben()
         {
-            return deckName;
+            return S_deckName;
         }
         //#################################################
 
         //#################################################
         public int Kartenanzahl_Ausgeben()
         {
-            return kartenAnzahl;
+            return I_kartenAnzahl;
         }
         //#################################################
     }
