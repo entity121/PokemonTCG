@@ -5,6 +5,7 @@ using System.IO;
 using PokemonTCG.Datenbanken;
 using PokemonTCG.Karten;
 using PokemonTCG.Spielfeld;
+using System.Windows;
 
 
 namespace PokemonTCG
@@ -12,7 +13,7 @@ namespace PokemonTCG
     public static class Program
     {
         [STAThread]
-        static void Main()     
+        static void Main()
         {
 
             /* Datenabank erzeugen 
@@ -24,8 +25,10 @@ namespace PokemonTCG
 
 
 
-             using (var game = new Game1())
-                game.Run();
+            using (var game = new Game1())
+              game.Run();
+
+
 
 
         }

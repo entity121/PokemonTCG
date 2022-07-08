@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using PokemonTCG.Spielfeld;
-
+using System.Windows;
 
 
 namespace PokemonTCG
@@ -14,25 +14,29 @@ namespace PokemonTCG
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        // Maße der Spielmatte ohne Skalierung
         private static int I_SpielmatteDefault = 1080;
-        // Sehr praktische Arrays mit verschiedenen Bildschirmgrößen
-        private static int[] Ai_fensterX = new int[] { 3840, 2560, 2560, 1920, 1366, 1280, 1280 };
-        private static int[] Ai_fensterY = new int[] { 2160, 1440, 1080, 1080, 768, 1024, 720 };
 
-        private int I_selectedX = 6;// Muss ebenfalls dynamisch ermittelt werden, aber erstmal Okay
-        private int I_selectedY = 6;
+        private int I_bildschirm_H = (int)SystemParameters.PrimaryScreenHeight;
+        private int I_bildschirm_W = (int)SystemParameters.PrimaryScreenWidth;
 
         // Der Wert um den die Spielmatte vom linken Rand verschoben wird
         private int I_verschiebungMatte;
 
+        // Der Wert um den alle Sprites etc. skaliert werden
         private double D_skalierung;
 
         private Texture2D T2D_hintergrund;
         private Texture2D T2D_spielmatte;
-
         private Texture2D T2D_TestKarte;
 
-        private List<Texture2D> T2D_karten;
+        // Inhalt: 0 = Kartenrücken , 1-263 = Pokemon KArten nach ID , 264 = Leerer Slot
+        private List<Texture2D> L_T2D_karten = new List<Texture2D>();
+
+        // Alle Kartenslots auf der Spielmatte, weiße und rote Seite getrennt
+        private List<Kartenslot> L_slotsWeiß;
+        private List<Kartenslot> L_slotsRot;
+
         //#############################
 
 
@@ -41,14 +45,17 @@ namespace PokemonTCG
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = Ai_fensterX[I_selectedX];
-            graphics.PreferredBackBufferHeight = Ai_fensterY[I_selectedY];
+            graphics.PreferredBackBufferWidth = I_bildschirm_W;
+            graphics.PreferredBackBufferHeight = I_bildschirm_H;
             graphics.ApplyChanges();
-            //graphics.ToggleFullScreen();
+            graphics.ToggleFullScreen();
 
+            I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
+            D_skalierung = (double)I_bildschirm_H / (double)I_SpielmatteDefault;
 
-            I_verschiebungMatte = (Ai_fensterX[I_selectedX] - Ai_fensterY[I_selectedY]) / 2;
-            D_skalierung = Ai_fensterY[I_selectedY] / I_SpielmatteDefault;
+            Kartenslot kartenslot = new Kartenslot();
+            L_slotsWeiß = kartenslot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, 'w');
+            L_slotsRot = kartenslot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, 'r');
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -61,7 +68,7 @@ namespace PokemonTCG
         //###########################################################
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+     
 
             base.Initialize();
         }
@@ -76,15 +83,21 @@ namespace PokemonTCG
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             T2D_hintergrund = Content.Load<Texture2D>("Hintergrund");
-            T2D_spielmatte = Content.Load<Texture2D>("Spielfeld");
-            T2D_TestKarte = Content.Load<Texture2D>("0");
+            T2D_spielmatte = Content.Load<Texture2D>("Spielfeld_leer");
+
+            // Alle Karten Sprites werden in die Liste geladen
+            for(int i = 0; i <= 263; i++)
+            {L_T2D_karten.Add(Content.Load<Texture2D>(i.ToString()));}
+            // Der leere Slot kommt auch in die Liste
+            L_T2D_karten.Add(Content.Load<Texture2D>("Kartenslot"));
+
+
         }
         //###########################################################
 
 
 
-        Kartenslot slot1;
-        Kartenslot slot2;
+
         //###########################################################
         protected override void Update(GameTime gameTime)
         {
@@ -93,13 +106,7 @@ namespace PokemonTCG
 
 
 
-            if (slot1 == null)
-            {
-                slot1 = new Kartenslot(0, D_skalierung,I_verschiebungMatte);
-                slot2 = new Kartenslot(1, D_skalierung, I_verschiebungMatte);
-                slot1.test(D_skalierung.ToString());
-            }
-            
+
 
 
             base.Update(gameTime);
@@ -118,9 +125,13 @@ namespace PokemonTCG
 
 
             spriteBatch.Draw(T2D_hintergrund, new Vector2(0, 0), Color.White);
-            spriteBatch.Draw(T2D_spielmatte,new Rectangle(I_verschiebungMatte,0, Ai_fensterY[I_selectedY], Ai_fensterY[I_selectedY]),Color.White);
-            spriteBatch.Draw(T2D_TestKarte,slot1.Slot_Platzieren(), Color.White);
-            spriteBatch.Draw(T2D_TestKarte, slot2.Slot_Platzieren(), Color.White);
+            spriteBatch.Draw(T2D_spielmatte,new Rectangle(I_verschiebungMatte,0, I_bildschirm_H, I_bildschirm_H),Color.White);
+
+            for(int i = 0; i < L_slotsWeiß.Count; i++)
+            {
+                spriteBatch.Draw(L_T2D_karten[L_slotsWeiß[i].Karte_im_Slot()], L_slotsWeiß[i].Slot_Position(), Color.White);
+                spriteBatch.Draw(L_T2D_karten[L_slotsRot[i].Karte_im_Slot()], L_slotsRot[i].Slot_Position(), Color.White);
+            }
             
 
             spriteBatch.End();
