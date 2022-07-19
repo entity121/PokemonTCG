@@ -41,6 +41,8 @@ namespace PokemonTCG.Spielfeld
         private int I_karte;
         //#############################
 
+
+
         //#######################################
         public Kartenslot() { }
 
@@ -67,6 +69,7 @@ namespace PokemonTCG.Spielfeld
             this.I_karte = 264;
         }
         //#######################################
+
 
 
         //###########################################################
