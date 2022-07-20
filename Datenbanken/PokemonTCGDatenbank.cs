@@ -97,7 +97,7 @@ namespace PokemonTCG.Datenbanken
 
                 for(int i = 0; i < inhalt.Length; i++)
                 {
-                    inhalt[i] = Karte_Abrufen(daten.GetInt32(0));
+                    inhalt[i] = Karte_Abrufen(daten.GetInt32(2+i));
                 }
 
                 deck = new Deck(daten.GetString(1),inhalt);

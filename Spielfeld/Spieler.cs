@@ -22,12 +22,27 @@ namespace PokemonTCG.Spielfeld
 
         //KONSTRUKTOR
         //#######################################
-        public Spieler(int deck)
+        public Spieler(int deck,double skalierung)
         {
-            this.O_hand = new Hand();
+            this.O_hand = new Hand(skalierung);
             this.O_deck = datenbank.Deck_Abrufen(deck);
         }
         //#######################################
+
+
+
+
+
+        //###########################################################
+        public Hand Get_Hand()
+        {
+            return this.O_hand;
+        }
+        //###########################################################
+
+
+
+
 
 
 

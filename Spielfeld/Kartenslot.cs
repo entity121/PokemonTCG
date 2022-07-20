@@ -46,6 +46,7 @@ namespace PokemonTCG.Spielfeld
         //#######################################
         public Kartenslot() { }
 
+        // Die Kartenslots der weißen und roten Seite werden mit den selben ID's hoch gezählt
         //#######################################
         public Kartenslot(int id, double skalierung,int verschiebung,char farbe)
         {

@@ -26,6 +26,7 @@ namespace PokemonTCG
         // Der Wert um den alle Sprites etc. skaliert werden
         private double D_skalierung;
 
+
         private Texture2D T2D_hintergrund;
         private Texture2D T2D_spielmatte;
         private Texture2D T2D_holzbrett;
@@ -37,8 +38,9 @@ namespace PokemonTCG
         private List<Kartenslot> L_slotsWeiß;
         private List<Kartenslot> L_slotsRot;
 
-        // Das Holzbrett, auf welchem die Hände der Spieler angezeigt werden
-        private Brett O_spielerBrett;
+        // Die Objekte für den Spieler und den Gegner
+        Spieler A;
+        
 
         //#############################
 
@@ -51,7 +53,7 @@ namespace PokemonTCG
             graphics.PreferredBackBufferWidth = I_bildschirm_W;
             graphics.PreferredBackBufferHeight = I_bildschirm_H;
             graphics.ApplyChanges();
-            graphics.ToggleFullScreen();
+            //graphics.ToggleFullScreen();
 
 
             I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
@@ -62,8 +64,6 @@ namespace PokemonTCG
             L_slotsWeiß = kartenslot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, 'w');
             L_slotsRot = kartenslot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, 'r');
 
-
-            O_spielerBrett = new Brett(D_skalierung);
 
 
             Content.RootDirectory = "Content";
@@ -116,8 +116,29 @@ namespace PokemonTCG
                 Exit();
 
 
-            O_spielerBrett.Brett_Verschieben();
 
+            if (A == null)
+            {
+                A = new Spieler(6, D_skalierung);
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Karte_Ziehen();
+                A.Get_Hand().Karten_Platzieren();
+            }
+
+
+            A.Get_Hand().Brett_Verschieben();
+            
 
 
 
@@ -147,9 +168,14 @@ namespace PokemonTCG
                 spriteBatch.Draw(L_T2D_karten[L_slotsRot[i].Karte_im_Slot()], L_slotsRot[i].Slot_Position(), Color.White);
             }
             
+            spriteBatch.Draw(T2D_holzbrett,A.Get_Hand().Brett_Position(),Color.White);
 
-            spriteBatch.Draw(T2D_holzbrett, O_spielerBrett.Brett_Position(),Color.White);
-            spriteBatch.Draw(L_T2D_karten[1], O_spielerBrett.Karte_Position(), Color.White);
+
+            for(int i = 0; i < A.Get_Hand().Hand_Zeigen().Length; i++)
+            {
+                spriteBatch.Draw(L_T2D_karten[A.Get_Hand().Hand_Zeigen()[i].I_ID], A.Get_Hand().Karte_Position(i), Color.White);
+            }
+            
             
 
             spriteBatch.End();
@@ -157,5 +183,9 @@ namespace PokemonTCG
             base.Draw(gameTime);
         }
         //###########################################################
+
+
+
+
     }
 }
