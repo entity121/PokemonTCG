@@ -90,14 +90,14 @@ namespace PokemonTCG.Datenbanken
             daten = sqlBefehl.ExecuteReader();
 
           
-            int[] inhalt = new int[deckGröße];
+           Karte[] inhalt = new Karte[deckGröße];
 
             while (daten.Read())
             {
 
                 for(int i = 0; i < inhalt.Length; i++)
                 {
-                   inhalt[i] = daten.GetInt32(i+2);
+                    inhalt[i] = Karte_Abrufen(daten.GetInt32(0));
                 }
 
                 deck = new Deck(daten.GetString(1),inhalt);

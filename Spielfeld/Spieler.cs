@@ -50,12 +50,8 @@ namespace PokemonTCG.Spielfeld
         {
             Karte karte = O_hand.Karte_Entfernen(index);
 
-            int id = karte.I_ID;
-
-            karte = null;
-
-            O_deck.Karte_Aufnehmen(id);
-            
+            O_deck.Karte_Aufnehmen(karte);
+      
         }
         //###########################################################
 
@@ -65,7 +61,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Hand_Anschauen()
         {
-            int[] z = O_hand.Hand_Zeigen();
+            Karte[] k = O_hand.Hand_Zeigen();
 
         }
         //###########################################################
