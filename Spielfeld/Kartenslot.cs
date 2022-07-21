@@ -83,6 +83,30 @@ namespace PokemonTCG.Spielfeld
 
 
 
+
+
+        //###########################################################
+        public Kartenslot Get_Kartenslot(int slot,char farbe)
+        {
+            Kartenslot kartenslot;
+
+            if (farbe == 'w')
+            {
+                kartenslot = L_slotsWeiß[slot];
+            }
+            else
+            {
+                kartenslot = L_slotsRot[slot];
+            }
+
+            return kartenslot;
+        }
+        //###########################################################
+
+
+
+
+
         //###########################################################
         public void Slots_Erstellen(double skalierung, int verschiebung, List<Texture2D>list,SpriteBatch spriteBatch)
         {
@@ -101,6 +125,9 @@ namespace PokemonTCG.Spielfeld
             O_kartenAnzeige = new KartenAnzeige(spriteBatch, skalierung, list);
         }
         //###########################################################
+
+
+
 
 
 

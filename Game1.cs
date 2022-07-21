@@ -115,24 +115,6 @@ namespace PokemonTCG
                 Exit();
 
 
-
-            if (SPIELER.Get_Hand().Hand_Zeigen().Length == 0)
-            {
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-                SPIELER.Karte_Ziehen();
-            }
-
             Maus_Update();
 
             base.Update(gameTime);
@@ -154,7 +136,7 @@ namespace PokemonTCG
             {
                 SPIELER.Brett_Hover(point);
                 slot.Slot_Hover(point);
-                SPIELER.Karte_Ziehen(poin);
+                SPIELER.Karte_Ziehen(point);
             }
 
             lastPoint = point;

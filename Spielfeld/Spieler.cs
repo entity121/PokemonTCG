@@ -6,6 +6,7 @@ using PokemonTCG.Datenbanken;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 
 namespace PokemonTCG.Spielfeld
@@ -64,11 +65,19 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Ziehen(Point point)
         {
-            O_kartenslot.
+            Rectangle R_slot = O_kartenslot.Get_Kartenslot(0, 'w').Slot_Position();     
 
-            Karte k = O_deck.Karte_Ausgeben(0);
+            if (R_slot.Contains(point))
+            {
+                var mouseState = Mouse.GetState();
+                if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                {
+                    Karte k = O_deck.Karte_Ausgeben(0);
+                    O_hand.Karten_Aufnehmen(k);
+                }
 
-            O_hand.Karten_Aufnehmen(k);
+            }
+
         }
         //###########################################################
 
