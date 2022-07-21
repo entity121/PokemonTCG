@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using PokemonTCG.Karten;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 
@@ -13,7 +14,7 @@ namespace PokemonTCG.Spielfeld
 
         //VARIABLEN
         //#############################
-
+        // Default Werte sind statisch und werden mit der Skalierung an die richtige Größe angepasst
         private static int I_abstandDEFAULT = 37;
         private static int I_WDEFAULT = 1846;
         private static int I_HDEFAULT = 360;
@@ -21,7 +22,8 @@ namespace PokemonTCG.Spielfeld
         private static int I_ausfahrDistanzDEFAULT = 150;
         private static int I_mitteDEFAULT = (1920 / 2);
         private static int I_karteWDEFAULT = 125;
-        private static int I_karteHDEFAULT = 176;
+        private static int I_karteHDEFAULT = 175;
+        private static int I_anzeigeWDEFAULT = (1920-1080)/2;
 
 
         private int I_brettX;
@@ -37,17 +39,24 @@ namespace PokemonTCG.Spielfeld
 
         private List<Karte> Lo_karten;
 
+        private SpriteBatch spriteBatch;
+        private List<Texture2D> Lt2d_karten;
+        private Texture2D T2D_holzbrett;
+
         private int I_abstand;
         private int I_mitte;
         private int I_ausfahrDistanz;
         private bool B_brettAusgefahren = false;
+
+        private int I_hoveredID;
+        private Rectangle R_karteAnzeige;
         //#############################
 
 
 
 
         //#######################################
-        public Hand(double skalierung)
+        public Hand(double skalierung,SpriteBatch s, List<Texture2D> l, Texture2D h)
         {      
             this.I_brettX = (int)(I_abstandDEFAULT * skalierung);
             this.I_brettY = (int)((I_spielfeldDEFAULT - 50) * skalierung);
@@ -56,18 +65,21 @@ namespace PokemonTCG.Spielfeld
 
             this.I_karteW = (int)(I_karteWDEFAULT * skalierung);
             this.I_karteH = (int)(I_karteHDEFAULT * skalierung);
-
             this.I_karteY = (int)((I_brettY + 20) * skalierung);
-
-
 
             this.Lo_karten = new List<Karte>();
 
+            this.spriteBatch = s;
+            this.T2D_holzbrett = h;
+            this.Lt2d_karten = l;
+
+            this.R_karteAnzeige = new Rectangle(0,(int)(100*skalierung),(int)(I_anzeigeWDEFAULT*skalierung),(int)((I_anzeigeWDEFAULT*1.4)*skalierung));
 
             this.I_mitte = (int)(I_mitteDEFAULT * skalierung);
             this.I_ausfahrDistanz = (int)(I_ausfahrDistanzDEFAULT * skalierung);
         }
         //#######################################
+
 
 
 
@@ -148,7 +160,7 @@ namespace PokemonTCG.Spielfeld
         // Während man sich mit der Maus überhalb des Brettes befindet wird es ausgefahren
         // Geht man mit der Maus weg, dann fährt es wieder ein
         //###########################################################
-        public void Brett_Verschieben()
+        public void Brett_Hover()
         {
             var mouseState = Mouse.GetState();
             var mousePoint = new Point(mouseState.X, mouseState.Y);
@@ -162,6 +174,7 @@ namespace PokemonTCG.Spielfeld
                     I_karteY -= I_ausfahrDistanz;
                     B_brettAusgefahren = true;
                 }
+                Karte_Hover(mousePoint);
             }
             else
             {
@@ -176,6 +189,31 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
 
 
+        // Wenn man mit der Maus über eine Karte auf dem Brett hovert, 
+        // dann soll diese groß am Bildschirm angezeigt werden
+        //###########################################################
+        public void Karte_Hover(Point mousePoint)
+        {          
+
+            for(int i = 0; i < Lo_karten.Count; i++)
+            {
+                Rectangle karte = Karte_Position(i);
+
+                if (karte.Contains(mousePoint))
+                {
+                    I_hoveredID = Lo_karten[i].I_ID;
+                    break;
+                }
+                else
+                {
+                    I_hoveredID = 0;
+                }
+            }
+       
+        }
+        //###########################################################
+
+
 
 
         // Eine Karte in die Hand aufnehmen
@@ -183,6 +221,7 @@ namespace PokemonTCG.Spielfeld
         public void Karten_Aufnehmen(Karte k)
         {
             Lo_karten.Add(k);
+            Karten_Platzieren();
         }
         //###########################################################
 
@@ -195,6 +234,7 @@ namespace PokemonTCG.Spielfeld
             Karte karte = Lo_karten[index];
 
             Lo_karten.RemoveAt(index);
+            Karten_Platzieren();
 
             return karte;
         }
@@ -220,7 +260,25 @@ namespace PokemonTCG.Spielfeld
 
 
 
+        //###########################################################
+        public void Draw()
+        {
 
+            spriteBatch.Draw(T2D_holzbrett, Brett_Position(), Color.White);
 
+            for (int i = 0; i < Hand_Zeigen().Length; i++)
+            {
+                spriteBatch.Draw(Lt2d_karten[Hand_Zeigen()[i].I_ID], Karte_Position(i), Color.White);
+            }
+
+            if (I_hoveredID!=0)
+            {
+                spriteBatch.Draw(Lt2d_karten[I_hoveredID], R_karteAnzeige, Color.White);
+            }
+
+            
+
+        }
+        //###########################################################
     }
 }

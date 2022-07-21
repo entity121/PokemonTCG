@@ -4,6 +4,8 @@ using System.Text;
 using PokemonTCG.Karten;
 using PokemonTCG.Datenbanken;
 using System.Windows.Forms;
+using Microsoft.Xna.Framework.Graphics;
+
 
 namespace PokemonTCG.Spielfeld
 {
@@ -22,9 +24,9 @@ namespace PokemonTCG.Spielfeld
 
         //KONSTRUKTOR
         //#######################################
-        public Spieler(int deck,double skalierung)
+        public Spieler(int deck,double skalierung,SpriteBatch sprite,List<Texture2D>list,Texture2D holz)
         {
-            this.O_hand = new Hand(skalierung);
+            this.O_hand = new Hand(skalierung,sprite,list,holz);
             this.O_deck = datenbank.Deck_Abrufen(deck);
         }
         //#######################################
@@ -74,14 +76,11 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Hand_Anschauen()
+        public void Draw_Hand()
         {
-            Karte[] k = O_hand.Hand_Zeigen();
-
+            O_hand.Draw();
         }
         //###########################################################
-
-
 
 
     }

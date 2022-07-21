@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
 
 namespace PokemonTCG.Spielfeld
@@ -25,7 +26,7 @@ namespace PokemonTCG.Spielfeld
         
         // Höhe und Breite der Slots werden evenfalls skaliert bei veränderten Bildschirmmaßen
         private static int I_slotW = 125;
-        private static int I_slotH = 176;
+        private static int I_slotH = 175;
 
 
         //VARIABLEN
@@ -39,6 +40,13 @@ namespace PokemonTCG.Spielfeld
 
         private bool B_besetzt;
         private int I_karte;
+
+        // Alle Kartenslots auf der Spielmatte, weiße und rote Seite getrennt
+        private List<Kartenslot> L_slotsWeiß;
+        private List<Kartenslot> L_slotsRot;
+
+        private SpriteBatch spriteBatch;
+        private List<Texture2D> Lt2d_karten;
         //#############################
 
 
@@ -74,17 +82,19 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public List<Kartenslot> Slots_Erstellen(double skalierung, int verschiebung, char farbe)
+        public void Slots_Erstellen(double skalierung, int verschiebung, List<Texture2D>l,SpriteBatch s)
         {
+            Lt2d_karten = l;
+            spriteBatch = s;
 
-            List<Kartenslot> list = new List<Kartenslot>();
+            L_slotsWeiß = new List<Kartenslot>();
+            L_slotsRot = new List<Kartenslot>();
 
             for(int i = 0; i < 14; i++)
             {
-                list.Add(new Kartenslot(i, skalierung, verschiebung, farbe));
+                L_slotsWeiß.Add(new Kartenslot(i, skalierung, verschiebung, 'w'));
+                L_slotsRot.Add(new Kartenslot(i, skalierung, verschiebung, 'r'));
             }
-
-            return list;
 
         }
         //###########################################################
@@ -95,7 +105,6 @@ namespace PokemonTCG.Spielfeld
         public Rectangle Slot_Position()
         {
             Rectangle r = new Rectangle(I_X, I_Y, I_W, I_H);
-
             return r;
         }
         //###########################################################
@@ -105,6 +114,20 @@ namespace PokemonTCG.Spielfeld
         public int Karte_im_Slot()
         {
             return I_karte;
+        }
+        //###########################################################
+
+
+
+        //###########################################################
+        public void Draw()
+        {
+            // Die Kartenfelder nach ID. Rote und weiße Seite getrennt
+            for (int i = 0; i < L_slotsWeiß.Count; i++)
+            {
+                spriteBatch.Draw(Lt2d_karten[L_slotsWeiß[i].Karte_im_Slot()], L_slotsWeiß[i].Slot_Position(), Color.White);
+                spriteBatch.Draw(Lt2d_karten[L_slotsRot[i].Karte_im_Slot()], L_slotsRot[i].Slot_Position(), Color.White);
+            }
         }
         //###########################################################
     }

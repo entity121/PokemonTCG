@@ -26,17 +26,14 @@ namespace PokemonTCG
         // Der Wert um den alle Sprites etc. skaliert werden
         private double D_skalierung;
 
-
         private Texture2D T2D_hintergrund;
         private Texture2D T2D_spielmatte;
-        private Texture2D T2D_holzbrett;
+
 
         // Inhalt: 0 = Kartenrücken , 1-263 = Pokemon Karten nach ID , 264 = Leerer Slot
-        private List<Texture2D> L_T2D_karten = new List<Texture2D>();
+        private List<Texture2D> Lt2d_karten = new List<Texture2D>();
 
-        // Alle Kartenslots auf der Spielmatte, weiße und rote Seite getrennt
-        private List<Kartenslot> L_slotsWeiß;
-        private List<Kartenslot> L_slotsRot;
+        Kartenslot slot = new Kartenslot();
 
         // Die Objekte für den Spieler und den Gegner
         Spieler A;
@@ -58,12 +55,6 @@ namespace PokemonTCG
 
             I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
             D_skalierung = (double)I_bildschirm_H / (double)I_SpielmatteDefault;
-
-
-            Kartenslot kartenslot = new Kartenslot();
-            L_slotsWeiß = kartenslot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, 'w');
-            L_slotsRot = kartenslot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, 'r');
-
 
 
             Content.RootDirectory = "Content";
@@ -91,18 +82,26 @@ namespace PokemonTCG
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            T2D_hintergrund = Content.Load<Texture2D>("Hintergrund");
-            T2D_spielmatte = Content.Load<Texture2D>("Spielfeld_leer");
-            T2D_holzbrett = Content.Load<Texture2D>("Holz");
 
-            
             // Alle Karten Sprites werden in die Liste geladen
             for(int i = 0; i <= 263; i++)
-            {L_T2D_karten.Add(Content.Load<Texture2D>(i.ToString()));}
+            {Lt2d_karten.Add(Content.Load<Texture2D>(i.ToString()));}
             // Der leere Slot kommt auch in die Liste
-            L_T2D_karten.Add(Content.Load<Texture2D>("Kartenslot"));
-            
+            Lt2d_karten.Add(Content.Load<Texture2D>("Kartenslot"));
 
+
+            // Spielfeld bestehend aus Hintergrund und Matte
+            T2D_hintergrund = Content.Load<Texture2D>("Hintergrund");
+            T2D_spielmatte = Content.Load<Texture2D>("Spielfeld_leer");
+
+            // Die einzelnen Kartenslots, die auf dem Spielfeld platziert sind
+            slot.Slots_Erstellen(D_skalierung,I_verschiebungMatte,Lt2d_karten,spriteBatch);
+
+            // Spieler und Gegner
+            A = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Holz"));
+            // TODO : Gegner
+
+            Lt2d_karten = null;
         }
         //###########################################################
 
@@ -117,9 +116,8 @@ namespace PokemonTCG
 
 
 
-            if (A == null)
+            if (A.Get_Hand().Hand_Zeigen().Length == 0)
             {
-                A = new Spieler(6, D_skalierung);
                 A.Karte_Ziehen();
                 A.Karte_Ziehen();
                 A.Karte_Ziehen();
@@ -133,14 +131,11 @@ namespace PokemonTCG
                 A.Karte_Ziehen();
                 A.Karte_Ziehen();
                 A.Karte_Ziehen();
-                A.Get_Hand().Karten_Platzieren();
             }
 
 
-            A.Get_Hand().Brett_Verschieben();
+            A.Get_Hand().Brett_Hover();
             
-
-
 
             base.Update(gameTime);
         }
@@ -153,33 +148,19 @@ namespace PokemonTCG
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
-
             spriteBatch.Begin();
+
 
             // Hintergrund und das Spielfeld
             spriteBatch.Draw(T2D_hintergrund, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(T2D_spielmatte,new Rectangle(I_verschiebungMatte,0, I_bildschirm_H, I_bildschirm_H),Color.White);
 
-            
-            // Die Kartenfelder nach ID. Rote und weiße Seite getrennt
-            for(int i = 0; i < L_slotsWeiß.Count; i++)
-            {
-                spriteBatch.Draw(L_T2D_karten[L_slotsWeiß[i].Karte_im_Slot()], L_slotsWeiß[i].Slot_Position(), Color.White);
-                spriteBatch.Draw(L_T2D_karten[L_slotsRot[i].Karte_im_Slot()], L_slotsRot[i].Slot_Position(), Color.White);
-            }
-            
-            spriteBatch.Draw(T2D_holzbrett,A.Get_Hand().Brett_Position(),Color.White);
+            slot.Draw();
 
-
-            for(int i = 0; i < A.Get_Hand().Hand_Zeigen().Length; i++)
-            {
-                spriteBatch.Draw(L_T2D_karten[A.Get_Hand().Hand_Zeigen()[i].I_ID], A.Get_Hand().Karte_Position(i), Color.White);
-            }
-            
+            A.Draw_Hand();          
             
 
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
         //###########################################################
