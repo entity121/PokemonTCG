@@ -23,7 +23,7 @@ namespace PokemonTCG.Spielfeld
         private static int I_mitteDEFAULT = (1920 / 2);
         private static int I_karteWDEFAULT = 125;
         private static int I_karteHDEFAULT = 175;
-        private static int I_anzeigeWDEFAULT = (1920-1080)/2;
+        
 
 
         private int I_brettX;
@@ -48,15 +48,14 @@ namespace PokemonTCG.Spielfeld
         private int I_ausfahrDistanz;
         private bool B_brettAusgefahren = false;
 
-        private int I_hoveredID;
-        private Rectangle R_karteAnzeige;
+        private KartenAnzeige O_kartenAnzeige;     
         //#############################
 
 
 
 
         //#######################################
-        public Hand(double skalierung,SpriteBatch s, List<Texture2D> l, Texture2D h)
+        public Hand(double skalierung,SpriteBatch spriteBatch, List<Texture2D> list, Texture2D holz)
         {      
             this.I_brettX = (int)(I_abstandDEFAULT * skalierung);
             this.I_brettY = (int)((I_spielfeldDEFAULT - 50) * skalierung);
@@ -69,11 +68,11 @@ namespace PokemonTCG.Spielfeld
 
             this.Lo_karten = new List<Karte>();
 
-            this.spriteBatch = s;
-            this.T2D_holzbrett = h;
-            this.Lt2d_karten = l;
+            this.spriteBatch = spriteBatch;
+            this.T2D_holzbrett = holz;
+            this.Lt2d_karten = list;
 
-            this.R_karteAnzeige = new Rectangle(0,(int)(100*skalierung),(int)(I_anzeigeWDEFAULT*skalierung),(int)((I_anzeigeWDEFAULT*1.4)*skalierung));
+            this.O_kartenAnzeige = new KartenAnzeige(spriteBatch, skalierung,list);
 
             this.I_mitte = (int)(I_mitteDEFAULT * skalierung);
             this.I_ausfahrDistanz = (int)(I_ausfahrDistanzDEFAULT * skalierung);
@@ -104,6 +103,7 @@ namespace PokemonTCG.Spielfeld
             return r;
         }
         //###########################################################
+
 
 
 
@@ -160,11 +160,10 @@ namespace PokemonTCG.Spielfeld
         // Während man sich mit der Maus überhalb des Brettes befindet wird es ausgefahren
         // Geht man mit der Maus weg, dann fährt es wieder ein
         //###########################################################
-        public void Brett_Hover()
+        public void Brett_Hover(Point mousePoint)
         {
-            var mouseState = Mouse.GetState();
-            var mousePoint = new Point(mouseState.X, mouseState.Y);
-            var rectangle = Brett_Position();
+
+            Rectangle rectangle = Brett_Position();
 
             if (rectangle.Contains(mousePoint))
             {
@@ -194,19 +193,19 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Hover(Point mousePoint)
         {          
-
+            
             for(int i = 0; i < Lo_karten.Count; i++)
             {
                 Rectangle karte = Karte_Position(i);
 
                 if (karte.Contains(mousePoint))
                 {
-                    I_hoveredID = Lo_karten[i].I_ID;
+                    O_kartenAnzeige.Set_AnzeigeID(Lo_karten[i].I_ID);
                     break;
                 }
                 else
                 {
-                    I_hoveredID = 0;
+                    O_kartenAnzeige.Set_AnzeigeID(0);
                 }
             }
        
@@ -271,12 +270,7 @@ namespace PokemonTCG.Spielfeld
                 spriteBatch.Draw(Lt2d_karten[Hand_Zeigen()[i].I_ID], Karte_Position(i), Color.White);
             }
 
-            if (I_hoveredID!=0)
-            {
-                spriteBatch.Draw(Lt2d_karten[I_hoveredID], R_karteAnzeige, Color.White);
-            }
-
-            
+            O_kartenAnzeige.Draw();
 
         }
         //###########################################################

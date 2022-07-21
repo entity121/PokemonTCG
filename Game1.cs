@@ -36,7 +36,7 @@ namespace PokemonTCG
         Kartenslot slot = new Kartenslot();
 
         // Die Objekte für den Spieler und den Gegner
-        Spieler A;
+        Spieler SPIELER;
         
 
         //#############################
@@ -98,7 +98,7 @@ namespace PokemonTCG
             slot.Slots_Erstellen(D_skalierung,I_verschiebungMatte,Lt2d_karten,spriteBatch);
 
             // Spieler und Gegner
-            A = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Holz"));
+            SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Holz"),slot);
             // TODO : Gegner
 
             Lt2d_karten = null;
@@ -116,28 +116,48 @@ namespace PokemonTCG
 
 
 
-            if (A.Get_Hand().Hand_Zeigen().Length == 0)
+            if (SPIELER.Get_Hand().Hand_Zeigen().Length == 0)
             {
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
-                A.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
+                SPIELER.Karte_Ziehen();
             }
 
-
-            A.Get_Hand().Brett_Hover();
-            
+            Maus_Update();
 
             base.Update(gameTime);
+        }
+        //###########################################################
+
+
+
+
+        //###########################################################
+        private Point point;
+        private Point lastPoint;
+        public void Maus_Update()
+        {
+
+            point = new Point(Mouse.GetState().X, Mouse.GetState().Y);
+
+            if (point != lastPoint)
+            {
+                SPIELER.Brett_Hover(point);
+                slot.Slot_Hover(point);
+                SPIELER.Karte_Ziehen(poin);
+            }
+
+            lastPoint = point;
         }
         //###########################################################
 
@@ -157,7 +177,7 @@ namespace PokemonTCG
 
             slot.Draw();
 
-            A.Draw_Hand();          
+            SPIELER.Draw_Hand();          
             
 
             spriteBatch.End();

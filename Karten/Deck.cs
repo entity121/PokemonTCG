@@ -20,6 +20,7 @@ namespace PokemonTCG.Karten
         private string S_deckName;
         private int I_kartenAnzahl;
         private Karte[] Ao_inhalt;
+        private int I_slotID;
         //#############################
 
 
@@ -32,7 +33,7 @@ namespace PokemonTCG.Karten
             this.S_deckName = name;
             //this.inhalt = new int[deckGröße];
             this.Ao_inhalt = deck;
-
+            this.I_slotID = 12;
         }
         //#######################################
 
@@ -171,6 +172,17 @@ namespace PokemonTCG.Karten
         }
         //#################################################
 
+
+
+
+
+        //#################################################
+        public void Deck_Visualisieren()
+        {
+            
+            
+        }
+        //#################################################
 
 
 
