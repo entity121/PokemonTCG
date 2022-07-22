@@ -125,21 +125,16 @@ namespace PokemonTCG
 
 
         //###########################################################
-        private Point point;
-        private Point lastPoint;
+
         public void Maus_Update()
         {
 
-            point = new Point(Mouse.GetState().X, Mouse.GetState().Y);
+            Point point = new Point(Mouse.GetState().X, Mouse.GetState().Y);
 
-            if (point != lastPoint)
-            {
                 SPIELER.Brett_Hover(point);
                 slot.Slot_Hover(point);
                 SPIELER.Karte_Ziehen(point);
-            }
 
-            lastPoint = point;
         }
         //###########################################################
 

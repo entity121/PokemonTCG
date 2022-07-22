@@ -61,7 +61,7 @@ namespace PokemonTCG.Spielfeld
 
 
 
-
+        MouseState lastState;
         //###########################################################
         public void Karte_Ziehen(Point point)
         {
@@ -70,12 +70,12 @@ namespace PokemonTCG.Spielfeld
             if (R_slot.Contains(point))
             {
                 var mouseState = Mouse.GetState();
-                if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 {
                     Karte k = O_deck.Karte_Ausgeben(0);
                     O_hand.Karten_Aufnehmen(k);
                 }
-
+                lastState = mouseState;
             }
 
         }
