@@ -34,6 +34,7 @@ namespace PokemonTCG.Karten
             //this.inhalt = new int[deckGröße];
             this.Ao_inhalt = deck;
             this.I_slotID = 12;
+            this.Deck_Mischen();
         }
         //#######################################
 

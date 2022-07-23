@@ -155,7 +155,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Slot_Hover(Point mousePoint)
         {
-            for(int i = 0; i < L_slotsWeiß.Count; i++)
+            for (int i = 0; i < L_slotsWeiß.Count; i++)
             {
 
                 if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint))
@@ -173,6 +173,33 @@ namespace PokemonTCG.Spielfeld
                     O_kartenAnzeige.Set_AnzeigeID(0);
                 }
             }
+        }
+        //###########################################################
+
+
+
+        //###########################################################
+        public bool Slot_Hover(Point mousePoint,int karteID)
+        {
+            for (int i = 0; i < L_slotsWeiß.Count; i++)
+            {
+
+                if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint))
+                {
+                    if (L_slotsWeiß[i].B_besetzt == false)
+                    {
+                        L_slotsWeiß[i].I_karteID = karteID;
+                        L_slotsWeiß[i].B_besetzt = true;
+                        return true;
+                    }
+                }
+                else
+                {
+                    
+                }
+
+            }
+            return false;
         }
         //###########################################################
 

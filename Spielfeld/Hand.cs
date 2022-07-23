@@ -160,7 +160,7 @@ namespace PokemonTCG.Spielfeld
         // Während man sich mit der Maus überhalb des Brettes befindet wird es ausgefahren
         // Geht man mit der Maus weg, dann fährt es wieder ein
         //###########################################################
-        public void Brett_Hover(Point mousePoint)
+        public bool Brett_Hover(Point mousePoint)
         {
 
             Rectangle rectangle = Brett_Position();
@@ -173,7 +173,7 @@ namespace PokemonTCG.Spielfeld
                     I_karteY -= I_ausfahrDistanz;
                     B_brettAusgefahren = true;
                 }
-                Karte_Hover(mousePoint);
+                return true;
             }
             else
             {
@@ -183,6 +183,7 @@ namespace PokemonTCG.Spielfeld
                     I_karteY += I_ausfahrDistanz;
                     B_brettAusgefahren = false;
                 }
+                return false;
             }
         }
         //###########################################################
@@ -191,9 +192,9 @@ namespace PokemonTCG.Spielfeld
         // Wenn man mit der Maus über eine Karte auf dem Brett hovert, 
         // dann soll diese groß am Bildschirm angezeigt werden
         //###########################################################
-        public void Karte_Hover(Point mousePoint)
-        {          
-            
+        public int Karte_Hover(Point mousePoint)
+        {
+
             for(int i = 0; i < Lo_karten.Count; i++)
             {
                 Rectangle karte = Karte_Position(i);
@@ -201,16 +202,36 @@ namespace PokemonTCG.Spielfeld
                 if (karte.Contains(mousePoint))
                 {
                     O_kartenAnzeige.Set_AnzeigeID(Lo_karten[i].I_ID);
-                    break;
+                    return i;
                 }
                 else
                 {
-                    O_kartenAnzeige.Set_AnzeigeID(0);
+
                 }
             }
-       
+            return -1;
         }
         //###########################################################
+
+
+
+
+        private bool B_halten = false;
+        private Rectangle R_gehaltenPosition;
+        private int I_gehaltenID;
+        //###########################################################
+        public void Karte_Bewegen(int karte,Point mousePoint)
+        {
+
+            B_halten = true;
+
+            R_gehaltenPosition = new Rectangle(mousePoint.X, mousePoint.Y, I_karteW, I_karteH);
+            I_gehaltenID = Lo_karten[karte].I_ID;
+
+
+        }
+        //###########################################################
+
 
 
 
@@ -260,6 +281,16 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
+        public int Get_Karte_In_Hand(int id)
+        {
+            return Lo_karten[id].I_ID;
+        }
+        //###########################################################
+
+
+
+
+        //###########################################################
         public void Draw()
         {
 
@@ -271,6 +302,12 @@ namespace PokemonTCG.Spielfeld
             }
 
             O_kartenAnzeige.Draw();
+
+            if (B_halten == true)
+            {
+                spriteBatch.Draw(Lt2d_karten[I_gehaltenID], R_gehaltenPosition, Color.White);
+                B_halten = false;
+            }
 
         }
         //###########################################################

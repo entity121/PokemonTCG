@@ -20,7 +20,9 @@ namespace PokemonTCG.Spielfeld
         private Deck O_deck;
         private Hand O_hand;
         private Kartenslot O_kartenslot;
-        //.......
+        private MouseState lastState;
+        private bool B_halten = false;
+        private int I_haltenID;
         //.......
         //.......
         //#############################
@@ -55,13 +57,68 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Brett_Hover(Point mousePoint)
         {
-            O_hand.Brett_Hover(mousePoint);
+            if (O_hand.Brett_Hover(mousePoint) == true)
+            {
+                Karte_Hover(mousePoint);
+            }
+            if (B_halten == true)
+            {
+                Karte_Bewegen(I_haltenID,mousePoint);
+            }
         }
         //###########################################################
 
 
 
-        MouseState lastState;
+        //###########################################################
+        public void Karte_Hover(Point mousePoint) {
+            if (O_hand.Karte_Hover(mousePoint) != -1)
+            {
+                Karte_Bewegen(O_hand.Karte_Hover(mousePoint),mousePoint);
+            }
+        }
+        //###########################################################
+
+
+
+
+        //###########################################################
+        
+        public void Karte_Bewegen(int karte,Point mousePoint)
+        {
+
+            var mouseState = Mouse.GetState();
+
+
+            if(mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                I_haltenID = karte;
+                O_hand.Karte_Bewegen(I_haltenID, mousePoint);
+                B_halten = true;
+            }
+            else if (B_halten == true)
+            {
+                O_hand.Karte_Bewegen(I_haltenID, mousePoint);
+                if(mouseState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                {
+                    B_halten = false;
+                    if(O_kartenslot.Slot_Hover(mousePoint, O_hand.Get_Karte_In_Hand(I_haltenID))==true)
+                    {
+                        O_hand.Karte_Entfernen(I_haltenID);
+                    }
+
+                }
+            }
+
+            lastState = mouseState;
+            
+        }
+        //###########################################################
+
+
+
+
+        
         //###########################################################
         public void Karte_Ziehen(Point point)
         {
