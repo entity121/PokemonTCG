@@ -206,7 +206,7 @@ namespace PokemonTCG.Spielfeld
                 }
                 else
                 {
-
+                    O_kartenAnzeige.Set_AnzeigeID(0);
                 }
             }
             return -1;
@@ -224,10 +224,8 @@ namespace PokemonTCG.Spielfeld
         {
 
             B_halten = true;
-
             R_gehaltenPosition = new Rectangle(mousePoint.X, mousePoint.Y, I_karteW, I_karteH);
-            I_gehaltenID = Lo_karten[karte].I_ID;
-
+            I_gehaltenID = karte;
 
         }
         //###########################################################
@@ -281,9 +279,40 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public int Get_Karte_In_Hand(int id)
+        public char Karten_Art(int id)
         {
-            return Lo_karten[id].I_ID;
+
+            switch (Lo_karten[id].S_art)
+            {
+                case "Pokémon": { return 'p'; };break;
+                case "Trainer": { return 't'; };break;
+                case "Energie": { return 'e'; };break;
+            }
+
+            return 'n';
+        }
+        //###########################################################
+
+
+
+        //###########################################################
+        public bool Basis_Pokemon(int id)
+        {
+            if(Lo_karten[id].S_vorentwicklung == "")
+            {
+                return true;
+            }
+            return false;
+        }
+        //###########################################################
+
+
+
+
+        //###########################################################
+        public Karte Get_Karte_In_Hand(int id)
+        {
+            return Lo_karten[id];
         }
         //###########################################################
 

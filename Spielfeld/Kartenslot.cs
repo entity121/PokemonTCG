@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
+using PokemonTCG.Karten;
 
 namespace PokemonTCG.Spielfeld
 {
@@ -40,6 +41,8 @@ namespace PokemonTCG.Spielfeld
 
         private bool B_besetzt;
         private int I_karteID;
+
+        private Karte karte; 
 
         // Alle Kartenslots auf der Spielmatte, weiße und rote Seite getrennt
         private List<Kartenslot> L_slotsWeiß;
@@ -106,6 +109,15 @@ namespace PokemonTCG.Spielfeld
 
 
 
+        //###########################################################
+        public Karte Get_Karte(int slot)
+        {
+            return L_slotsWeiß[slot].karte;
+        }
+        //###########################################################
+
+
+
 
         //###########################################################
         public void Slots_Erstellen(double skalierung, int verschiebung, List<Texture2D>list,SpriteBatch spriteBatch)
@@ -133,15 +145,36 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Slot_Ändern(int slotID,int karteID,char farbe)
+        public void Slot_Ändern(int slotID,Karte karte,char farbe)
         {
             if (farbe == 'w')
             {
-                L_slotsWeiß[slotID].I_karteID = karteID;
+                L_slotsWeiß[slotID].I_karteID = karte.I_ID;
+                L_slotsWeiß[slotID].karte = karte;
+                L_slotsWeiß[slotID].B_besetzt = true;
             }
             else
             {
-                L_slotsRot[slotID].I_karteID = karteID;
+                L_slotsRot[slotID].I_karteID = karte.I_ID;
+                L_slotsRot[slotID].karte = karte;
+                L_slotsRot[slotID].B_besetzt = true;
+            }
+        }
+        //###########################################################
+
+
+        //###########################################################
+        public void Slot_Ändern(int slotID, int id, char farbe)
+        {
+            if (farbe == 'w')
+            {
+                L_slotsWeiß[slotID].I_karteID = id;
+                L_slotsWeiß[slotID].B_besetzt = true;
+            }
+            else
+            {
+                L_slotsRot[slotID].I_karteID = id;
+                L_slotsRot[slotID].B_besetzt = true;
             }
         }
         //###########################################################
@@ -179,18 +212,25 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public bool Slot_Hover(Point mousePoint,int karteID)
+        public int Slot_Hover(Point mousePoint,Karte karte,bool energie)
         {
             for (int i = 0; i < L_slotsWeiß.Count; i++)
             {
 
                 if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint))
                 {
-                    if (L_slotsWeiß[i].B_besetzt == false)
+                    if (L_slotsWeiß[i].B_besetzt == false && energie==false)
                     {
-                        L_slotsWeiß[i].I_karteID = karteID;
-                        L_slotsWeiß[i].B_besetzt = true;
-                        return true;
+
+                        if(i>0 && i < 7 )
+                        {
+                            Slot_Ändern(i, karte, 'w');
+                            return i;
+                        }
+
+                    }
+                    else if (L_slotsWeiß[i].B_besetzt == true && energie == true) {
+                        return i;
                     }
                 }
                 else
@@ -199,7 +239,7 @@ namespace PokemonTCG.Spielfeld
                 }
 
             }
-            return false;
+            return -1;
         }
         //###########################################################
 

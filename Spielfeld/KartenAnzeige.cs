@@ -17,7 +17,7 @@ namespace PokemonTCG.Spielfeld
         //#############################
 
 
-
+        // Ein Feld am linken Bildschirmrand, in dem Karten angezeigt werden sollen, die gehovert werden
         //#######################################
         public KartenAnzeige(SpriteBatch spriteBatch,double skalierung,List<Texture2D>list)
         {

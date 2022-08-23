@@ -36,6 +36,8 @@ namespace PokemonTCG.Karten
         public int I_kartenNummer;
         public string S_booster;
         public int I_basisEnergie;
+
+        public List<string> Ls_energieAngelegt;
         //#############################
 
 
@@ -76,10 +78,41 @@ namespace PokemonTCG.Karten
             this.S_booster = booster;
             this.I_basisEnergie = bas;
 
+            this.Ls_energieAngelegt = new List<string>();
         }
         //###########################################################
 
 
+
+
+        //###########################################################
+        public void Energie_Anlegen(string energie)
+        {
+            this.Ls_energieAngelegt.Add(energie);
+        }
+        //###########################################################
+
+
+
+        //###########################################################
+        public void Energie_Zeigen()
+        {
+            if(this.Ls_energieAngelegt.Count > 0)
+            {
+
+                for(int i = 0; i < Ls_energieAngelegt.Count; i++)
+                {
+                    System.Windows.MessageBox.Show(this.Ls_energieAngelegt[i].ToString());
+                }
+
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Keine Energie");
+            }
+            
+        }
+        //###########################################################
 
     }
 }
