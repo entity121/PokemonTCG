@@ -221,7 +221,6 @@ namespace PokemonTCG.Spielfeld
                 {
                     if (L_slotsWeiß[i].B_besetzt == false && energie==false)
                     {
-
                         if(i>0 && i < 7 )
                         {
                             Slot_Ändern(i, karte, 'w');

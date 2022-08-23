@@ -102,7 +102,9 @@ namespace PokemonTCG.Spielfeld
 
                 if(mouseState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 {
+
                     B_halten = false;
+
 
                     // Nur setzen, wenn es eine Pokemon Karte ist und ein Basis Pokemon 
                     if(O_hand.Get_Karte_In_Hand(I_karteHalten).S_art == "Pokémon" && O_hand.Get_Karte_In_Hand(I_karteHalten).S_vorentwicklung == "")
