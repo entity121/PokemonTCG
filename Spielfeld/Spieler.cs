@@ -106,8 +106,8 @@ namespace PokemonTCG.Spielfeld
                     B_halten = false;
 
 
-                    // Nur setzen, wenn es eine Pokemon Karte ist und ein Basis Pokemon 
-                    if(O_hand.Get_Karte_In_Hand(I_karteHalten).S_art == "Pokémon" && O_hand.Get_Karte_In_Hand(I_karteHalten).S_vorentwicklung == "")
+                    // Nur setzen, wenn es eine Pokemon Karte 
+                    if(O_hand.Get_Karte_In_Hand(I_karteHalten).S_art == "Pokémon")
                     {
 
                         if (O_kartenslot.Slot_Hover(mousePoint, O_hand.Get_Karte_In_Hand(karte), false) > -1)
@@ -153,19 +153,28 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Ziehen(Point point)
         {
-            Rectangle R_slot = O_kartenslot.Get_Kartenslot(0, 'w').Slot_Position();     
 
-            if (R_slot.Contains(point))
+            if(O_deck.Kartenanzahl_Ausgeben() > 0)
             {
-                var mouseState = Mouse.GetState();
-                if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                Rectangle R_slot = O_kartenslot.Get_Kartenslot(0, 'w').Slot_Position();
+
+                if (R_slot.Contains(point))
                 {
-                    Karte k = O_deck.Karte_Ausgeben(0);
-                    O_hand.Karten_Aufnehmen(k);
+                    var mouseState = Mouse.GetState();
+                    if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                    {
+                        Karte k = O_deck.Karte_Ausgeben(0);
+                        O_hand.Karten_Aufnehmen(k);
+                    }
+                    lastState = mouseState;
                 }
-                lastState = mouseState;
+
             }
 
+            if (O_deck.Kartenanzahl_Ausgeben() == 0)
+            {
+                O_kartenslot.Slot_Ändern(0, 264, 'w');
+            }
         }
         //###########################################################
 

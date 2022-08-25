@@ -219,7 +219,8 @@ namespace PokemonTCG.Spielfeld
 
                 if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint))
                 {
-                    if (L_slotsWeiß[i].B_besetzt == false && energie==false)
+
+                    if (L_slotsWeiß[i].B_besetzt == false && energie==false && karte.S_vorentwicklung == "")
                     {
                         if(i>0 && i < 7 )
                         {
@@ -228,9 +229,18 @@ namespace PokemonTCG.Spielfeld
                         }
 
                     }
-                    else if (L_slotsWeiß[i].B_besetzt == true && energie == true) {
+                    else if (L_slotsWeiß[i].B_besetzt == true && energie == true) 
+                    {
                         return i;
                     }
+                    else if (L_slotsWeiß[i].B_besetzt == true && Get_Karte(i).S_kartenname == karte.S_vorentwicklung)
+                    {
+                        karte.Ls_energieAngelegt = Get_Karte(i).Ls_energieAngelegt;
+                        Get_Karte(i).Ls_energieAngelegt = null;
+                        Slot_Ändern(i, karte, 'w');
+                        return i;
+                    }
+
                 }
                 else
                 {

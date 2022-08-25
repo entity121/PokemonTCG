@@ -94,6 +94,9 @@ namespace PokemonTCG.Karten
 
 
 
+
+
+
         //###########################################################
         public void Energie_Zeigen()
         {
