@@ -175,8 +175,20 @@ namespace PokemonTCG.Karten
 
 
 
+        // Die Anzahl der Karten, die noch im Deck sind, wird ausgegeben 
+        //#################################################
+        public int Kartenanzahl_Ausgeben()
+        {
+            return I_kartenAnzahl;
+        }
+        //#################################################
+    }
+}
 
 
+
+/*
+ 
         //#################################################
         public void Deck_Visualisieren()
         {
@@ -184,8 +196,6 @@ namespace PokemonTCG.Karten
             
         }
         //#################################################
-
-
 
 
 
@@ -203,12 +213,4 @@ namespace PokemonTCG.Karten
             return S_deckName;
         }
         //#################################################
-
-        //#################################################
-        public int Kartenanzahl_Ausgeben()
-        {
-            return I_kartenAnzahl;
-        }
-        //#################################################
-    }
-}
+*/

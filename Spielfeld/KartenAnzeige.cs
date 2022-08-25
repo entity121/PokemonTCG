@@ -8,6 +8,7 @@ namespace PokemonTCG.Spielfeld
 {
     class KartenAnzeige
     {
+        // VARIABLEN
         //#############################
         private static int I_anzeigeWDEFAULT = (1920 - 1080) / 2;
         private Rectangle R_karteAnzeige;
@@ -29,7 +30,10 @@ namespace PokemonTCG.Spielfeld
         //#######################################
 
 
-    
+        
+
+        // Es kann immer nur eine Karte angezeigt werden.
+        // Diese Karte wird anhand der Karten ID in einer Variablen definiert
         //#################################################
         public void Set_AnzeigeID(int ID)                 
         {
@@ -39,6 +43,8 @@ namespace PokemonTCG.Spielfeld
 
 
 
+
+        // Anzeige darstellen
         //#################################################
         public void Draw()
         {

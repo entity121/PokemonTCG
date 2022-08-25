@@ -87,7 +87,7 @@ namespace PokemonTCG.Spielfeld
 
 
 
-
+        // Ein Kartenslot wird anhand der Nummer under Farbe ausgegeben
         //###########################################################
         public Kartenslot Get_Kartenslot(int slot,char farbe)
         {
@@ -109,6 +109,8 @@ namespace PokemonTCG.Spielfeld
 
 
 
+        // Die Karte die sich in einem bestimmten Slot befindet wird ausgegeben
+        // Dazu wird die Slot Nummer benötigt
         //###########################################################
         public Karte Get_Karte(int slot)
         {
@@ -119,6 +121,8 @@ namespace PokemonTCG.Spielfeld
 
 
 
+        // Alle 14 Slot Objekte für eine Spielfeldseite werden erstellt
+        // Sie werden in einer Liste untergebracht
         //###########################################################
         public void Slots_Erstellen(double skalierung, int verschiebung, List<Texture2D>list,SpriteBatch spriteBatch)
         {
@@ -142,8 +146,8 @@ namespace PokemonTCG.Spielfeld
 
 
 
-
-
+        // In einen leeren Slot wird eine Karte gelegt
+        // oder eine vorhandene Karte wird durch eine andere ersetzt
         //###########################################################
         public void Slot_Ändern(int slotID,Karte karte,char farbe)
         {
@@ -163,6 +167,11 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
 
 
+
+
+        // Eine Überladung der Funktion um einen Slot Inhalt zu ändern
+        // Diese nimmt anstatt einer Karte lediglich eine ID an
+        // Das wird benötigt um den Sprite für einen Leeren Slot oder eine Kartenrückseite einzufügen 
         //###########################################################
         public void Slot_Ändern(int slotID, int id, char farbe)
         {
@@ -210,7 +219,9 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
 
 
-
+        // Die Slots werden überprüft ob die Maus darüber ist
+        // Die Slots werden auf bestimmte Kriterien geprüft um zu beurteilen,
+        // ob und welche Karten in den Slot gelegt werden und wie
         //###########################################################
         public int Slot_Hover(Point mousePoint,Karte karte,bool energie)
         {
@@ -254,7 +265,7 @@ namespace PokemonTCG.Spielfeld
 
 
 
-
+        // Die Koordinaten eines einzelnen Slots am Bildschirm werden ausgegeben
         //###########################################################
         public Rectangle Slot_Position()
         {

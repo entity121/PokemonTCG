@@ -7,7 +7,7 @@ namespace PokemonTCG.Karten
 {
     class Karte
     {
-        //VARIABLEN
+        // VARIABLEN
         //#############################
         public int I_ID;
         public string S_art;
@@ -41,7 +41,7 @@ namespace PokemonTCG.Karten
         //#############################
 
 
-        //KONSTRUKTOR
+        // KONSTRUKTOR
         //###########################################################
         public Karte(
                 int id, string art, string nam, string vor, string weiter, string typ, int kp, int fäh,
@@ -84,7 +84,8 @@ namespace PokemonTCG.Karten
 
 
 
-
+        // An die Karte wird eine Energie angelegt
+        // Die Karte besitzt eine Liste für angelegten Energien
         //###########################################################
         public void Energie_Anlegen(string energie)
         {
@@ -96,24 +97,11 @@ namespace PokemonTCG.Karten
 
 
 
-
+        // Die Liste mit den angelegten Energien wird ausgegeben
         //###########################################################
-        public void Energie_Zeigen()
+        public List<String> Energie_Zeigen()
         {
-            if(this.Ls_energieAngelegt.Count > 0)
-            {
-
-                for(int i = 0; i < Ls_energieAngelegt.Count; i++)
-                {
-                    System.Windows.MessageBox.Show(this.Ls_energieAngelegt[i].ToString());
-                }
-
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("Keine Energie");
-            }
-            
+            return Ls_energieAngelegt;
         }
         //###########################################################
 
