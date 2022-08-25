@@ -40,6 +40,7 @@ namespace PokemonTCG.Spielfeld
 
         private List<Karte> Lo_karten;
         private Karte[,] A2o_karten;
+        private int I_maxReihen;
         private int I_reiheAngezeigt = 0;
 
         private SpriteBatch spriteBatch;
@@ -53,8 +54,11 @@ namespace PokemonTCG.Spielfeld
 
         private KartenAnzeige O_kartenAnzeige;
 
-        private MouseState lastState = new MouseState();
+        private int lastWheelState = 0;
 
+        private bool B_halten = false;
+        private Rectangle R_gehaltenPosition;
+        private int I_gehaltenID;
         //#############################
 
 
@@ -182,24 +186,6 @@ namespace PokemonTCG.Spielfeld
 
 
 
-        //###########################################################
-        public char Karten_Art(int id)
-        {
-
-            switch (Lo_karten[id].S_art)
-            {
-                case "Pokémon": { return 'p'; }; break;
-                case "Trainer": { return 't'; }; break;
-                case "Energie": { return 'e'; }; break;
-            }
-
-            return 'n';
-        }
-        //###########################################################
-
-
-
-
 
         // Eine Karte in die Hand aufnehmen
         //###########################################################
@@ -213,9 +199,7 @@ namespace PokemonTCG.Spielfeld
 
 
 
-        private bool B_halten = false;
-        private Rectangle R_gehaltenPosition;
-        private int I_gehaltenID;
+
         //###########################################################
         public void Karte_Bewegen(int karte, Point mousePoint)
         {
@@ -233,14 +217,18 @@ namespace PokemonTCG.Spielfeld
 
         // Eine Karte aus der Hand entfernen
         //###########################################################
-        public Karte Karte_Entfernen(int index)
+        public void Karte_Entfernen(Karte karte)
         {
-            Karte karte = Lo_karten[index];
+            for(int i = 0; i < Lo_karten.Count; i++)
+            {
+                if(Lo_karten[i] == karte)
+                {
+                    Lo_karten.RemoveAt(i);
+                }
+            }
 
-            Lo_karten.RemoveAt(index);
             Karten_Platzieren();
 
-            return karte;
         }
         //###########################################################
 
@@ -251,7 +239,7 @@ namespace PokemonTCG.Spielfeld
         // Wenn man mit der Maus über eine Karte auf dem Brett hovert, 
         // dann soll diese groß am Bildschirm angezeigt werden
         //###########################################################
-        public int Karte_Hover(Point mousePoint)
+        public Karte Karte_Hover(Point mousePoint)
         {
 
             for (int i = 0; i < Ai_karteX.Length; i++)
@@ -260,15 +248,15 @@ namespace PokemonTCG.Spielfeld
 
                 if (karte.Contains(mousePoint))
                 {
-                    O_kartenAnzeige.Set_AnzeigeID(Lo_karten[i].I_ID);
-                    return i;
+                    O_kartenAnzeige.Set_AnzeigeID(A2o_karten[I_reiheAngezeigt, i].I_ID);
+                    return A2o_karten[I_reiheAngezeigt, i];
                 }
                 else
                 {
                     O_kartenAnzeige.Set_AnzeigeID(0);
                 }
             }
-            return -1;
+            return null;
         }
         //###########################################################
 
@@ -286,6 +274,8 @@ namespace PokemonTCG.Spielfeld
 
             int reihen = Lo_karten.Count / 14;
             if (Lo_karten.Count % 14 != 0) { reihen += 1; }
+
+            I_maxReihen = reihen;
 
             A2o_karten = new Karte[reihen, 14];
 
@@ -374,18 +364,20 @@ namespace PokemonTCG.Spielfeld
         public void Mausrad_Bewegen()
         {
 
-            MouseState newState = new MouseState();
+            MouseState newState = Mouse.GetState();
 
-            if(newState.ScrollWheelValue > lastState.ScrollWheelValue)
-            {
-                I_reiheAngezeigt += 1;
-            }
-            else if(newState.ScrollWheelValue < lastState.ScrollWheelValue)
+            if (newState.ScrollWheelValue > lastWheelState && I_reiheAngezeigt > 0)
             {
                 I_reiheAngezeigt -= 1;
+                Karten_Platzieren();
+            }
+            else if(newState.ScrollWheelValue < lastWheelState && I_reiheAngezeigt<I_maxReihen-1)
+            {
+                I_reiheAngezeigt += 1;
+                Karten_Platzieren();
             }
 
-            lastState = newState;
+            lastWheelState = newState.ScrollWheelValue;
         }
         //###########################################################
 

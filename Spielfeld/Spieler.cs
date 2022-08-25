@@ -22,7 +22,7 @@ namespace PokemonTCG.Spielfeld
         private Kartenslot O_kartenslot;
         private MouseState lastState;
         private bool B_halten = false;
-        private int I_karteHalten;
+        private Karte I_karteHalten;
         //.......
         //.......
         //#############################
@@ -73,7 +73,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Hover(Point mousePoint) {
 
-            if (O_hand.Karte_Hover(mousePoint) != -1)
+            if (O_hand.Karte_Hover(mousePoint) != null)
             {
                 Karte_Bewegen(O_hand.Karte_Hover(mousePoint), mousePoint);
             }
@@ -85,7 +85,7 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################     
-        public void Karte_Bewegen(int karte,Point mousePoint)
+        public void Karte_Bewegen(Karte karte,Point mousePoint)
         {
 
             var mouseState = Mouse.GetState();
@@ -93,12 +93,12 @@ namespace PokemonTCG.Spielfeld
             if(mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 I_karteHalten = karte;
-                O_hand.Karte_Bewegen(O_hand.Get_Karte_In_Hand(karte).I_ID, mousePoint);
+                O_hand.Karte_Bewegen(karte.I_ID, mousePoint);
                 B_halten = true;
             }
             else if (B_halten == true)
             {
-                O_hand.Karte_Bewegen(O_hand.Get_Karte_In_Hand(karte).I_ID, mousePoint);
+                O_hand.Karte_Bewegen(karte.I_ID, mousePoint);
 
                 if(mouseState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 {
@@ -107,10 +107,10 @@ namespace PokemonTCG.Spielfeld
 
 
                     // Nur setzen, wenn es eine Pokemon Karte 
-                    if(O_hand.Get_Karte_In_Hand(I_karteHalten).S_art == "Pokémon")
+                    if(karte.S_art == "Pokémon")
                     {
 
-                        if (O_kartenslot.Slot_Hover(mousePoint, O_hand.Get_Karte_In_Hand(karte), false) > -1)
+                        if (O_kartenslot.Slot_Hover(mousePoint, karte, false) > -1)
                         {
                             O_hand.Karte_Entfernen(I_karteHalten);
                         }
@@ -119,20 +119,20 @@ namespace PokemonTCG.Spielfeld
 
 
                     // Trainer Karten müssen lediglich vom Brett gezogen werden um gespielt zu werden
-                    else if(O_hand.Get_Karte_In_Hand(I_karteHalten).S_art == "Trainer" && O_hand.Brett_Hover(mousePoint) == false)
+                    else if(karte.S_art == "Trainer" && O_hand.Brett_Hover(mousePoint) == false)
                     {
                         O_hand.Karte_Entfernen(I_karteHalten);
                     }
 
 
                     // Energiekarten müssen auf ein Pokemon auf dem Spielfeld gezogen werden
-                    else if (O_hand.Get_Karte_In_Hand(I_karteHalten).S_art == "Energie")
+                    else if (karte.S_art == "Energie")
                     {
-                        int slot = O_kartenslot.Slot_Hover(mousePoint, O_hand.Get_Karte_In_Hand(karte), true);
+                        int slot = O_kartenslot.Slot_Hover(mousePoint, karte, true);
 
                         if (slot > -1)
                         {
-                            O_kartenslot.Get_Karte(slot).Energie_Anlegen(O_hand.Get_Karte_In_Hand(I_karteHalten).S_typ);
+                            O_kartenslot.Get_Karte(slot).Energie_Anlegen(karte.S_typ);
                             O_kartenslot.Get_Karte(slot).Energie_Zeigen();
                             O_hand.Karte_Entfernen(I_karteHalten);
                         }
@@ -182,11 +182,8 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Karte_Zurücklegen(int index)
-        {
-            Karte karte = O_hand.Karte_Entfernen(index);
-
-            O_deck.Karte_Aufnehmen(karte);  
+        public void Karte_Zurücklegen()
+        {                   
         }
         //###########################################################
 
