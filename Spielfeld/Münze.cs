@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PokemonTCG.Spielfeld
 {
     class Münze
     {
+        private SpriteBatch spritebatch;
 
         public bool Münzwurf()
         {
@@ -15,12 +17,26 @@ namespace PokemonTCG.Spielfeld
 
             if(ergebnis == 0)
             {
+                Draw(ergebnis);
                 return false;
             }
             else
             {
+                Draw(ergebnis);
                 return true;
             }
+
+        }
+
+
+        public void Draw(int ergebnis)
+        {
+
+            for(int i = 0; i<10 ; i++)
+            {
+                f
+            }
+
 
         }
 

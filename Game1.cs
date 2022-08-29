@@ -37,7 +37,6 @@ namespace PokemonTCG
 
         // Die Objekte für den Spieler und den Gegner
         Spieler SPIELER;
-        
 
         //#############################
 
@@ -55,7 +54,6 @@ namespace PokemonTCG
 
             I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
             D_skalierung = (double)I_bildschirm_H / (double)I_SpielmatteDefault;
-
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -156,6 +154,7 @@ namespace PokemonTCG
 
             SPIELER.Draw_Hand();          
             
+
 
             spriteBatch.End();
             base.Draw(gameTime);
