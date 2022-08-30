@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-
+using System.Threading;
 
 namespace PokemonTCG.Spielfeld
 {
@@ -91,7 +91,7 @@ namespace PokemonTCG.Spielfeld
 
 
 
-        
+
 
 
         // Während man sich mit der Maus überhalb des Brettes befindet wird es ausgefahren
@@ -104,6 +104,18 @@ namespace PokemonTCG.Spielfeld
 
             if (rectangle.Contains(mousePoint))
             {
+
+
+
+
+                if (Münze.münzwurf == false)
+                {
+                    System.Windows.Forms.MessageBox.Show(Münze.Münzwurf().ToString());                
+                }
+
+
+
+
                 if (B_brettAusgefahren == false)
                 {
                     I_brettY -= I_ausfahrDistanz;
@@ -353,6 +365,7 @@ namespace PokemonTCG.Spielfeld
             {
                 spriteBatch.Draw(Lt2d_karten[A2o_karten[I_reiheAngezeigt,i].I_ID], Karte_Position(i), Color.White);
             }
+
 
             O_kartenAnzeige.Draw();
 

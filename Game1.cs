@@ -33,6 +33,8 @@ namespace PokemonTCG
         // Inhalt: 0 = Kartenrücken , 1-263 = Pokemon Karten nach ID , 264 = Leerer Slot
         private List<Texture2D> Lt2d_karten = new List<Texture2D>();
 
+        private List<Texture2D> Lt2d_marken = new List<Texture2D>();
+
         Kartenslot slot = new Kartenslot();
 
         // Die Objekte für den Spieler und den Gegner
@@ -79,7 +81,7 @@ namespace PokemonTCG
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Münze.spritebatch = spriteBatch;
 
             // Alle Karten Sprites werden in die Liste geladen
             for(int i = 0; i <= 263; i++)
@@ -91,6 +93,11 @@ namespace PokemonTCG
             // Spielfeld bestehend aus Hintergrund und Matte
             T2D_hintergrund = Content.Load<Texture2D>("Hintergrund");
             T2D_spielmatte = Content.Load<Texture2D>("Spielfeld_leer");
+
+            // Die Münze mit Vorder- und Rückseite
+            Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Kopf"));
+            Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Nicht-Kopf"));
+
 
             // Die einzelnen Kartenslots, die auf dem Spielfeld platziert sind
             slot.Slots_Erstellen(D_skalierung,I_verschiebungMatte,Lt2d_karten,spriteBatch);
@@ -112,8 +119,8 @@ namespace PokemonTCG
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
-            Maus_Update();
+            //if(Münze.münzwurf == true) { Münze.Münze_Animation(); }
+            if (Münze.münzwurf == false) { Maus_Update(); }
 
             base.Update(gameTime);
         }
@@ -142,22 +149,26 @@ namespace PokemonTCG
         //###########################################################
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            
+            
+            //GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
 
 
             // Hintergrund und das Spielfeld
             spriteBatch.Draw(T2D_hintergrund, new Vector2(0, 0), Color.White);
-            spriteBatch.Draw(T2D_spielmatte,new Rectangle(I_verschiebungMatte,0, I_bildschirm_H, I_bildschirm_H),Color.White);
+            spriteBatch.Draw(T2D_spielmatte, new Rectangle(I_verschiebungMatte, 0, I_bildschirm_H, I_bildschirm_H), Color.White);
 
             slot.Draw();
 
-            SPIELER.Draw_Hand();          
+            SPIELER.Draw_Hand();
             
-
 
             spriteBatch.End();
             base.Draw(gameTime);
+            
+
+
         }
         //###########################################################
 
