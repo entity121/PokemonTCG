@@ -22,6 +22,7 @@ namespace PokemonTCG
 
         public static int Münzwurf()
         {
+            
 
             Random random = new Random();
             münzeErgebnis = random.Next(0, 2);
@@ -29,24 +30,11 @@ namespace PokemonTCG
             timer = 0;
             münzwurf = true;
 
-            Thread thr = new Thread(() => Münze.Münze_Animation());
-            thr.Start();
-
-            Thread.Sleep(5000);
+            Münze_Animation();
 
             return münzeErgebnis;
+
         }
-
-
-
-        private static int Münze_Berechnen()
-        {
-            
-
-            
-
-            return münzeErgebnis;
-        } 
 
 
 

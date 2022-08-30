@@ -150,7 +150,7 @@ namespace PokemonTCG
         protected override void Draw(GameTime gameTime)
         {
             
-            
+            /*      
             //GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
 
@@ -166,7 +166,7 @@ namespace PokemonTCG
 
             spriteBatch.End();
             base.Draw(gameTime);
-            
+            */
 
 
         }
