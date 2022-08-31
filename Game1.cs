@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using PokemonTCG.Spielfeld;
 using System.Windows;
+using System.Threading;
 
 
 namespace PokemonTCG
@@ -112,15 +113,27 @@ namespace PokemonTCG
 
 
 
-
+        Thread thr;
         //###########################################################
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //if(Münze.münzwurf == true) { Münze.Münze_Animation(); }
-            if (Münze.münzwurf == false) { Maus_Update(); }
+
+            if (thr==null)
+            {
+                thr = new Thread(Maus_Update);
+                thr.Start();
+            }
+
+            if (thr.IsAlive == false)
+            {
+                thr = null;
+            }
+
+
+             //Maus_Update(); 
 
             base.Update(gameTime);
         }
@@ -150,7 +163,7 @@ namespace PokemonTCG
         protected override void Draw(GameTime gameTime)
         {
             
-            /*      
+              
             //GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
 
@@ -162,11 +175,17 @@ namespace PokemonTCG
             slot.Draw();
 
             SPIELER.Draw_Hand();
-            
+
+
+            if (Münze.münzwurf == true)
+            {
+                spriteBatch.Draw(Münze.Lt2d_münzen[Münze.münzeSeite], new Vector2(0, 0), Color.White);
+            }
+
 
             spriteBatch.End();
             base.Draw(gameTime);
-            */
+            
 
 
         }

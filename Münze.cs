@@ -22,15 +22,18 @@ namespace PokemonTCG
 
         public static int Münzwurf()
         {
-            
+            münzwurf = true;
 
             Random random = new Random();
             münzeErgebnis = random.Next(0, 2);
 
             timer = 0;
-            münzwurf = true;
+
 
             Münze_Animation();
+
+            timer = 0;
+            münzwurf = false;
 
             return münzeErgebnis;
 
@@ -43,39 +46,38 @@ namespace PokemonTCG
         public static void Münze_Animation()
         {
 
-            spritebatch.Begin();
-            spritebatch.Draw(Lt2d_münzen[0], new Vector2(0, 0), Color.White);
-            spritebatch.End();
-
-            /*
-            if (timer < 100)
+            while (timer <= 150)
             {
-                if (timer % 10 == 0)
+                if (timer < 100)
                 {
-                    if (münzeSeite == 0)
+                    if (timer % 10 == 0)
                     {
-                        münzeSeite = 1;
+                        if (münzeSeite == 0)
+                        {
+                            münzeSeite = 1;
+                        }
+                        else
+                        {
+                            münzeSeite = 0;
+                        }
                     }
-                    else
-                    {
-                        münzeSeite = 0;
-                    }
+
+                    timer += 1;
+                }
+                else if (timer < 150)
+                {
+
+                    münzeSeite = münzeErgebnis;
+                    timer += 1;
+                }
+                else if (timer == 150)
+                {
+                    return;
                 }
 
-                timer += 1;
+                Thread.Sleep(10);
             }
-            else if (timer < 150)
-            {
-
-                münzeSeite = münzeErgebnis;
-                timer += 1;
-            }
-            else if (timer == 150)
-            {
-                timer = 0;
-                münzwurf = false;
-            }    */           
-
+          
         }
 
 
