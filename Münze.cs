@@ -13,11 +13,19 @@ namespace PokemonTCG
     {
 
         public static List<Texture2D> Lt2d_münzen = new List<Texture2D>();
+        public static Texture2D T2D_brettKlein;
+        public static SpriteBatch spritebatch;
+
         public static int münzeSeite = 0;
         public static int münzeErgebnis;
         public static int timer = 0;
         public static bool münzwurf = false;
-        public static SpriteBatch spritebatch;
+
+        public static int x = 1530;
+        public static int y = 200;
+        public static int w = 350;
+        public static int h = 350;
+
 
 
         public static int Münzwurf()

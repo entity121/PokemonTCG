@@ -98,6 +98,7 @@ namespace PokemonTCG
             // Die Münze mit Vorder- und Rückseite
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Kopf"));
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Nicht-Kopf"));
+            Münze.T2D_brettKlein = Content.Load<Texture2D>("Brett_klein");
 
 
             // Die einzelnen Kartenslots, die auf dem Spielfeld platziert sind
@@ -143,7 +144,6 @@ namespace PokemonTCG
 
 
         //###########################################################
-
         public void Maus_Update()
         {
 
@@ -179,7 +179,8 @@ namespace PokemonTCG
 
             if (Münze.münzwurf == true)
             {
-                spriteBatch.Draw(Münze.Lt2d_münzen[Münze.münzeSeite], new Vector2(0, 0), Color.White);
+                spriteBatch.Draw(Münze.T2D_brettKlein, new Rectangle((int)(Münze.x * D_skalierung), (int)(Münze.y * D_skalierung), (int)(Münze.w * D_skalierung), (int)(Münze.h * D_skalierung)), Color.White);
+                spriteBatch.Draw(Münze.Lt2d_münzen[Münze.münzeSeite], new Rectangle((int)(Münze.x * D_skalierung), (int)(Münze.y * D_skalierung), (int)(Münze.w * D_skalierung), (int)(Münze.h * D_skalierung)), Color.White);
             }
 
 
