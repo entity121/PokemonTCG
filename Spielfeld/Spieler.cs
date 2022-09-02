@@ -144,28 +144,119 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Ziehen(Point point)
         {
-
-            if(O_deck.Kartenanzahl_Ausgeben() > 0)
+            // Wenn es der Spielzug zulässt
+            if(Spielzug.B_ziehen == true)
             {
-                Rectangle R_slot = O_kartenslot.Get_Kartenslot(0, 'w').Slot_Position();
 
-                if (R_slot.Contains(point))
+                if (O_deck.Kartenanzahl_Ausgeben() > 0)
                 {
-                    var mouseState = Mouse.GetState();
-                    if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                    Rectangle R_slot = O_kartenslot.Get_Kartenslot(0, 'w').Slot_Position();
+
+                    if (R_slot.Contains(point))
                     {
-                        Karte k = O_deck.Karte_Ausgeben(0);
-                        O_hand.Karten_Aufnehmen(k);
+                        var mouseState = Mouse.GetState();
+                        if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                        {
+                            Karte k = O_deck.Karte_Ausgeben(0);
+                            O_hand.Karten_Aufnehmen(k);
+                            Spielzug.B_ziehen = false;
+                        }
+                        lastState = mouseState;
                     }
-                    lastState = mouseState;
+
+                   
+           
                 }
 
+                if (O_deck.Kartenanzahl_Ausgeben() == 0)
+                {
+                    O_kartenslot.Slot_Ändern(0, 264, 'w');
+                }
+
+                
             }
 
-            if (O_deck.Kartenanzahl_Ausgeben() == 0)
+
+        }
+        //###########################################################
+
+
+
+
+
+        //###########################################################
+        public void Karte_Ziehen(int anzahl)
+        {
+            for(int i = 0; i < anzahl; i++)
             {
-                O_kartenslot.Slot_Ändern(0, 264, 'w');
+                Karte k = O_deck.Karte_Ausgeben(0);
+                O_hand.Karten_Aufnehmen(k);
             }
+
+        }
+        //###########################################################
+
+
+
+
+
+        //###########################################################
+        public void Karte_Zurücklegen(int id)
+        {
+
+            Karte karte = O_hand.Get_Karte_In_Hand(id);
+
+            O_hand.Karte_Entfernen(karte);
+
+            O_deck.Karte_Aufnehmen(karte);
+
+        }
+        //###########################################################
+
+
+
+
+
+
+        //###########################################################
+        public void Starthand()
+        {
+
+            bool starthand = false;
+            int anzahl;
+
+            while (starthand == false)
+            {
+                anzahl = 0;
+
+                Karte_Ziehen(7);
+
+                Karte[] arr = O_hand.Hand_Zeigen();
+
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    if (O_hand.Basis_Pokemon(i))
+                    {
+                        anzahl += 1;
+                    }
+                }
+
+                if (anzahl > 0)
+                {
+                    starthand = true;
+                }
+                else
+                {
+                    for(int i = 0; i < arr.Length; i++)
+                    {
+                        Karte_Zurücklegen(0);
+                    }
+
+                    arr = null;
+                    O_deck.Deck_Mischen();
+                }
+            }
+
         }
         //###########################################################
 
@@ -197,11 +288,7 @@ namespace PokemonTCG.Spielfeld
 
 
 
-            //###########################################################
-        public void Karte_Zurücklegen()
-        {                   
-        }
-        //###########################################################
+
 
 
 

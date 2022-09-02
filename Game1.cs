@@ -98,8 +98,9 @@ namespace PokemonTCG
             // Die Münze mit Vorder- und Rückseite
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Kopf"));
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Nicht-Kopf"));
-            Münze.T2D_brettKlein = Content.Load<Texture2D>("Brett_klein");
 
+            Münze.T2D_brettKlein = Content.Load<Texture2D>("Brett_klein");
+            Textbox.T2D_textbox = Content.Load<Texture2D>("Brett_klein");
 
             // Die einzelnen Kartenslots, die auf dem Spielfeld platziert sind
             slot.Slots_Erstellen(D_skalierung,I_verschiebungMatte,Lt2d_karten,spriteBatch);
@@ -124,7 +125,7 @@ namespace PokemonTCG
 
             if (thr==null)
             {
-                thr = new Thread(Maus_Update);
+                thr = new Thread(Update_Funktionen);
                 thr.Start();
             }
 
@@ -133,12 +134,33 @@ namespace PokemonTCG
                 thr = null;
             }
 
-
-             //Maus_Update(); 
-
             base.Update(gameTime);
         }
         //###########################################################
+
+
+
+
+
+        //###########################################################
+        private void Update_Funktionen()
+        {
+            // Ein Münzwurf soll bestimmen, welcher Spieler anfangen darf
+            if(Spielzug.B_spielStart == true) 
+            {
+                SPIELER.Starthand();
+                //Gegner Starthand
+
+                Spielzug.Spielstart();
+            }
+
+            if(Spielzug.B_spielerZug == true) {Maus_Update();}
+
+
+
+        }
+        //###########################################################
+
 
 
 
@@ -149,9 +171,9 @@ namespace PokemonTCG
 
             Point point = new Point(Mouse.GetState().X, Mouse.GetState().Y);
 
-                SPIELER.Brett_Hover(point);
-                slot.Slot_Hover(point);
-                SPIELER.Karte_Ziehen(point);
+            SPIELER.Brett_Hover(point);
+            slot.Slot_Hover(point);
+            SPIELER.Karte_Ziehen(point);           
 
         }
         //###########################################################
@@ -177,10 +199,10 @@ namespace PokemonTCG
             SPIELER.Draw_Hand();
 
 
-            if (Münze.münzwurf == true)
+            if (Münze.B_münzwurf == true)
             {
-                spriteBatch.Draw(Münze.T2D_brettKlein, new Rectangle((int)(Münze.x * D_skalierung), (int)(Münze.y * D_skalierung), (int)(Münze.w * D_skalierung), (int)(Münze.h * D_skalierung)), Color.White);
-                spriteBatch.Draw(Münze.Lt2d_münzen[Münze.münzeSeite], new Rectangle((int)(Münze.x * D_skalierung), (int)(Münze.y * D_skalierung), (int)(Münze.w * D_skalierung), (int)(Münze.h * D_skalierung)), Color.White);
+                spriteBatch.Draw(Münze.T2D_brettKlein, new Rectangle((int)(Münze.I_x * D_skalierung), (int)(Münze.I_y * D_skalierung), (int)(Münze.I_w * D_skalierung), (int)(Münze.I_h * D_skalierung)), Color.White);
+                spriteBatch.Draw(Münze.Lt2d_münzen[Münze.I_münzeSeite], new Rectangle((int)(Münze.I_x * D_skalierung), (int)(Münze.I_y * D_skalierung), (int)(Münze.I_w * D_skalierung), (int)(Münze.I_h * D_skalierung)), Color.White);
             }
 
 

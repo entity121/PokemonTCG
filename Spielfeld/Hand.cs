@@ -93,6 +93,22 @@ namespace PokemonTCG.Spielfeld
 
 
 
+        // Prüfen ob es sich bei einer Karte um ein Basis Pokemon handelt
+        //###########################################################
+        public bool Basis_Pokemon(int id)
+        {
+            if (Lo_karten[id].S_vorentwicklung == "")
+            {
+                return true;
+            }
+            return false;
+        }
+        //########################################################### 
+
+
+
+
+
 
         // Während man sich mit der Maus überhalb des Brettes befindet wird es ausgefahren
         // Geht man mit der Maus weg, dann fährt es wieder ein
@@ -104,17 +120,6 @@ namespace PokemonTCG.Spielfeld
 
             if (rectangle.Contains(mousePoint))
             {
-
-
-
-
-                if (Münze.münzwurf == false)
-                {
-                    System.Windows.Forms.MessageBox.Show(Münze.Münzwurf().ToString());                
-                }
-
-
-
 
                 if (B_brettAusgefahren == false)
                 {
@@ -151,6 +156,33 @@ namespace PokemonTCG.Spielfeld
         }
         //###########################################################
 
+
+
+
+        //###########################################################
+        public Karte Get_Karte_In_Hand(int id)
+        {
+            return Lo_karten[id];
+        }
+        //###########################################################
+
+
+
+
+        // Den gesammten Inhalt der Hand als Array ausgeben
+        //###########################################################
+        public Karte[] Hand_Zeigen()
+        {
+            Karte[] k = new Karte[Lo_karten.Count];
+
+            for (int i = 0; i < Lo_karten.Count; i++)
+            {
+                k[i] = Lo_karten[i];
+            }
+
+            return k;
+        }
+        //###########################################################
 
 
 
@@ -329,6 +361,10 @@ namespace PokemonTCG.Spielfeld
 
 
 
+
+
+
+
         //###########################################################
         public void Mausrad_Bewegen()
         {
@@ -385,43 +421,15 @@ namespace PokemonTCG.Spielfeld
 
 /* UNGENUTZTE FUNKTIONEN 
  
-    // Prüfen ob es sich bei einer Karte um ein Basis Pokemon handelt
-        //###########################################################
-        public bool Basis_Pokemon(int id)
-        {
-            if (Lo_karten[id].S_vorentwicklung == "")
-            {
-                return true;
-            }
-            return false;
-        }
-        //########################################################### 
+
 
 
 
         // (VERALTET) Eine Karte anhand des Index ausgeben
-        //###########################################################
-        public Karte Get_Karte_In_Hand(int id)
-        {
-            return Lo_karten[id];
-        }
-        //###########################################################
 
 
 
-            // Den gesammten Inhalt der Hand als Array ausgeben
-        //###########################################################
-        public Karte[] Hand_Zeigen()
-        {
-            Karte[] k = new Karte[Lo_karten.Count];
 
-            for (int i = 0; i < Lo_karten.Count; i++)
-            {
-                k[i] = Lo_karten[i];
-            }
 
-            return k;
-        }
-        //###########################################################
 
 */
