@@ -40,6 +40,9 @@ namespace PokemonTCG.Spielfeld
         private int I_W;
         private int I_H;
 
+        private double skalierung;
+        private int verschiebung;
+
         private bool B_besetzt;
         private int I_karteID;
 
@@ -49,9 +52,14 @@ namespace PokemonTCG.Spielfeld
         private List<Kartenslot> L_slotsWeiß;
         private List<Kartenslot> L_slotsRot;
 
-        private SpriteBatch spriteBatch;
         private List<Texture2D> Lt2d_karten;
+        
+
+        private SpriteBatch spriteBatch;
+
         private KartenAnzeige O_kartenAnzeige;
+        private Aktionen O_aktionen;
+
 
         private MouseState lastState = Mouse.GetState();
         //#############################
@@ -131,6 +139,9 @@ namespace PokemonTCG.Spielfeld
         {
             Lt2d_karten = list;
             this.spriteBatch = spriteBatch;
+
+            this.skalierung = skalierung;
+            this.verschiebung = verschiebung;
 
             L_slotsWeiß = new List<Kartenslot>();
             L_slotsRot = new List<Kartenslot>();
@@ -213,12 +224,7 @@ namespace PokemonTCG.Spielfeld
                     {                      
                         if(newState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                         {
-                            if (Textbox.Auswahlbox("Angriff"))
-                            {
-                                Spielzug.B_spielerZug = false;
-                                Spielzug.B_energie = true;
-                                Spielzug.B_ziehen = true;
-                            };
+                            O_aktionen = new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1]+I_slotW+verschiebung), Ai_slotY_weiß[1], skalierung);
                         }
                     }
 
@@ -315,7 +321,7 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Draw()
+        public void Draw(Texture2D holzAktionen)
         {
             // Die Kartenfelder nach ID. Rote und weiße Seite getrennt
             for (int i = 0; i < L_slotsWeiß.Count; i++)
@@ -330,9 +336,13 @@ namespace PokemonTCG.Spielfeld
                     spriteBatch.Draw(Lt2d_karten[L_slotsWeiß[i].I_karteID], L_slotsWeiß[i].Slot_Position(), Color.White);
                 }
 
-
-
                 spriteBatch.Draw(Lt2d_karten[L_slotsRot[i].I_karteID], L_slotsRot[i].Slot_Position(), Color.White);
+            }
+
+
+            if (O_aktionen != null)
+            {
+                O_aktionen.Draw(holzAktionen,spriteBatch);
             }
 
             O_kartenAnzeige.Draw();

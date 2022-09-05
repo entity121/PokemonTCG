@@ -265,13 +265,7 @@ namespace PokemonTCG.Spielfeld
                 }
                 else
                 {
-                    for(int i = 0; i < arr.Length; i++)
-                    {
-                        Karte_Zurücklegen(0);
-                    }
-
-                    arr = null;
-                    O_deck.Deck_Mischen();
+                    O_hand.Hand_Abwerfen();
                 }
             }
             Preiskarten();

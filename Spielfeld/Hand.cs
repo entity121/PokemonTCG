@@ -168,6 +168,22 @@ namespace PokemonTCG.Spielfeld
 
 
 
+        
+        //###########################################################
+        public void Hand_Abwerfen()
+        {
+
+            for(int i = 0; i < Lo_karten.Count; i++)
+            {
+                Lo_karten.RemoveAt(0);
+            }
+
+            Karten_Platzieren();
+        }
+        //###########################################################
+
+
+
 
         // Den gesammten Inhalt der Hand als Array ausgeben
         //###########################################################
@@ -206,7 +222,7 @@ namespace PokemonTCG.Spielfeld
         {
 
             B_halten = true;
-            R_gehaltenPosition = new Rectangle(mousePoint.X, mousePoint.Y, I_karteW, I_karteH);
+            R_gehaltenPosition = new Rectangle((mousePoint.X - (I_karteW/2)), (mousePoint.Y - (I_karteH/2)), I_karteW, I_karteH);
             I_gehaltenID = karte;
 
         }
@@ -290,7 +306,7 @@ namespace PokemonTCG.Spielfeld
 
             for (int i = 0; i < 14; i++)
             {
-                if (A2o_karten[I_reiheAngezeigt, i] != null)
+                if (A2o_karten[I_reiheAngezeigt, i] != null)  //   !!!!!!!!!!!!!!
                 {
                     anzahl += 1;
                 }
