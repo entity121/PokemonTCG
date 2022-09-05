@@ -16,7 +16,7 @@ namespace PokemonTCG
         public static bool B_ziehen = true;
         public static bool B_energie = true;
 
-        TODO : Ein angriff soll den zug beenden;
+        
 
         //###########################################################
         public static void Spielstart()
@@ -25,7 +25,7 @@ namespace PokemonTCG
 
             if (B_spielerZug == true)
             {
-                B_spielerZug = Textbox.Messagebox("Möchtest du anfangen");
+                B_spielerZug = Textbox.Auswahlbox("Möchtest du anfangen");
             }
             else
             {

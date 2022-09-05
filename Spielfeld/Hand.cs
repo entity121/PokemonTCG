@@ -56,7 +56,7 @@ namespace PokemonTCG.Spielfeld
 
         private int lastWheelState = 0;
 
-        private bool B_halten = false;
+        public bool B_halten = false;
         private Rectangle R_gehaltenPosition;
         private int I_gehaltenID;
         //#############################
@@ -97,7 +97,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public bool Basis_Pokemon(int id)
         {
-            if (Lo_karten[id].S_vorentwicklung == "")
+            if (Lo_karten[id].S_vorentwicklung == "" && Lo_karten[id].S_art == "Pokémon")
             {
                 return true;
             }
@@ -370,7 +370,7 @@ namespace PokemonTCG.Spielfeld
         {
 
             MouseState newState = Mouse.GetState();
-
+            
             if (newState.ScrollWheelValue > lastWheelState && I_reiheAngezeigt > 0)
             {
                 I_reiheAngezeigt -= 1;
@@ -408,7 +408,7 @@ namespace PokemonTCG.Spielfeld
             if (B_halten == true)
             {
                 spriteBatch.Draw(Lt2d_karten[I_gehaltenID], R_gehaltenPosition, Color.White);
-                B_halten = false;
+                //B_halten = false;
             }
 
         }

@@ -20,7 +20,7 @@ namespace PokemonTCG
 
 
         //###########################################################
-        public static bool Messagebox(string text)
+        public static bool Auswahlbox(string text)
         {
             DialogResult res = MessageBox.Show(text, "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
@@ -32,6 +32,17 @@ namespace PokemonTCG
             {
                 return false;
             }
+        }
+        //###########################################################
+
+
+
+
+
+        //###########################################################
+        public static void Infobox(string text)
+        {
+            MessageBox.Show(text, "");
         }
         //###########################################################
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms;
 using PokemonTCG.Karten;
 
@@ -51,6 +52,8 @@ namespace PokemonTCG.Spielfeld
         private SpriteBatch spriteBatch;
         private List<Texture2D> Lt2d_karten;
         private KartenAnzeige O_kartenAnzeige;
+
+        private MouseState lastState = Mouse.GetState();
         //#############################
 
 
@@ -200,9 +203,26 @@ namespace PokemonTCG.Spielfeld
             for (int i = 0; i < L_slotsWeiß.Count; i++)
             {
 
-                if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint))
+                if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint) && i>=1 && i<=6)
                 {
                     O_kartenAnzeige.Set_AnzeigeID(L_slotsWeiß[i].I_karteID);
+
+                    MouseState newState = Mouse.GetState();
+
+                    if (i == 1 && L_slotsWeiß[1].B_besetzt == true)
+                    {                      
+                        if(newState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                        {
+                            if (Textbox.Auswahlbox("Angriff"))
+                            {
+                                Spielzug.B_spielerZug = false;
+                                Spielzug.B_energie = true;
+                                Spielzug.B_ziehen = true;
+                            };
+                        }
+                    }
+
+                    lastState = newState;
                     break;
                 }
                 else if (L_slotsRot[i].Slot_Position().Contains(mousePoint))
@@ -228,7 +248,7 @@ namespace PokemonTCG.Spielfeld
             for (int i = 0; i < L_slotsWeiß.Count; i++)
             {
 
-                if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint))
+                if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint) && i >= 1 && i <= 6)
                 {
 
                     if (Spielzug.B_ziehen == false)
@@ -250,6 +270,10 @@ namespace PokemonTCG.Spielfeld
                                 Spielzug.B_energie = false;
                                 return i;
                             }
+                            else
+                            {
+                                Textbox.Infobox("Es kann nur eine Energiekarte pro Zug gespielt werden");
+                            }
 
                         }
                         else if (L_slotsWeiß[i].B_besetzt == true && Get_Karte(i).S_kartenname == karte.S_vorentwicklung)
@@ -259,6 +283,10 @@ namespace PokemonTCG.Spielfeld
                             Slot_Ändern(i, karte, 'w');
                             return i;
                         }
+                    }
+                    else
+                    {
+                        Textbox.Infobox("Bitte zuerst eine Karte ziehen");
                     }
 
                 }
@@ -292,7 +320,18 @@ namespace PokemonTCG.Spielfeld
             // Die Kartenfelder nach ID. Rote und weiße Seite getrennt
             for (int i = 0; i < L_slotsWeiß.Count; i++)
             {
-                spriteBatch.Draw(Lt2d_karten[L_slotsWeiß[i].I_karteID], L_slotsWeiß[i].Slot_Position(), Color.White);
+
+                if (i >= 8 && i <= 13 && L_slotsWeiß[i].B_besetzt ==true) 
+                {
+                    spriteBatch.Draw(Lt2d_karten[0], L_slotsWeiß[i].Slot_Position(), Color.White);
+                }
+                else
+                {
+                    spriteBatch.Draw(Lt2d_karten[L_slotsWeiß[i].I_karteID], L_slotsWeiß[i].Slot_Position(), Color.White);
+                }
+
+
+
                 spriteBatch.Draw(Lt2d_karten[L_slotsRot[i].I_karteID], L_slotsRot[i].Slot_Position(), Color.White);
             }
 
