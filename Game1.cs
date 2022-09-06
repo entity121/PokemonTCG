@@ -208,7 +208,7 @@ namespace PokemonTCG
                 spriteBatch.Draw(Münze.Lt2d_münzen[Münze.I_münzeSeite], new Rectangle((int)(Münze.I_x * D_skalierung), (int)(Münze.I_y * D_skalierung), (int)(Münze.I_w * D_skalierung), (int)(Münze.I_h * D_skalierung)), Color.White);
             }
 
-
+            spriteBatch.Draw(new Texture2D(GraphicsDevice, 100, 100), new Vector2(0, 0), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
             

@@ -220,14 +220,6 @@ namespace PokemonTCG.Spielfeld
 
                     MouseState newState = Mouse.GetState();
 
-                    if (i == 1 && L_slotsWeiß[1].B_besetzt == true)
-                    {                      
-                        if(newState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
-                        {
-                            O_aktionen = new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1]+I_slotW+verschiebung), Ai_slotY_weiß[1], skalierung);
-                        }
-                    }
-
                     lastState = newState;
                     break;
                 }
@@ -236,6 +228,10 @@ namespace PokemonTCG.Spielfeld
                     O_kartenAnzeige.Set_AnzeigeID(L_slotsRot[i].I_karteID);
                     break;
                 }
+                else if (O_aktionen!=null && O_aktionen.Hover(mousePoint))
+                {
+                    O_kartenAnzeige.Set_AnzeigeID(L_slotsWeiß[1].I_karteID);
+                }
                 else
                 {
                     O_kartenAnzeige.Set_AnzeigeID(0);
@@ -243,6 +239,8 @@ namespace PokemonTCG.Spielfeld
             }
         }
         //###########################################################
+
+
 
 
         // Die Slots werden überprüft ob die Maus darüber ist
@@ -264,6 +262,12 @@ namespace PokemonTCG.Spielfeld
                             if (i > 0 && i < 7)
                             {
                                 Slot_Ändern(i, karte, 'w');
+
+                                if (i == 1)
+                                {
+                                    O_aktionen = new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung);
+                                }
+
                                 return i;
                             }
 

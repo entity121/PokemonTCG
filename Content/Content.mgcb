@@ -3193,6 +3193,30 @@
 /processorParam:TextureFormat=Color
 /build:Brett_aktionen.png
 
+#begin Brett_aktionen_schw.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Brett_aktionen_schw.png
+
+#begin Brett_aktionen_weiß.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Brett_aktionen_weiß.png
+
 #begin Brett_klein.png
 /importer:TextureImporter
 /processor:TextureProcessor
