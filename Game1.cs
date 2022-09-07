@@ -31,6 +31,8 @@ namespace PokemonTCG
         private Texture2D T2D_spielmatte;
 
         private Texture2D T2D_holzAktionen;
+        private Texture2D T2D_auswahlS;
+        private Texture2D T2D_auswahlW;
 
         // Inhalt: 0 = Kartenrücken , 1-263 = Pokemon Karten nach ID , 264 = Leerer Slot
         private List<Texture2D> Lt2d_karten = new List<Texture2D>();
@@ -96,6 +98,8 @@ namespace PokemonTCG
             T2D_spielmatte = Content.Load<Texture2D>("Spielfeld_leer");
 
             T2D_holzAktionen = Content.Load<Texture2D>("Brett_aktionen");
+            T2D_auswahlS = Content.Load<Texture2D>("Brett_aktionen_schw");
+            T2D_auswahlW = Content.Load<Texture2D>("Brett_aktionen_weiß");
 
             // Die Münze mit Vorder- und Rückseite
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Kopf"));
@@ -197,7 +201,7 @@ namespace PokemonTCG
             spriteBatch.Draw(T2D_hintergrund, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(T2D_spielmatte, new Rectangle(I_verschiebungMatte, 0, I_bildschirm_H, I_bildschirm_H), Color.White);
 
-            slot.Draw(T2D_holzAktionen);
+            slot.Draw(T2D_holzAktionen,T2D_auswahlS,T2D_auswahlW);
 
             SPIELER.Draw_Hand();
 
@@ -209,11 +213,13 @@ namespace PokemonTCG
             }
 
             spriteBatch.Draw(new Texture2D(GraphicsDevice, 100, 100), new Vector2(0, 0), Color.White);
+
+
+            spriteBatch.DrawString(new SpriteFont())
+
             spriteBatch.End();
             base.Draw(gameTime);
             
-
-
         }
         //###########################################################
 

@@ -325,7 +325,7 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Draw(Texture2D holzAktionen)
+        public void Draw(Texture2D holzAktionen,Texture2D auswahlS, Texture2D auswahlW)
         {
             // Die Kartenfelder nach ID. Rote und weiße Seite getrennt
             for (int i = 0; i < L_slotsWeiß.Count; i++)
@@ -346,7 +346,7 @@ namespace PokemonTCG.Spielfeld
 
             if (O_aktionen != null)
             {
-                O_aktionen.Draw(holzAktionen,spriteBatch);
+                O_aktionen.Draw(holzAktionen,auswahlS,auswahlW,spriteBatch);
             }
 
             O_kartenAnzeige.Draw();
