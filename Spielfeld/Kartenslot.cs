@@ -46,6 +46,9 @@ namespace PokemonTCG.Spielfeld
         private bool B_besetzt;
         private int I_karteID;
 
+        private Texture2D T2D_auswahlS;
+        private Texture2D T2D_auswahlW;
+
         private Karte karte; 
 
         // Alle Kartenslots auf der Spielmatte, weiße und rote Seite getrennt
@@ -135,7 +138,7 @@ namespace PokemonTCG.Spielfeld
         // Alle 14 Slot Objekte für eine Spielfeldseite werden erstellt
         // Sie werden in einer Liste untergebracht
         //###########################################################
-        public void Slots_Erstellen(double skalierung, int verschiebung, List<Texture2D>list,SpriteBatch spriteBatch)
+        public void Slots_Erstellen(double skalierung, int verschiebung, List<Texture2D>list, SpriteBatch spriteBatch)
         {
             Lt2d_karten = list;
             this.spriteBatch = spriteBatch;
@@ -325,7 +328,7 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Draw(Texture2D holzAktionen,Texture2D auswahlS, Texture2D auswahlW)
+        public void Draw(Texture2D auswahlS, Texture2D auswahlW, SpriteFont font)
         {
             // Die Kartenfelder nach ID. Rote und weiße Seite getrennt
             for (int i = 0; i < L_slotsWeiß.Count; i++)
@@ -346,7 +349,7 @@ namespace PokemonTCG.Spielfeld
 
             if (O_aktionen != null)
             {
-                O_aktionen.Draw(holzAktionen,auswahlS,auswahlW,spriteBatch);
+                O_aktionen.Draw(auswahlS,auswahlW,spriteBatch,font);
             }
 
             O_kartenAnzeige.Draw();

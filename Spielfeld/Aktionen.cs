@@ -21,6 +21,8 @@ namespace PokemonTCG.Spielfeld
         private int I_hAuswahl;
         private int I_hover = -1;
 
+        private double D_scale;
+
         private Karte O_karte;
 
         private string S_angriff1;
@@ -51,6 +53,8 @@ namespace PokemonTCG.Spielfeld
             this.I_wAuswahl = (int)(200 * scale);
             this.I_hAuswahl = (int)(66 * scale);
 
+            this.D_scale = scale;
+
 
             // Angriff1
             this.S_angriff1 = karte.S_angriff1;
@@ -79,8 +83,7 @@ namespace PokemonTCG.Spielfeld
 
             this.I_schaden1 = karte.I_schaden1;
             
-            
-
+           
 
 
             // Angriff2
@@ -167,8 +170,11 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Draw(Texture2D brett, Texture2D auswahlS, Texture2D auswahlW, SpriteBatch spriteBatch)
+        public void Draw(Texture2D auswahlS, Texture2D auswahlW, SpriteBatch spriteBatch, SpriteFont font)
         {
+
+            // 1. Auwahhlmöglichkeit einer Karte
+            //###################################
             if(I_hover == 0)
             {
                 spriteBatch.Draw(auswahlW, Position(0), Color.White);
@@ -177,9 +183,16 @@ namespace PokemonTCG.Spielfeld
             {
                 spriteBatch.Draw(auswahlS, Position(0), Color.White);
             }
-            
-            
-            if(B_angriff2 == true)
+
+            spriteBatch.DrawString(font, S_angriff1, new Vector2(I_x + (int)(10*D_scale), I_y + (int)(10 * D_scale)), Color.Black,0,new Vector2(0,0), (float)(1.4*D_scale), SpriteEffects.None,0);
+            //###################################
+
+
+
+
+            // 2. Auwahhlmöglichkeit einer Karte
+            //###################################
+            if (B_angriff2 == true)
             {
                 if (I_hover == 1)
                 {
@@ -189,8 +202,15 @@ namespace PokemonTCG.Spielfeld
                 {
                     spriteBatch.Draw(auswahlS, Position(1), Color.White);
                 }
-            }
 
+                spriteBatch.DrawString(font, S_angriff2, new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + I_hAuswahl), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            }
+            //###################################
+
+
+
+            // 3. Auwahhlmöglichkeit einer Karte
+            //###################################
             int v = 1;
             if (B_fähigkeit == true)
             {
@@ -209,8 +229,14 @@ namespace PokemonTCG.Spielfeld
                     spriteBatch.Draw(auswahlS, Position(v), Color.White);
                 }
 
+                spriteBatch.DrawString(font, "Pokemon-Power", new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + (v*I_hAuswahl)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
             }
+            //###################################
 
+
+
+            // 4. Auwahhlmöglichkeit einer Karte
+            //###################################
             v = 1;
             if(B_angriff2 == true) { v += 1; }
             if(B_fähigkeit == true) { v += 1; }
@@ -223,6 +249,11 @@ namespace PokemonTCG.Spielfeld
             {
                 spriteBatch.Draw(auswahlS, Position(v), Color.White);
             }
+
+            spriteBatch.DrawString(font, I_rückzugskosten.ToString(), new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + (v * I_hAuswahl)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            //###################################
+
+
 
         }
         //###########################################################

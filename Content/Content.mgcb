@@ -3289,6 +3289,13 @@
 /processorParam:TextureFormat=Color
 /build:Feuer_Symbol.png
 
+#begin File.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:File.spritefont
+
 #begin Hintergrund.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3456,6 +3463,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Spielfeld_leer.png
+
+#begin Tranzparenz_Weiß.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tranzparenz_Weiß.png
 
 #begin Wasser_Symbol.png
 /importer:TextureImporter

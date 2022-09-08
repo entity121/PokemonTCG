@@ -18,6 +18,8 @@ namespace PokemonTCG
         // Maße der Spielmatte ohne Skalierung
         private static int I_SpielmatteDefault = 1080;
 
+        private SpriteFont font;
+
         private int I_bildschirm_H = (int)SystemParameters.PrimaryScreenHeight;
         private int I_bildschirm_W = (int)SystemParameters.PrimaryScreenWidth;
 
@@ -29,6 +31,7 @@ namespace PokemonTCG
 
         private Texture2D T2D_hintergrund;
         private Texture2D T2D_spielmatte;
+        private Texture2D T2D_tranzparenz_weiß;
 
         private Texture2D T2D_holzAktionen;
         private Texture2D T2D_auswahlS;
@@ -96,6 +99,7 @@ namespace PokemonTCG
             // Spielfeld bestehend aus Hintergrund und Matte
             T2D_hintergrund = Content.Load<Texture2D>("Hintergrund");
             T2D_spielmatte = Content.Load<Texture2D>("Spielfeld_leer");
+            T2D_tranzparenz_weiß = Content.Load<Texture2D>("Tranzparenz_Weiß");
 
             T2D_holzAktionen = Content.Load<Texture2D>("Brett_aktionen");
             T2D_auswahlS = Content.Load<Texture2D>("Brett_aktionen_schw");
@@ -107,10 +111,13 @@ namespace PokemonTCG
 
             Münze.T2D_brettKlein = Content.Load<Texture2D>("Brett_klein");
             Textbox.T2D_textbox = Content.Load<Texture2D>("Brett_klein");
+
+
+            font = Content.Load<SpriteFont>("File");
             
 
             // Die einzelnen Kartenslots, die auf dem Spielfeld platziert sind
-            slot.Slots_Erstellen(D_skalierung,I_verschiebungMatte,Lt2d_karten,spriteBatch);
+            slot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, Lt2d_karten, spriteBatch);
 
             // Spieler und Gegner
             SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Holz"),slot);
@@ -201,7 +208,7 @@ namespace PokemonTCG
             spriteBatch.Draw(T2D_hintergrund, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(T2D_spielmatte, new Rectangle(I_verschiebungMatte, 0, I_bildschirm_H, I_bildschirm_H), Color.White);
 
-            slot.Draw(T2D_holzAktionen,T2D_auswahlS,T2D_auswahlW);
+            slot.Draw(T2D_auswahlS,T2D_auswahlW,font);
 
             SPIELER.Draw_Hand();
 
@@ -215,7 +222,12 @@ namespace PokemonTCG
             spriteBatch.Draw(new Texture2D(GraphicsDevice, 100, 100), new Vector2(0, 0), Color.White);
 
 
-            spriteBatch.DrawString(new SpriteFont())
+            if(Textbox.B_textbox == true)
+            {
+                spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
+                Textbox.Draw(spriteBatch, T2D_holzAktionen, font, D_skalierung);
+            }
+
 
             spriteBatch.End();
             base.Draw(gameTime);
