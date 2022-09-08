@@ -134,8 +134,9 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public bool Hover(Point mousePoint)
+        public bool Hover()
         {
+            Point mousePoint = MausPunkt.MausPoint();
 
             for(int i = 0; i < 4; i++)
             {

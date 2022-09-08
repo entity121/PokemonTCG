@@ -212,8 +212,10 @@ namespace PokemonTCG.Spielfeld
         // Für jeden Slot auf dem Spielfeld soll geprüft werden, ob die Maus drüber ist
         // Wenn die Maus über einem Slot ist, soll die Karte darin angezeigt werden
         //###########################################################
-        public void Slot_Hover(Point mousePoint)
+        public void Slot_Hover()
         {
+            Point mousePoint = MausPunkt.MausPoint();
+
             for (int i = 0; i < L_slotsWeiß.Count; i++)
             {
 
@@ -231,7 +233,7 @@ namespace PokemonTCG.Spielfeld
                     O_kartenAnzeige.Set_AnzeigeID(L_slotsRot[i].I_karteID);
                     break;
                 }
-                else if (O_aktionen!=null && O_aktionen.Hover(mousePoint))
+                else if (O_aktionen!=null && O_aktionen.Hover())
                 {
                     O_kartenAnzeige.Set_AnzeigeID(L_slotsWeiß[1].I_karteID);
                 }
@@ -250,8 +252,10 @@ namespace PokemonTCG.Spielfeld
         // Die Slots werden auf bestimmte Kriterien geprüft um zu beurteilen,
         // ob und welche Karten in den Slot gelegt werden und wie
         //###########################################################
-        public int Slot_Hover(Point mousePoint,Karte karte,bool energie)
+        public int Slot_Hover(Karte karte,bool energie)
         {
+            Point mousePoint = MausPunkt.MausPoint();
+
             for (int i = 0; i < L_slotsWeiß.Count; i++)
             {
 

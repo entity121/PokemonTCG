@@ -37,6 +37,8 @@ namespace PokemonTCG
         private Texture2D T2D_auswahlS;
         private Texture2D T2D_auswahlW;
 
+        private Texture2D[] T2D_confirm = new Texture2D[4];
+
         // Inhalt: 0 = Kartenrücken , 1-263 = Pokemon Karten nach ID , 264 = Leerer Slot
         private List<Texture2D> Lt2d_karten = new List<Texture2D>();
         private List<Texture2D> Lt2d_marken = new List<Texture2D>();
@@ -104,6 +106,12 @@ namespace PokemonTCG
             T2D_holzAktionen = Content.Load<Texture2D>("Brett_aktionen");
             T2D_auswahlS = Content.Load<Texture2D>("Brett_aktionen_schw");
             T2D_auswahlW = Content.Load<Texture2D>("Brett_aktionen_weiß");
+
+            // Für die selbst erstellte Confirm Box
+            T2D_confirm[0] = Content.Load<Texture2D>("JA_S");
+            T2D_confirm[1] = Content.Load<Texture2D>("JA_W");
+            T2D_confirm[2] = Content.Load<Texture2D>("NEIN_S");
+            T2D_confirm[3] = Content.Load<Texture2D>("NEIN_W");
 
             // Die Münze mit Vorder- und Rückseite
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Kopf"));
@@ -185,9 +193,9 @@ namespace PokemonTCG
 
             Point point = new Point(Mouse.GetState().X, Mouse.GetState().Y);
 
-            SPIELER.Brett_Hover(point);
-            slot.Slot_Hover(point);
-            SPIELER.Karte_Ziehen(point);           
+            SPIELER.Brett_Hover();
+            slot.Slot_Hover();
+            SPIELER.Karte_Ziehen();           
 
         }
         //###########################################################
@@ -225,7 +233,7 @@ namespace PokemonTCG
             if(Textbox.B_textbox == true)
             {
                 spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
-                Textbox.Draw(spriteBatch, T2D_holzAktionen, font, D_skalierung);
+                Textbox.Draw(spriteBatch, T2D_holzAktionen, font, D_skalierung, T2D_confirm);
             }
 
 

@@ -113,10 +113,11 @@ namespace PokemonTCG.Spielfeld
         // Während man sich mit der Maus überhalb des Brettes befindet wird es ausgefahren
         // Geht man mit der Maus weg, dann fährt es wieder ein
         //###########################################################
-        public bool Brett_Hover(Point mousePoint)
+        public bool Brett_Hover()
         {
 
             Rectangle rectangle = Brett_Position();
+            Point mousePoint = MausPunkt.MausPoint();
 
             if (rectangle.Contains(mousePoint))
             {
@@ -218,8 +219,9 @@ namespace PokemonTCG.Spielfeld
 
         // Die gehaltene Karte wird synchron mit der Maus bewegt
         //###########################################################
-        public void Karte_Bewegen(int karte, Point mousePoint)
+        public void Karte_Bewegen(int karte)
         {
+            Point mousePoint = MausPunkt.MausPoint();
 
             B_halten = true;
             R_gehaltenPosition = new Rectangle((mousePoint.X - (I_karteW/2)), (mousePoint.Y - (I_karteH/2)), I_karteW, I_karteH);
@@ -256,8 +258,9 @@ namespace PokemonTCG.Spielfeld
         // Wenn man mit der Maus über eine Karte auf dem Brett hovert, 
         // dann soll diese groß am Bildschirm angezeigt werden
         //###########################################################
-        public Karte Karte_Hover(Point mousePoint)
+        public Karte Karte_Hover()
         {
+            Point mousePoint = MausPunkt.MausPoint();
 
             for (int i = 0; i < Ai_karteX.Length; i++)
             {
