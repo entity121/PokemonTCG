@@ -96,6 +96,7 @@ namespace PokemonTCG
                 }
 
                 lastState = Mouse.GetState();
+            
             }
     
 

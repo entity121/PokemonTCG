@@ -93,7 +93,7 @@ namespace PokemonTCG
 
             // Alle Karten Sprites werden in die Liste geladen
             for(int i = 0; i <= 263; i++)
-            {Lt2d_karten.Add(Content.Load<Texture2D>(i.ToString()));}
+            {Lt2d_karten.Add(Content.Load<Texture2D>("Karten/"+i));}
             // Der leere Slot kommt auch in die Liste
             Lt2d_karten.Add(Content.Load<Texture2D>("Kartenslot"));
 
@@ -103,9 +103,9 @@ namespace PokemonTCG
             T2D_spielmatte = Content.Load<Texture2D>("Spielfeld_leer");
             T2D_tranzparenz_weiß = Content.Load<Texture2D>("Tranzparenz_Weiß");
 
-            T2D_holzAktionen = Content.Load<Texture2D>("Brett_aktionen");
-            T2D_auswahlS = Content.Load<Texture2D>("Brett_aktionen_schw");
-            T2D_auswahlW = Content.Load<Texture2D>("Brett_aktionen_weiß");
+            T2D_holzAktionen = Content.Load<Texture2D>("Bretter/Brett_aktionen");
+            T2D_auswahlS = Content.Load<Texture2D>("Bretter/Brett_aktionen_schw");
+            T2D_auswahlW = Content.Load<Texture2D>("Bretter/Brett_aktionen_weiß");
 
             // Für die selbst erstellte Confirm Box
             T2D_confirm[0] = Content.Load<Texture2D>("JA_S");
@@ -117,8 +117,8 @@ namespace PokemonTCG
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Kopf"));
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Nicht-Kopf"));
 
-            Münze.T2D_brettKlein = Content.Load<Texture2D>("Brett_klein");
-            Textbox.T2D_textbox = Content.Load<Texture2D>("Brett_klein");
+            Münze.T2D_brettKlein = Content.Load<Texture2D>("Bretter/Brett_klein");
+            Textbox.T2D_textbox = Content.Load<Texture2D>("Bretter/Brett_klein");
 
 
             font = Content.Load<SpriteFont>("File");
@@ -128,7 +128,7 @@ namespace PokemonTCG
             slot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, Lt2d_karten, spriteBatch);
 
             // Spieler und Gegner
-            SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Holz"),slot);
+            SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Bretter/Holz"),slot);
             // TODO : Gegner
 
             Lt2d_karten = null;
