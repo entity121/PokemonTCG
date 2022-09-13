@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using PokemonTCG.Spielfeld;
 using System.Windows;
 using System.Threading;
+using PokemonTCG.Textboxen;
 
 
 namespace PokemonTCG
@@ -59,7 +60,7 @@ namespace PokemonTCG
             graphics.PreferredBackBufferWidth = I_bildschirm_W;
             graphics.PreferredBackBufferHeight = I_bildschirm_H;
             graphics.ApplyChanges();
-            graphics.ToggleFullScreen();
+            //graphics.ToggleFullScreen();
 
 
             I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
@@ -77,8 +78,6 @@ namespace PokemonTCG
         //###########################################################
         protected override void Initialize()
         {
-     
-
             base.Initialize();
         }
         //###########################################################
@@ -114,12 +113,41 @@ namespace PokemonTCG
             T2D_confirm[2] = Content.Load<Texture2D>("NEIN_S");
             T2D_confirm[3] = Content.Load<Texture2D>("NEIN_W");
 
+
+
+            // Für die selbst erstellte Schriftart
+            string order = "!.-+0123456789AÄaäBbCcDdEeFfGgHhIiJjKkLlMmNnOÖoöPpQqRrSsTtUÜuüVvWwXxYyZz";
+            string kl = "abcdefghijklmnopqrstuvwxyzäöü";
+
+            char[] Arr = order.ToCharArray();
+
+            for (int i = 0; i < Arr.Length; i++)
+            {
+
+                
+
+                string file = "Schriftzeichen/" + Arr[i];
+                if (kl.Contains(Arr[i]))
+                {
+                    file += "_";
+                }
+
+                Texture2D tx = Content.Load<Texture2D>(file);
+
+                Buchstabe b = new Buchstabe(tx, Arr[i]);
+
+                Textbox.Lo_buchstaben.Add(b);
+            }
+
+
+
+
             // Die Münze mit Vorder- und Rückseite
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Kopf"));
             Münze.Lt2d_münzen.Add(Content.Load<Texture2D>("Coin Nicht-Kopf"));
 
             Münze.T2D_brettKlein = Content.Load<Texture2D>("Bretter/Brett_klein");
-            Textbox.T2D_textbox = Content.Load<Texture2D>("Bretter/Brett_klein");
+            Textbox.T2D_textbox = Content.Load<Texture2D>("Bretter/Brett_textbox");
 
 
             font = Content.Load<SpriteFont>("File");
@@ -192,8 +220,6 @@ namespace PokemonTCG
         public void Maus_Update()
         {
 
-            Point point = new Point(Mouse.GetState().X, Mouse.GetState().Y);
-
             SPIELER.Brett_Hover();
             slot.Slot_Hover();
             SPIELER.Karte_Ziehen();           
@@ -228,15 +254,12 @@ namespace PokemonTCG
                 spriteBatch.Draw(Münze.Lt2d_münzen[Münze.I_münzeSeite], new Rectangle((int)(Münze.I_x * D_skalierung), (int)(Münze.I_y * D_skalierung), (int)(Münze.I_w * D_skalierung), (int)(Münze.I_h * D_skalierung)), Color.White);
             }
 
-            spriteBatch.Draw(new Texture2D(GraphicsDevice, 100, 100), new Vector2(0, 0), Color.White);
-
 
             if(Textbox.B_textbox == true)
             {
                 spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
-                Textbox.Draw(spriteBatch, T2D_holzAktionen, font, D_skalierung, T2D_confirm);
+                Textbox.Draw(spriteBatch, font, D_skalierung, T2D_confirm);
             }
-
 
             spriteBatch.End();
             base.Draw(gameTime);

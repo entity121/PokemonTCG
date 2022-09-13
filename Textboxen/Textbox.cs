@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms;
 using System.Threading;
+using PokemonTCG.Textboxen;
 
 namespace PokemonTCG
 {
@@ -20,8 +21,8 @@ namespace PokemonTCG
 
         public static int I_x = (1920/2)-300;
         public static int I_y = (1080/2)-150;
-        public static int I_w = 600;
-        public static int I_h = 300;
+        public static int I_w = 650;
+        public static int I_h = 350;
 
         public static int I_xJ = ((1920 / 2) - 300) + 100;
         public static int I_yJ = ((1080 / 2) - 150) + 200;
@@ -40,13 +41,16 @@ namespace PokemonTCG
 
         private static MouseState lastState = Mouse.GetState();
 
-        
+        public static List<Buchstabe> Lo_buchstaben = new List<Buchstabe>();
+        private static List<Textfeld> Lo_textfelder = new List<Textfeld>();
+
+
 
 
         //###########################################################
         public static bool Auswahlbox(string text)
         {
-            S_text = text;
+            String_Zerkleinern(text);
             B_textbox = true;
             B_frage = true;
             bool B_beantwortet = false;
@@ -62,19 +66,14 @@ namespace PokemonTCG
 
                     if(Mouse.GetState().LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                     {
-
                         B_textbox = false;
                         B_ergebnis = true;
                         B_beantwortet = true;
-
                     }
-
-
                 }
                 else
                 {
                     B_jHover = false;
-
                 }
 
                 if(new Rectangle((int)(I_xN * D_scale), (int)(I_yN * D_scale), (int)(I_wN * D_scale), (int)(I_hN * D_scale)).Contains(mousePoint))
@@ -83,11 +82,9 @@ namespace PokemonTCG
 
                     if (Mouse.GetState().LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                     {
-
                         B_textbox = false;
                         B_ergebnis = false;
                         B_beantwortet = true;
-
                     }
 
                 }
@@ -97,7 +94,7 @@ namespace PokemonTCG
                 }
 
                 lastState = Mouse.GetState();
-            
+           
             }
 
             return B_ergebnis;
@@ -112,7 +109,7 @@ namespace PokemonTCG
         //###########################################################
         public static void Infobox(string text)
         {
-            S_text = text;
+            String_Zerkleinern(text);
             B_textbox = true;
             B_frage = false;
 
@@ -126,9 +123,47 @@ namespace PokemonTCG
 
 
 
+        //###########################################################
+        private static void String_Zerkleinern(string text)
+        {
+            Lo_textfelder = new List<Textfeld>();
+
+            char[] Arr = text.ToCharArray();
+
+            for(int i = 0; i < Arr.Length; i++)
+            {
+
+                Texture2D tx;
+                
+                for(int j = 0; j < Lo_buchstaben.Count; j++)
+                {
+
+                    if (Arr[i] == Lo_buchstaben[j].C_buchstabe)
+                    {
+                        tx = Lo_buchstaben[j].T2D_buchstabe;
+                        Textfeld tf = new Textfeld(tx, 0, 0);
+                        Lo_textfelder.Add(tf);
+                        break;
+                    }
+                    else if (j == Lo_buchstaben.Count - 1)
+                    {
+                        Textfeld tf = new Textfeld(null, 0, 0);
+                        Lo_textfelder.Add(tf);
+                    }
+                }
+
+
+            }
+
+        }
+        //###########################################################
+
+
+
+
 
         //###########################################################
-        public static void Draw(SpriteBatch spritebatch, Texture2D brett, SpriteFont font, double scale, Texture2D[] confirm)
+        public static void Draw(SpriteBatch spritebatch, SpriteFont font, double scale, Texture2D[] confirm)
         {
 
             if (D_scale == 0)
@@ -136,11 +171,12 @@ namespace PokemonTCG
                 D_scale = scale;
             }
 
+
             if(B_frage == true)
             {
-                spritebatch.Draw(brett, new Rectangle((int)(I_x*scale), (int)(I_y*scale), (int)(I_w*scale), (int)(I_h*scale)), Color.White);
+                spritebatch.Draw(T2D_textbox, new Rectangle((int)(I_x*scale), (int)(I_y*scale), (int)(I_w*scale), (int)(I_h*scale)), Color.White);
 
-                spritebatch.DrawString(font, S_text, new Vector2((int)((I_x + 20)*scale), I_y + (I_h / 2)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * scale), SpriteEffects.None, 0);
+
 
 
                 if(B_jHover == true)
@@ -162,18 +198,39 @@ namespace PokemonTCG
                     spritebatch.Draw(confirm[2], new Rectangle((int)(I_xN * scale), (int)(I_yN * scale), (int)(I_wN * scale), (int)(I_hN * scale)), Color.White);
                 }
 
-
                 
             }
             else
             {
-                spritebatch.Draw(brett, new Rectangle((int)(I_x * scale), (int)(I_y * scale), (int)(I_w * scale), (int)(I_h * scale)), Color.White);
-                spritebatch.DrawString(font, S_text, new Vector2(I_x + 20, I_y + (I_h / 2)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * scale), SpriteEffects.None, 0);
+                spritebatch.Draw(T2D_textbox, new Rectangle((int)(I_x * scale), (int)(I_y * scale), (int)(I_w * scale), (int)(I_h * scale)), Color.White);
             }
 
 
+            int zeile = 0;
+            int spalte = 0;
+            for (int i = 0; i < Lo_textfelder.Count; i++)
+            {
+                
 
+                if (Lo_textfelder[i].buchstabe != null)
+                {
+                    spritebatch.Draw(Lo_textfelder[i].buchstabe, new Rectangle((int)((I_x + 25 + (spalte * 20))*scale), (int)((I_y + 25 +(zeile*30))*scale), (int)(20*scale), (int)(20*scale)), Color.White);
+                }
+                else if (spalte == 0)
+                {
+                    spalte -= 1;
+                }
 
+                spalte += 1;
+
+                if((i+1)%30 == 0)
+                {
+                    zeile += 1;
+                    spalte = 0;
+                }
+               
+            }
+            
 
         }
         //###########################################################
