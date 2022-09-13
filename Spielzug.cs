@@ -23,16 +23,14 @@ namespace PokemonTCG
         {
             B_spielerZug = Münze.Münzwurf();
 
-            Textbox.Auswahlbox("Moechtest du anfangen?");
-
-            /*if (B_spielerZug == true)
+            if (B_spielerZug == true)
             {
                 B_spielerZug = Textbox.Auswahlbox("Möchtest du anfangen");
             }
             else
             {
                 B_spielerZug = Münze.Münzwurf();
-            }*/
+            }
 
             B_spielStart = false;
         }

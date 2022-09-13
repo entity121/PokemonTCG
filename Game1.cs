@@ -59,7 +59,7 @@ namespace PokemonTCG
             graphics.PreferredBackBufferWidth = I_bildschirm_W;
             graphics.PreferredBackBufferHeight = I_bildschirm_H;
             graphics.ApplyChanges();
-            //graphics.ToggleFullScreen();
+            graphics.ToggleFullScreen();
 
 
             I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
@@ -67,6 +67,7 @@ namespace PokemonTCG
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+           
         }
         //#######################################
 

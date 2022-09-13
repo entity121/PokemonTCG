@@ -50,6 +50,7 @@ namespace PokemonTCG
             B_textbox = true;
             B_frage = true;
             bool B_beantwortet = false;
+            bool B_ergebnis = true;
 
             while (B_beantwortet == false)
             {
@@ -62,9 +63,9 @@ namespace PokemonTCG
                     if(Mouse.GetState().LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                     {
 
-                        B_frage = false;
                         B_textbox = false;
-                        return true;
+                        B_ergebnis = true;
+                        B_beantwortet = true;
 
                     }
 
@@ -83,9 +84,9 @@ namespace PokemonTCG
                     if (Mouse.GetState().LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                     {
 
-                        B_frage = false;
                         B_textbox = false;
-                        return false;
+                        B_ergebnis = false;
+                        B_beantwortet = true;
 
                     }
 
@@ -98,18 +99,9 @@ namespace PokemonTCG
                 lastState = Mouse.GetState();
             
             }
-    
 
-            /*DialogResult res = MessageBox.Show(text, "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            return B_ergebnis;
 
-            if(res == DialogResult.Yes)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }*/
         }
         //###########################################################
 
