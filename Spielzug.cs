@@ -31,6 +31,7 @@ namespace PokemonTCG
             {
                 B_spielerZug = Münze.Münzwurf();
             }*/
+            //B_spielerZug = Textbox.Auswahlbox("Möchtest du anfangen?");
             B_spielerZug = Textbox.Auswahlbox("Möchtest du anfangen?");
             B_spielStart = false;
         }

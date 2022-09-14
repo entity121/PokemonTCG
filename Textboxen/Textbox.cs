@@ -43,7 +43,7 @@ namespace PokemonTCG
 
         public static List<Buchstabe> Lo_buchstaben = new List<Buchstabe>();
         private static List<Textfeld> Lo_textfelder = new List<Textfeld>();
-
+        private static List<int> Li_leerstellen = new List<int>();
 
 
 
@@ -127,16 +127,24 @@ namespace PokemonTCG
         private static void String_Zerkleinern(string text)
         {
             Lo_textfelder = new List<Textfeld>();
+            Li_leerstellen = new List<int>();
 
             char[] Arr = text.ToCharArray();
 
             for(int i = 0; i < Arr.Length; i++)
             {
 
+                if (i+1 == Arr.Length)
+                {
+                    Li_leerstellen.Add(i);
+                    Li_leerstellen.Add(-1);
+                }
+
                 Texture2D tx;
                 
                 for(int j = 0; j < Lo_buchstaben.Count; j++)
                 {
+
 
                     if (Arr[i] == Lo_buchstaben[j].C_buchstabe)
                     {
@@ -148,8 +156,11 @@ namespace PokemonTCG
                     else if (j == Lo_buchstaben.Count - 1)
                     {
                         Textfeld tf = new Textfeld(null, 0, 0);
+                        Li_leerstellen.Add(i);
                         Lo_textfelder.Add(tf);
                     }
+
+
                 }
 
 
@@ -208,6 +219,7 @@ namespace PokemonTCG
 
             int zeile = 0;
             int spalte = 0;
+            int leerstelle = 0;
             for (int i = 0; i < Lo_textfelder.Count; i++)
             {
                 
@@ -216,18 +228,25 @@ namespace PokemonTCG
                 {
                     spritebatch.Draw(Lo_textfelder[i].buchstabe, new Rectangle((int)((I_x + 25 + (spalte * 20))*scale), (int)((I_y + 25 +(zeile*30))*scale), (int)(20*scale), (int)(20*scale)), Color.White);
                 }
-                else if (spalte == 0)
+                else
                 {
-                    spalte -= 1;
+                    //System.Windows.Forms.MessageBox.Show(((Li_leerstellen[leerstelle + 1] - Li_leerstellen[leerstelle]) + spalte).ToString());
+                    if((Li_leerstellen[leerstelle+1]-Li_leerstellen[leerstelle])+spalte >= 29)
+                    {
+                        zeile += 1;
+                        spalte = -1;
+                    }
+                    leerstelle++;
                 }
+
 
                 spalte += 1;
 
-                if((i+1)%30 == 0)
+                /*if((spalte+1)%30 == 0)
                 {
                     zeile += 1;
                     spalte = 0;
-                }
+                }*/
                
             }
             

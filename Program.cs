@@ -16,11 +16,11 @@ namespace PokemonTCG
         static void Main()
         {
 
-            /* Datenabank erzeugen 
-            DatenbankErstellen dbe = new DatenbankErstellen();
+            // Datenabank erzeugen 
+            /*DatenbankErstellen dbe = new DatenbankErstellen();
             try{dbe.Tabellen_Erstellen();}
-            catch (Exception e){MessageBox.Show(e.ToString());}
-            */
+            catch (Exception e){}*/
+            
 
             using (var game = new Game1())
               game.Run();

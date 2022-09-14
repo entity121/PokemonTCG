@@ -43,6 +43,7 @@ namespace PokemonTCG
         // Inhalt: 0 = Kartenrücken , 1-263 = Pokemon Karten nach ID , 264 = Leerer Slot
         private List<Texture2D> Lt2d_karten = new List<Texture2D>();
         private List<Texture2D> Lt2d_marken = new List<Texture2D>();
+        private List<Texture2D> Lt2d_elemente = new List<Texture2D>();
 
         Kartenslot slot = new Kartenslot();
 
@@ -114,32 +115,8 @@ namespace PokemonTCG
             T2D_confirm[3] = Content.Load<Texture2D>("NEIN_W");
 
 
-
             // Für die selbst erstellte Schriftart
-            string order = "!.-+0123456789AÄaäBbCcDdEeFfGgHhIiJjKkLlMmNnOÖoöPpQqRrSsTtUÜuüVvWwXxYyZz";
-            string kl = "abcdefghijklmnopqrstuvwxyzäöü";
-
-            char[] Arr = order.ToCharArray();
-
-            for (int i = 0; i < Arr.Length; i++)
-            {
-
-                
-
-                string file = "Schriftzeichen/" + Arr[i];
-                if (kl.Contains(Arr[i]))
-                {
-                    file += "_";
-                }
-
-                Texture2D tx = Content.Load<Texture2D>(file);
-
-                Buchstabe b = new Buchstabe(tx, Arr[i]);
-
-                Textbox.Lo_buchstaben.Add(b);
-            }
-
-
+            Schriftzeichen_Laden();
 
 
             // Die Münze mit Vorder- und Rückseite
@@ -149,6 +126,12 @@ namespace PokemonTCG
             Münze.T2D_brettKlein = Content.Load<Texture2D>("Bretter/Brett_klein");
             Textbox.T2D_textbox = Content.Load<Texture2D>("Bretter/Brett_textbox");
 
+            string[] elemente = new string[] { "Elektro_Symbol", "Farblos_Symbol", "Feuer_Symbol", "Kampf_Symbol", "Pflanze_Symbol", "Psycho_Symbol", "Wasser_Symbol" };
+            for(int i = 0; i < elemente.Length; i++)
+            {
+                string s = "ElementSymbole/" + elemente[i];
+                Lt2d_elemente.Add(Content.Load<Texture2D>(s));
+            }
 
             font = Content.Load<SpriteFont>("File");
             
@@ -163,6 +146,47 @@ namespace PokemonTCG
             Lt2d_karten = null;
         }
         //###########################################################
+
+
+
+
+
+        //###########################################################
+        private void Schriftzeichen_Laden()
+        {
+            string order = "?!.-+0123456789AÄaäBbCcDdEeFfGgHhIiJjKkLlMmNnOÖoöPpQqRrSsTtUÜuüVvWwXxYyZz";
+            string kl = "abcdefghijklmnopqrstuvwxyzäöü";
+
+            char[] Arr = order.ToCharArray();
+
+            for (int i = 0; i < Arr.Length; i++)
+            {
+
+                string file;
+                if (Arr[i] != '?')
+                {
+                    file = "Schriftzeichen/" + Arr[i];
+                    if (kl.Contains(Arr[i]))
+                    {
+                        file += "_";
+                    }
+                }
+                else
+                {
+                    file = "Schriftzeichen/Frgz";
+                }
+
+
+                Texture2D tx = Content.Load<Texture2D>(file);
+
+                Buchstabe b = new Buchstabe(tx, Arr[i]);
+
+                Textbox.Lo_buchstaben.Add(b);
+            }
+        }
+        //###########################################################
+
+
 
 
 
@@ -243,7 +267,7 @@ namespace PokemonTCG
             spriteBatch.Draw(T2D_hintergrund, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(T2D_spielmatte, new Rectangle(I_verschiebungMatte, 0, I_bildschirm_H, I_bildschirm_H), Color.White);
 
-            slot.Draw(T2D_auswahlS,T2D_auswahlW,font);
+            slot.Draw(T2D_auswahlS,T2D_auswahlW,font,Lt2d_elemente);
 
             SPIELER.Draw_Hand();
 

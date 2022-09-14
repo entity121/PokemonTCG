@@ -31,13 +31,15 @@ namespace PokemonTCG.Spielfeld
 
         private bool B_angriff2;
         private string S_angriff2;
-        private string[] S_kosten2;
+        private string[] As_kosten2;
         private int I_schaden2;
 
         private bool B_fähigkeit;
         private int I_fähigkeit;
 
         private int I_rückzugskosten;
+
+        private string[] elementReihenfolge = new string[] { "Elektro", "Farblos", "Feuer", "Kampf", "Pflanze", "Psycho", "Wasser" };
 
         //###########################################################
         public Aktionen(Karte karte, int x, int y, double scale)
@@ -82,28 +84,28 @@ namespace PokemonTCG.Spielfeld
             }
 
             this.I_schaden1 = karte.I_schaden1;
-            
-           
+
+
 
 
             // Angriff2
-            if(karte.S_angriff2 != "")
+            if (karte.S_angriff2 != "")
             {
                 B_angriff2 = true;
 
                 this.S_angriff2 = karte.S_angriff2;
-                this.S_kosten2 = new string[karte.I_kosten2];
+                this.As_kosten2 = new string[karte.I_kosten2];
 
                 if (karte.S_energie2 != "")
                 {
                     for (int i = 0; i < (karte.I_kosten2 - karte.I_farblos2); i++)
                     {
-                        S_kosten2[i] = karte.S_energie2;
+                        As_kosten2[i] = karte.S_energie2;
                     }
 
                     for (int i = (karte.I_kosten2 - karte.I_farblos2); i < karte.I_kosten2; i++)
                     {
-                        S_kosten2[i] = "Farblos";
+                        As_kosten2[i] = "Farblos";
                     }
 
                 }
@@ -111,7 +113,7 @@ namespace PokemonTCG.Spielfeld
                 {
                     for (int i = 0; i < karte.I_kosten2; i++)
                     {
-                        S_kosten2[i] = "Farblos";
+                        As_kosten2[i] = "Farblos";
                     }
                 }
 
@@ -119,13 +121,42 @@ namespace PokemonTCG.Spielfeld
             }
            
 
+            // Fähigkeit
             if(karte.I_fähigkeit == 1)
             {
                 this.I_fähigkeit = karte.I_fähigkeit;
             }
             
-
+            // Rückzugskosten
             this.I_rückzugskosten = karte.I_rückzugskosten;
+        }
+        //###########################################################
+
+
+
+
+
+        //###########################################################
+        private int Get_Element_Position(string s)
+        {
+            int erg;
+
+            if (s == "")
+            {
+                return 1;
+            }
+            else
+            {
+                for (int i = 0; i < elementReihenfolge.Length; i++)
+                {
+                    if (elementReihenfolge[i] == s)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
         }
         //###########################################################
 
@@ -169,9 +200,29 @@ namespace PokemonTCG.Spielfeld
 
 
 
+        //###########################################################
+        private Rectangle Position(int x, int y)
+        {
+            return new Rectangle(I_x + (15 * x)+15, I_y + (I_hAuswahl * y)+(I_hAuswahl-25), 15, 15);
+        }
+        //###########################################################
+
+
+
 
         //###########################################################
-        public void Draw(Texture2D auswahlS, Texture2D auswahlW, SpriteBatch spriteBatch, SpriteFont font)
+        private Vector2 DMG_Position(int y)
+        {
+            return new Vector2(I_x + I_wAuswahl - 50, I_y + 35 + (I_hAuswahl * y));
+        }
+        //###########################################################
+
+
+
+
+
+        //###########################################################
+        public void Draw(Texture2D auswahlS, Texture2D auswahlW, SpriteBatch spriteBatch, SpriteFont font, List<Texture2D> elemente)
         {
 
             // 1. Auwahhlmöglichkeit einer Karte
@@ -184,8 +235,19 @@ namespace PokemonTCG.Spielfeld
             {
                 spriteBatch.Draw(auswahlS, Position(0), Color.White);
             }
+            
 
             spriteBatch.DrawString(font, S_angriff1, new Vector2(I_x + (int)(10*D_scale), I_y + (int)(10 * D_scale)), Color.Black,0,new Vector2(0,0), (float)(1.4*D_scale), SpriteEffects.None,0);
+            
+            for(int i = 0; i < As_kosten1.Length; i++)
+            {
+                spriteBatch.Draw(elemente[Get_Element_Position(As_kosten1[i])], Position(i, 0), Color.White);
+            }
+
+            if (I_schaden1 > 0)
+            {
+                spriteBatch.DrawString(font, I_schaden1.ToString(),DMG_Position(0),Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            }
             //###################################
 
 
@@ -205,7 +267,22 @@ namespace PokemonTCG.Spielfeld
                 }
 
                 spriteBatch.DrawString(font, S_angriff2, new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + I_hAuswahl), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+
+
+
+                for (int i = 0; i < As_kosten2.Length; i++)
+                {
+                    spriteBatch.Draw(elemente[Get_Element_Position(As_kosten2[i])], Position(i, 1), Color.White);
+                }
+
+                if (I_schaden2 > 0)
+                {
+                    spriteBatch.DrawString(font, I_schaden2.ToString(), DMG_Position(1), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+                }
+
             }
+
+
             //###################################
 
 
@@ -251,7 +328,12 @@ namespace PokemonTCG.Spielfeld
                 spriteBatch.Draw(auswahlS, Position(v), Color.White);
             }
 
-            spriteBatch.DrawString(font, I_rückzugskosten.ToString(), new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + (v * I_hAuswahl)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            spriteBatch.DrawString(font, "Rueckzug", new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + (v * I_hAuswahl)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            
+            for(int i = 0; i < I_rückzugskosten; i++)
+            {
+                spriteBatch.Draw(elemente[1], Position(i,v), Color.White);
+            }         
             //###################################
 
 
