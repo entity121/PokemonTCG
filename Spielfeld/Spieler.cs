@@ -104,6 +104,7 @@ namespace PokemonTCG.Spielfeld
                         if (O_kartenslot.Slot_Hover(karte, false) > -1)
                         {
                             O_hand.Karte_Entfernen(I_karteHalten);
+                            O_kartenslot.Aktionen_Erstellen();
                         }
                         
                     }
@@ -126,6 +127,7 @@ namespace PokemonTCG.Spielfeld
                             O_kartenslot.Get_Karte(slot).Energie_Anlegen(karte.S_typ);
                             O_kartenslot.Get_Karte(slot).Energie_Zeigen();
                             O_hand.Karte_Entfernen(I_karteHalten);
+                            O_kartenslot.Aktionen_Erstellen();
                         }
                     }
 

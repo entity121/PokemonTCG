@@ -100,19 +100,19 @@ namespace PokemonTCG
 
 
             // Spielfeld bestehend aus Hintergrund und Matte
-            T2D_hintergrund = Content.Load<Texture2D>("Hintergrund");
-            T2D_spielmatte = Content.Load<Texture2D>("Spielfeld_leer");
-            T2D_tranzparenz_weiß = Content.Load<Texture2D>("Tranzparenz_Weiß");
+            T2D_hintergrund = Content.Load<Texture2D>("Spielfeld/Hintergrund");
+            T2D_spielmatte = Content.Load<Texture2D>("Spielfeld/Spielfeld_leer");
+            T2D_tranzparenz_weiß = Content.Load<Texture2D>("Spielfeld/Tranzparenz_Weiß");
 
             T2D_holzAktionen = Content.Load<Texture2D>("Bretter/Brett_aktionen");
             T2D_auswahlS = Content.Load<Texture2D>("Bretter/Brett_aktionen_schw");
             T2D_auswahlW = Content.Load<Texture2D>("Bretter/Brett_aktionen_weiß");
 
             // Für die selbst erstellte Confirm Box
-            T2D_confirm[0] = Content.Load<Texture2D>("JA_S");
-            T2D_confirm[1] = Content.Load<Texture2D>("JA_W");
-            T2D_confirm[2] = Content.Load<Texture2D>("NEIN_S");
-            T2D_confirm[3] = Content.Load<Texture2D>("NEIN_W");
+            T2D_confirm[0] = Content.Load<Texture2D>("Buttons/JA_S");
+            T2D_confirm[1] = Content.Load<Texture2D>("Buttons/JA_W");
+            T2D_confirm[2] = Content.Load<Texture2D>("Buttons/NEIN_S");
+            T2D_confirm[3] = Content.Load<Texture2D>("Buttons/NEIN_W");
 
 
             // Für die selbst erstellte Schriftart
@@ -126,7 +126,7 @@ namespace PokemonTCG
             Münze.T2D_brettKlein = Content.Load<Texture2D>("Bretter/Brett_klein");
             Textbox.T2D_textbox = Content.Load<Texture2D>("Bretter/Brett_textbox");
 
-            string[] elemente = new string[] { "Elektro_Symbol", "Farblos_Symbol", "Feuer_Symbol", "Kampf_Symbol", "Pflanze_Symbol", "Psycho_Symbol", "Wasser_Symbol" };
+            string[] elemente = new string[] { "Elektro_Symbol", "Farblos_Symbol", "Feuer_Symbol", "Kampf_Symbol", "Pflanze_Symbol", "Psycho_Symbol", "Wasser_Symbol", "Verblasst" };
             for(int i = 0; i < elemente.Length; i++)
             {
                 string s = "ElementSymbole/" + elemente[i];

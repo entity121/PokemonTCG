@@ -272,7 +272,7 @@ namespace PokemonTCG.Spielfeld
 
                                 if (i == 1)
                                 {
-                                    O_aktionen = new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung);
+                                    
                                 }
 
                                 return i;
@@ -284,7 +284,7 @@ namespace PokemonTCG.Spielfeld
 
                             if (Spielzug.B_energie == true)
                             {
-                                Spielzug.B_energie = false;
+                                //Spielzug.B_energie = false;
                                 return i;
                             }
                             else
@@ -314,6 +314,16 @@ namespace PokemonTCG.Spielfeld
 
             }
             return -1;
+        }
+        //###########################################################
+
+
+
+
+        //###########################################################
+        public void Aktionen_Erstellen()
+        {
+            O_aktionen = new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung);
         }
         //###########################################################
 

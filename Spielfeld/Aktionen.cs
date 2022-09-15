@@ -39,12 +39,17 @@ namespace PokemonTCG.Spielfeld
 
         private int I_rückzugskosten;
 
+        private List<string> Ls_kartenEnergie;
+        List<string> e1;
+
         private string[] elementReihenfolge = new string[] { "Elektro", "Farblos", "Feuer", "Kampf", "Pflanze", "Psycho", "Wasser" };
 
         //###########################################################
         public Aktionen(Karte karte, int x, int y, double scale)
         {
             this.O_karte = karte;
+
+            this.Ls_kartenEnergie = karte.Ls_energieAngelegt;
 
             // Position
             this.I_x = x;
@@ -225,6 +230,7 @@ namespace PokemonTCG.Spielfeld
         public void Draw(Texture2D auswahlS, Texture2D auswahlW, SpriteBatch spriteBatch, SpriteFont font, List<Texture2D> elemente)
         {
 
+            
             // 1. Auwahhlmöglichkeit einer Karte
             //###################################
             if(I_hover == 0)
@@ -238,10 +244,20 @@ namespace PokemonTCG.Spielfeld
             
 
             spriteBatch.DrawString(font, S_angriff1, new Vector2(I_x + (int)(10*D_scale), I_y + (int)(10 * D_scale)), Color.Black,0,new Vector2(0,0), (float)(1.4*D_scale), SpriteEffects.None,0);
-            
+
+
+            e1 = Ls_kartenEnergie;
             for(int i = 0; i < As_kosten1.Length; i++)
             {
                 spriteBatch.Draw(elemente[Get_Element_Position(As_kosten1[i])], Position(i, 0), Color.White);
+                spriteBatch.Draw(elemente[7], Position(i, 0), Color.White);
+
+                if (i < e1.Count)
+                {
+                    hier soll die energie verglichen und ein/auswahlS geblendet werden
+                    spriteBatch.Draw(elemente[Get_Element_Position(As_kosten1[i])], Position(i, 0), Color.White);
+
+                }
             }
 
             if (I_schaden1 > 0)
@@ -281,8 +297,6 @@ namespace PokemonTCG.Spielfeld
                 }
 
             }
-
-
             //###################################
 
 
@@ -330,9 +344,19 @@ namespace PokemonTCG.Spielfeld
 
             spriteBatch.DrawString(font, "Rueckzug", new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + (v * I_hAuswahl)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
             
+
             for(int i = 0; i < I_rückzugskosten; i++)
             {
                 spriteBatch.Draw(elemente[1], Position(i,v), Color.White);
+                try
+                {
+                    string check = Ls_kartenEnergie[i];
+                }
+                catch
+                {
+                    spriteBatch.Draw(elemente[7], Position(i, v), Color.White);
+                }             
+                
             }         
             //###################################
 
