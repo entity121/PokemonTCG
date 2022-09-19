@@ -244,7 +244,9 @@ namespace PokemonTCG.Spielfeld
 
 
 
-
+        Starthand so verändern:
+        Deck mischen, bis ein Basis Pokemon an erster stelle steht,
+        dann 7 Karten ziehen
         //###########################################################
         public void Starthand()
         {

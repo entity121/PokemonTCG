@@ -61,7 +61,7 @@ namespace PokemonTCG
             graphics.PreferredBackBufferWidth = I_bildschirm_W;
             graphics.PreferredBackBufferHeight = I_bildschirm_H;
             graphics.ApplyChanges();
-            //graphics.ToggleFullScreen();
+            graphics.ToggleFullScreen();
 
 
             I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
@@ -98,6 +98,7 @@ namespace PokemonTCG
             // Der leere Slot kommt auch in die Liste
             Lt2d_karten.Add(Content.Load<Texture2D>("Spielfeld/Kartenslot"));
 
+            KartenAnzeige.Lt2d_karten = Lt2d_karten;
 
             // Spielfeld bestehend aus Hintergrund und Matte
             T2D_hintergrund = Content.Load<Texture2D>("Spielfeld/Hintergrund");
@@ -231,8 +232,6 @@ namespace PokemonTCG
 
             if(Spielzug.B_spielerZug == true) {Maus_Update();}
 
-
-
         }
         //###########################################################
 
@@ -270,6 +269,8 @@ namespace PokemonTCG
             slot.Draw(T2D_auswahlS,T2D_auswahlW,font,Lt2d_elemente);
 
             SPIELER.Draw_Hand();
+
+            KartenAnzeige.Draw(D_skalierung, spriteBatch);
 
 
             if (Münze.B_münzwurf == true)

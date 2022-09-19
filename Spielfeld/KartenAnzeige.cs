@@ -6,38 +6,43 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PokemonTCG.Spielfeld
 {
-    class KartenAnzeige
+    public static class KartenAnzeige
     {
         // VARIABLEN
         //#############################
         private static int I_anzeigeWDEFAULT = (1920 - 1080) / 2;
-        private Rectangle R_karteAnzeige;
-        private SpriteBatch spriteBatch;
-        private List<Texture2D> Lt2d_karten;
-        private int I_anzeigeID;
+        public static List<Texture2D> Lt2d_karten = new List<Texture2D>();
+        private static int ID_hand;
+        private static int ID_slot;
         //#############################
-
-
-        // Ein Feld am linken Bildschirmrand, in dem Karten angezeigt werden sollen, die gehovert werden
-        //#######################################
-        public KartenAnzeige(SpriteBatch spriteBatch,double skalierung,List<Texture2D>list)
-        {
-            this.R_karteAnzeige = new Rectangle(0, (int)(100 * skalierung), (int)(I_anzeigeWDEFAULT * skalierung), (int)((I_anzeigeWDEFAULT * 1.4) * skalierung));
-            this.spriteBatch = spriteBatch;
-            this.Lt2d_karten = list;
-            this.I_anzeigeID = 0;
-        }
-        //#######################################
-
 
         
 
         // Es kann immer nur eine Karte angezeigt werden.
         // Diese Karte wird anhand der Karten ID in einer Variablen definiert
         //#################################################
-        public void Set_AnzeigeID(int ID)                 
+        public static void Set_AnzeigeID(string herkunft,int ID)                 
         {
-            this.I_anzeigeID = ID;
+
+            if(herkunft == "hand")
+            {
+                ID_hand = ID;
+            }
+            else if(herkunft == "slot")
+            {
+                ID_slot = ID;
+            }
+
+        }
+        //#################################################
+
+
+
+
+        //#################################################
+        private static Rectangle Position(double skalierung)
+        {
+           return new Rectangle(0, (int)(100 * skalierung), (int)(I_anzeigeWDEFAULT * skalierung), (int)((I_anzeigeWDEFAULT * 1.4) * skalierung));
         }
         //#################################################
 
@@ -46,11 +51,15 @@ namespace PokemonTCG.Spielfeld
 
         // Anzeige darstellen
         //#################################################
-        public void Draw()
+        public static void Draw(double scale,SpriteBatch spriteBatch)
         {
-            if (I_anzeigeID != 0 && I_anzeigeID != 264)
+            if (ID_hand > 0)
             {
-                spriteBatch.Draw(Lt2d_karten[I_anzeigeID], R_karteAnzeige, Color.White);
+                spriteBatch.Draw(Lt2d_karten[ID_hand], Position(scale), Color.White);
+            }
+            else if(ID_slot > 0 && ID_slot < 264)
+            {
+                spriteBatch.Draw(Lt2d_karten[ID_slot], Position(scale), Color.White);
             }
         }
         //#################################################

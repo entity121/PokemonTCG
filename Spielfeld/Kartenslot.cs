@@ -60,9 +60,7 @@ namespace PokemonTCG.Spielfeld
 
         private SpriteBatch spriteBatch;
 
-        private KartenAnzeige O_kartenAnzeige;
         private Aktionen O_aktionen;
-
 
         private MouseState lastState = Mouse.GetState();
         //#############################
@@ -155,7 +153,6 @@ namespace PokemonTCG.Spielfeld
                 L_slotsRot.Add(new Kartenslot(i, skalierung, verschiebung, 'r'));
             }
 
-            O_kartenAnzeige = new KartenAnzeige(spriteBatch, skalierung, list);
         }
         //###########################################################
 
@@ -221,7 +218,7 @@ namespace PokemonTCG.Spielfeld
 
                 if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint) && i>=1 && i<=6)
                 {
-                    O_kartenAnzeige.Set_AnzeigeID(L_slotsWeiß[i].I_karteID);
+                    KartenAnzeige.Set_AnzeigeID("slot",L_slotsWeiß[i].I_karteID);
 
                     MouseState newState = Mouse.GetState();
 
@@ -230,16 +227,16 @@ namespace PokemonTCG.Spielfeld
                 }
                 else if (L_slotsRot[i].Slot_Position().Contains(mousePoint))
                 {
-                    O_kartenAnzeige.Set_AnzeigeID(L_slotsRot[i].I_karteID);
+                    KartenAnzeige.Set_AnzeigeID("slot", L_slotsRot[i].I_karteID);
                     break;
                 }
                 else if (O_aktionen!=null && O_aktionen.Hover())
                 {
-                    O_kartenAnzeige.Set_AnzeigeID(L_slotsWeiß[1].I_karteID);
+                    KartenAnzeige.Set_AnzeigeID("slot", L_slotsWeiß[1].I_karteID);
                 }
                 else
                 {
-                    O_kartenAnzeige.Set_AnzeigeID(0);
+                    KartenAnzeige.Set_AnzeigeID("slot", 0);
                 }
             }
         }
@@ -279,7 +276,7 @@ namespace PokemonTCG.Spielfeld
 
                             if (Spielzug.B_energie == true)
                             {
-                                //Spielzug.B_energie = false;
+                                Spielzug.B_energie = false;
                                 return i;
                             }
                             else
@@ -361,7 +358,6 @@ namespace PokemonTCG.Spielfeld
                 O_aktionen.Draw(auswahlS,auswahlW,spriteBatch,font,elemente);
             }
 
-            O_kartenAnzeige.Draw();
         }
         //###########################################################
     }

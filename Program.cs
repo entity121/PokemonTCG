@@ -17,9 +17,9 @@ namespace PokemonTCG
         {
 
             // Datenabank erzeugen 
-            /*DatenbankErstellen dbe = new DatenbankErstellen();
+            DatenbankErstellen dbe = new DatenbankErstellen();
             try{dbe.Tabellen_Erstellen();}
-            catch (Exception e){}*/
+            catch (Exception e){}
             
 
             using (var game = new Game1())

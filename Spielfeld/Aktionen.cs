@@ -68,7 +68,9 @@ namespace PokemonTCG.Spielfeld
 
 
             // Angriff1
-            this.S_angriff1 = karte.S_angriff1;
+            this.S_angriff1 = Umlaute_Übersetzen(karte.S_angriff1);
+
+
             this.As_kosten1 = new string[karte.I_kosten1];
 
             if (karte.S_energie1 != "")
@@ -102,7 +104,7 @@ namespace PokemonTCG.Spielfeld
             {
                 B_angriff2 = true;
 
-                this.S_angriff2 = karte.S_angriff2;
+                this.S_angriff2 = Umlaute_Übersetzen(karte.S_angriff2);
                 this.As_kosten2 = new string[karte.I_kosten2];
 
                 if (karte.S_energie2 != "")
@@ -138,6 +140,42 @@ namespace PokemonTCG.Spielfeld
             
             // Rückzugskosten
             this.I_rückzugskosten = karte.I_rückzugskosten;
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        // Da Ä,Ö;Ü nicht als Buchstaben dargestellt weden können, müssen diese 
+        // in die Entsprechenden Umlaute ae,oe,ue umgewandelt werden
+        //###########################################################
+        private string Umlaute_Übersetzen(string s)
+        {
+            char[] buchstaben = s.ToCharArray();
+            string erg = "";
+
+            for(int i = 0; i < buchstaben.Length; i++)
+            {
+                if (buchstaben[i] == 'ä')
+                {
+                    erg += "ae";
+                }
+                else if(buchstaben[i] == 'ö')
+                {
+                    erg += "oe";
+                }
+                else if(buchstaben[i] == 'ü')
+                {
+                    erg += "ue";
+                }
+                else
+                {
+                    erg += buchstaben[i];
+                }
+            }
+
+            return erg;
         }
         //###########################################################
         //

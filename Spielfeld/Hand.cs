@@ -52,8 +52,6 @@ namespace PokemonTCG.Spielfeld
         private int I_ausfahrDistanz;
         private bool B_brettAusgefahren = false;
 
-        private KartenAnzeige O_kartenAnzeige;
-
         private int lastWheelState = 0;
 
         public bool B_halten = false;
@@ -82,7 +80,6 @@ namespace PokemonTCG.Spielfeld
             this.T2D_holzbrett = holz;
             this.Lt2d_karten = list;
 
-            this.O_kartenAnzeige = new KartenAnzeige(spriteBatch, skalierung,list);
 
             this.I_mitte = (int)(I_mitteDEFAULT * skalierung);
             this.I_ausfahrDistanz = (int)(I_ausfahrDistanzDEFAULT * skalierung);
@@ -138,6 +135,7 @@ namespace PokemonTCG.Spielfeld
                     I_brettY += I_ausfahrDistanz;
                     I_karteY += I_ausfahrDistanz;
                     B_brettAusgefahren = false;
+                    KartenAnzeige.Set_AnzeigeID("hand",0);
                 }
                 return false;
             }
@@ -260,6 +258,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public Karte Karte_Hover()
         {
+
             Point mousePoint = MausPunkt.MausPoint();
 
             for (int i = 0; i < Ai_karteX.Length; i++)
@@ -268,12 +267,12 @@ namespace PokemonTCG.Spielfeld
 
                 if (karte.Contains(mousePoint))
                 {
-                    O_kartenAnzeige.Set_AnzeigeID(A2o_karten[I_reiheAngezeigt, i].I_ID);
+                    KartenAnzeige.Set_AnzeigeID("hand",A2o_karten[I_reiheAngezeigt, i].I_ID);
                     return A2o_karten[I_reiheAngezeigt, i];
                 }
                 else
                 {
-                    O_kartenAnzeige.Set_AnzeigeID(0);
+                    KartenAnzeige.Set_AnzeigeID("hand",0);
                 }
             }
             return null;
@@ -421,8 +420,6 @@ namespace PokemonTCG.Spielfeld
                 spriteBatch.Draw(Lt2d_karten[A2o_karten[I_reiheAngezeigt,i].I_ID], Karte_Position(i), Color.White);
             }
 
-
-            O_kartenAnzeige.Draw();
 
             if (B_halten == true)
             {
