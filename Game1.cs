@@ -96,7 +96,7 @@ namespace PokemonTCG
             for(int i = 0; i <= 263; i++)
             {Lt2d_karten.Add(Content.Load<Texture2D>("Karten/"+i));}
             // Der leere Slot kommt auch in die Liste
-            Lt2d_karten.Add(Content.Load<Texture2D>("Kartenslot"));
+            Lt2d_karten.Add(Content.Load<Texture2D>("Spielfeld/Kartenslot"));
 
 
             // Spielfeld bestehend aus Hintergrund und Matte

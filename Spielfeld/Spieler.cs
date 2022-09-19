@@ -100,11 +100,16 @@ namespace PokemonTCG.Spielfeld
                     // Nur setzen, wenn es eine Pokemon Karte 
                     if(karte.S_art == "Pokémon")
                     {
+                        int slot = O_kartenslot.Slot_Hover(karte, false);
 
-                        if (O_kartenslot.Slot_Hover(karte, false) > -1)
+                        if (slot > -1)
                         {
                             O_hand.Karte_Entfernen(I_karteHalten);
-                            O_kartenslot.Aktionen_Erstellen();
+
+                            if(slot == 1)
+                            {
+                                O_kartenslot.Aktionen_Erstellen();
+                            }                          
                         }
                         
                     }

@@ -270,11 +270,6 @@ namespace PokemonTCG.Spielfeld
                             {
                                 Slot_Ändern(i, karte, 'w');
 
-                                if (i == 1)
-                                {
-                                    
-                                }
-
                                 return i;
                             }
 

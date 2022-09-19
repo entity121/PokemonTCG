@@ -40,9 +40,13 @@ namespace PokemonTCG.Spielfeld
         private int I_rückzugskosten;
 
         private List<string> Ls_kartenEnergie;
-        List<string> e1;
+        List<string> Ls_e1 = new List<string>();
+        List<string> Ls_e2 = new List<string>();
 
         private string[] elementReihenfolge = new string[] { "Elektro", "Farblos", "Feuer", "Kampf", "Pflanze", "Psycho", "Wasser" };
+
+
+
 
         //###########################################################
         public Aktionen(Karte karte, int x, int y, double scale)
@@ -136,11 +140,12 @@ namespace PokemonTCG.Spielfeld
             this.I_rückzugskosten = karte.I_rückzugskosten;
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Welchen Index hat der Element String in der Liste mit den Element Namen
         //###########################################################
         private int Get_Element_Position(string s)
         {
@@ -164,11 +169,12 @@ namespace PokemonTCG.Spielfeld
             return -1;
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Es wird für die 4 Aswahlfelder geschaut ob die Maus darüber ist, um dieses ggf. Hervorzuheben
         //###########################################################
         public bool Hover()
         {
@@ -185,47 +191,107 @@ namespace PokemonTCG.Spielfeld
 
             I_hover = -1;
             return false;
-
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Die Koordinate von einer der 4 Auswahlmöglichkeiten
         //###########################################################
         private Rectangle Position(int position)
         {
-
-            return new Rectangle(I_x, (I_y+(position*I_hAuswahl)), I_wAuswahl, I_hAuswahl);
-                       
+            return new Rectangle(I_x, (I_y+(position*I_hAuswahl)), I_wAuswahl, I_hAuswahl);                   
         }
         //###########################################################
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Die Koordinate der ElementSymbole zu den entsprechenden Attacken
         //###########################################################
         private Rectangle Position(int x, int y)
         {
             return new Rectangle(I_x + (15 * x)+15, I_y + (I_hAuswahl * y)+(I_hAuswahl-25), 15, 15);
         }
         //###########################################################
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Die Koordinate der Scadenszahl einer Attacke
         //###########################################################
         private Vector2 DMG_Position(int y)
         {
             return new Vector2(I_x + I_wAuswahl - 50, I_y + 35 + (I_hAuswahl * y));
         }
         //###########################################################
+        //
+        //
+        //
+        //
+        //
+        // Der Inhalt der Liste mit den an die Karte angelegten Energien
+        // wird in eine andere Liste übertragen, da einträge später entfernt werden müssen
+        //###########################################################
+        private List<string> Liste_Übertragen()
+        {
+            List<String> l = new List<string>();
+
+            for(int i = 0; i < Ls_kartenEnergie.Count; i++)
+            {
+                l.Add(Ls_kartenEnergie[i]);
+            }
+
+            return l;
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        // Es wird geschaut, ob sich ein bestimmtes Element an dem Pokemon befindet
+        // Wenn ja wird es entfernt und das ElementSymbol am Bildschirm hervorgehoben
+        // Bei einem Farblosen Element wird das erste entfernt
+        //###########################################################
+        private bool Listen_Vergleichen(string element, List<string> list)
+        {
+            bool erg = false;
 
 
+            if (list.Count > 0)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i] == element)
+                    {
+                        list.RemoveAt(i);
+                        erg = true;
+                        break;
+                    }
+                }
+
+                if (element == "Farblos")
+                {
+                    list.RemoveAt(0);
+                    erg = true;
+                }
+            }
 
 
-
+            return erg;
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
         //###########################################################
         public void Draw(Texture2D auswahlS, Texture2D auswahlW, SpriteBatch spriteBatch, SpriteFont font, List<Texture2D> elemente)
         {
@@ -246,18 +312,18 @@ namespace PokemonTCG.Spielfeld
             spriteBatch.DrawString(font, S_angriff1, new Vector2(I_x + (int)(10*D_scale), I_y + (int)(10 * D_scale)), Color.Black,0,new Vector2(0,0), (float)(1.4*D_scale), SpriteEffects.None,0);
 
 
-            e1 = Ls_kartenEnergie;
+            Ls_e1 = Liste_Übertragen();
+
             for(int i = 0; i < As_kosten1.Length; i++)
             {
+
                 spriteBatch.Draw(elemente[Get_Element_Position(As_kosten1[i])], Position(i, 0), Color.White);
-                spriteBatch.Draw(elemente[7], Position(i, 0), Color.White);
 
-                if (i < e1.Count)
+                if (Listen_Vergleichen(As_kosten1[i],Ls_e1) == false)
                 {
-                    hier soll die energie verglichen und ein/auswahlS geblendet werden
-                    spriteBatch.Draw(elemente[Get_Element_Position(As_kosten1[i])], Position(i, 0), Color.White);
-
+                    spriteBatch.Draw(elemente[7], Position(i, 0), Color.White);
                 }
+      
             }
 
             if (I_schaden1 > 0)
@@ -285,11 +351,20 @@ namespace PokemonTCG.Spielfeld
                 spriteBatch.DrawString(font, S_angriff2, new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + I_hAuswahl), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
 
 
+                Ls_e2 = Liste_Übertragen();
 
                 for (int i = 0; i < As_kosten2.Length; i++)
                 {
+
                     spriteBatch.Draw(elemente[Get_Element_Position(As_kosten2[i])], Position(i, 1), Color.White);
+
+                    if (Listen_Vergleichen(As_kosten2[i], Ls_e2) == false)
+                    {
+                        spriteBatch.Draw(elemente[7], Position(i, 1), Color.White);
+                    }
+
                 }
+
 
                 if (I_schaden2 > 0)
                 {
