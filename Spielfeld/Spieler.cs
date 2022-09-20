@@ -21,7 +21,8 @@ namespace PokemonTCG.Spielfeld
         private Hand O_hand;
         private Kartenslot O_kartenslot;
         private MouseState lastState;
-        private Karte I_karteHalten;
+        private Karte O_karteHalten;
+        private int I_karteHaltenPosition = -1;
         //.......
         //.......
         //#############################
@@ -53,7 +54,7 @@ namespace PokemonTCG.Spielfeld
             }
             if (O_hand.B_halten == true)
             {
-                Karte_Bewegen(I_karteHalten);
+                Karte_Bewegen(I_karteHaltenPosition);
             }
         }
         //###########################################################
@@ -66,7 +67,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Hover() {
 
-            if (O_hand.Karte_Hover() != null)
+            if (O_hand.Karte_Hover() != -1)
             {
                 Karte_Bewegen(O_hand.Karte_Hover());
             }
@@ -80,7 +81,7 @@ namespace PokemonTCG.Spielfeld
         //
         // Eine ausgewählte Karte wird festgehalten und mit Hilfe der Maus über das Spielfeld bewegt
         //###########################################################     
-        public void Karte_Bewegen(Karte karte)
+        public void Karte_Bewegen(int position)
         {
             //Point mousePoint = MausPunkt.MausPoint();
 
@@ -88,28 +89,29 @@ namespace PokemonTCG.Spielfeld
 
             if(mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
-                I_karteHalten = karte;
-                O_hand.Karte_Bewegen(karte.I_ID);
+                O_karteHalten = O_hand.Get_Karte_In_Hand(position);
+                I_karteHaltenPosition = position;
+                O_hand.Karte_Bewegen(O_hand.Get_Karte_In_Hand(position).I_ID);
                 O_hand.B_halten = true;
             }
             else if (O_hand.B_halten == true)
             {
-                O_hand.Karte_Bewegen(karte.I_ID);
+                O_hand.Karte_Bewegen(O_hand.Get_Karte_In_Hand(position).I_ID);
 
                 if(mouseState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 {
 
                     O_hand.B_halten = false;
-
+                    I_karteHaltenPosition = -1;
 
                     // Nur setzen, wenn es eine Pokemon Karte 
-                    if(karte.S_art == "Pokémon" && O_hand.B_brettAusgefahren == false)
+                    if(O_hand.Get_Karte_In_Hand(position).S_art == "Pokémon" && O_hand.B_brettAusgefahren == false)
                     {
-                        int slot = O_kartenslot.Slot_Hover(karte, false);
+                        int slot = O_kartenslot.Slot_Hover(O_hand.Get_Karte_In_Hand(position), false);
 
                         if (slot > -1)
                         {
-                            O_hand.Karte_Entfernen(I_karteHalten);
+                            O_hand.Karte_Entfernen(O_karteHalten);
 
                             if(slot == 1)
                             {
@@ -121,23 +123,26 @@ namespace PokemonTCG.Spielfeld
 
 
                     // Trainer Karten müssen lediglich vom Brett gezogen werden um gespielt zu werden
-                    else if(karte.S_art == "Trainer" && O_hand.Brett_Hover() == false)
+                    else if(O_hand.Get_Karte_In_Hand(position).S_art == "Trainer" && O_hand.Brett_Hover() == false)
                     {
-                        O_hand.Karte_Entfernen(I_karteHalten);
+                        O_hand.Karte_Entfernen(O_karteHalten);
                     }
 
 
                     // Energiekarten müssen auf ein Pokemon auf dem Spielfeld gezogen werden
-                    else if (karte.S_art == "Energie")
+                    else if (O_hand.Get_Karte_In_Hand(position).S_art == "Energie")
                     {
-                        int slot = O_kartenslot.Slot_Hover(karte, true);
+                        int slot = O_kartenslot.Slot_Hover(O_hand.Get_Karte_In_Hand(position), true);
 
                         if (slot > -1)
                         {
-                            O_kartenslot.Get_Karte(slot).Energie_Anlegen(karte.S_typ);
+                            O_kartenslot.Get_Karte(slot).Energie_Anlegen(O_hand.Get_Karte_In_Hand(position).S_typ);
                             O_kartenslot.Get_Karte(slot).Energie_Zeigen();
-                            O_hand.Karte_Entfernen(I_karteHalten);
-                            O_kartenslot.Aktionen_Erstellen();
+                            O_hand.Karte_Entfernen(O_karteHalten);
+                            if(slot == 1)
+                            {
+                                O_kartenslot.Aktionen_Erstellen();
+                            }                         
                         }
                     }
 
@@ -172,6 +177,12 @@ namespace PokemonTCG.Spielfeld
                             if(Spielzug.B_ziehen == true)
                             {
                                 Karte k = O_deck.Karte_Ausgeben(0);
+
+                                // Die gezogene Karte wird 2 Sekunden am Bildschirm angezeigt
+                                KartenAnzeige.Set_AnzeigeID("ziehen", k.I_ID);
+                                System.Threading.Thread.Sleep(2000);
+                                KartenAnzeige.Set_AnzeigeID("ziehen", 0);
+
                                 O_hand.Karten_Aufnehmen(k);
                                 Spielzug.B_ziehen = false;
                             }
@@ -285,7 +296,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Draw_Hand()
         {
-            O_hand.Draw();
+            O_hand.Draw(I_karteHaltenPosition);
         }
         //###########################################################
     }

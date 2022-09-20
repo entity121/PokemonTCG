@@ -218,7 +218,11 @@ namespace PokemonTCG.Spielfeld
         {
             Point mousePoint = MausPunkt.MausPoint();
 
-            for(int i = 0; i < 4; i++)
+            int felder = 2;
+            if(B_angriff2 == true) { felder += 1; }
+            if(B_fähigkeit == true) { felder += 1; }
+
+            for(int i = 0; i < felder; i++)
             {
                 if (Position(i).Contains(mousePoint))
                 {

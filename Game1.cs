@@ -61,7 +61,7 @@ namespace PokemonTCG
             graphics.PreferredBackBufferWidth = I_bildschirm_W;
             graphics.PreferredBackBufferHeight = I_bildschirm_H;
             graphics.ApplyChanges();
-            //graphics.ToggleFullScreen();
+            graphics.ToggleFullScreen();
 
 
             I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
@@ -72,6 +72,7 @@ namespace PokemonTCG
            
         }
         //#######################################
+
 
 
 
@@ -256,11 +257,9 @@ namespace PokemonTCG
         //###########################################################
         protected override void Draw(GameTime gameTime)
         {
-            
-              
+                         
             //GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
-
 
             // Hintergrund und das Spielfeld
             spriteBatch.Draw(T2D_hintergrund, new Vector2(0, 0), Color.White);
@@ -270,7 +269,14 @@ namespace PokemonTCG
 
             SPIELER.Draw_Hand();
 
+
+
+            if (KartenAnzeige.ID_gezogen != 0)
+            {
+                spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
+            }
             KartenAnzeige.Draw(D_skalierung, spriteBatch);
+
 
 
             if (Münze.B_münzwurf == true)
@@ -278,6 +284,7 @@ namespace PokemonTCG
                 spriteBatch.Draw(Münze.T2D_brettKlein, new Rectangle((int)(Münze.I_x * D_skalierung), (int)(Münze.I_y * D_skalierung), (int)(Münze.I_w * D_skalierung), (int)(Münze.I_h * D_skalierung)), Color.White);
                 spriteBatch.Draw(Münze.Lt2d_münzen[Münze.I_münzeSeite], new Rectangle((int)(Münze.I_x * D_skalierung), (int)(Münze.I_y * D_skalierung), (int)(Münze.I_w * D_skalierung), (int)(Münze.I_h * D_skalierung)), Color.White);
             }
+
 
 
             if(Textbox.B_textbox == true)

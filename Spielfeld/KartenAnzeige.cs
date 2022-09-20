@@ -14,6 +14,7 @@ namespace PokemonTCG.Spielfeld
         public static List<Texture2D> Lt2d_karten = new List<Texture2D>();
         private static int ID_hand;
         private static int ID_slot;
+        public static int ID_gezogen;
         //#############################
 
         
@@ -32,6 +33,10 @@ namespace PokemonTCG.Spielfeld
             {
                 ID_slot = ID;
             }
+            else if(herkunft == "ziehen")
+            {
+                ID_gezogen = ID;
+            }
 
         }
         //#################################################
@@ -42,7 +47,15 @@ namespace PokemonTCG.Spielfeld
         //#################################################
         private static Rectangle Position(double skalierung)
         {
-           return new Rectangle(0, (int)(100 * skalierung), (int)(I_anzeigeWDEFAULT * skalierung), (int)((I_anzeigeWDEFAULT * 1.4) * skalierung));
+            if(ID_gezogen == 0)
+            {
+                return new Rectangle(0, (int)(100 * skalierung), (int)(I_anzeigeWDEFAULT * skalierung), (int)((I_anzeigeWDEFAULT * 1.4) * skalierung));
+            }
+            else
+            {
+                return new Rectangle((int)((1920/2)-(I_anzeigeWDEFAULT/2)*skalierung), (int)((1080/4)*skalierung), (int)(I_anzeigeWDEFAULT * skalierung), (int)((I_anzeigeWDEFAULT * 1.4) * skalierung));
+            }
+           
         }
         //#################################################
 
@@ -60,6 +73,10 @@ namespace PokemonTCG.Spielfeld
             else if(ID_slot > 0 && ID_slot < 264)
             {
                 spriteBatch.Draw(Lt2d_karten[ID_slot], Position(scale), Color.White);
+            }
+            else if (ID_gezogen > 0)
+            {
+                spriteBatch.Draw(Lt2d_karten[ID_gezogen], Position(scale), Color.White);
             }
         }
         //#################################################
