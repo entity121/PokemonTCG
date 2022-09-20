@@ -11,7 +11,7 @@ namespace PokemonTCG
 
         public static Point MausPoint()
         {
-            Point p = new Point(Mouse.GetState().X, Mouse.GetState().Y);
+            Point p = new Point(Mouse.GetState().X, Mouse.GetState().Y-20);
             return p;
         }
 

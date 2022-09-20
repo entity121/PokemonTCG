@@ -50,7 +50,7 @@ namespace PokemonTCG.Spielfeld
         private int I_abstand;
         private int I_mitte;
         private int I_ausfahrDistanz;
-        private bool B_brettAusgefahren = false;
+        public bool B_brettAusgefahren = false;
 
         private int lastWheelState = 0;
 
@@ -330,7 +330,7 @@ namespace PokemonTCG.Spielfeld
 
                 for (int i = 1; i <= hälfte; i++)
                 {
-                    Ai_karteX[i - 1] = I_mitte - (I_karteW * (i + 1 - 1));
+                    Ai_karteX[i - 1] = I_mitte - (I_karteW * (hälfte-(i-1)));
                 }
                 for (int i = hälfte; i < anzahl; i++)
                 {

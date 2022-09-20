@@ -38,12 +38,12 @@ namespace PokemonTCG.Spielfeld
             O_kartenslot.Slot_Ändern(0, 0, 'w');
         }
         //#######################################
-
-
-
-
-       
-
+        //
+        //
+        //
+        //
+        //
+        // Der Spieler befindet sich mit der Maus über dem Brett
         //###########################################################
         public void Brett_Hover()
         {
@@ -57,9 +57,12 @@ namespace PokemonTCG.Spielfeld
             }
         }
         //###########################################################
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Der Spieler befindet sich mit der Maus überhalb einer Karte in der Hand
         //###########################################################
         public void Karte_Hover() {
 
@@ -70,10 +73,12 @@ namespace PokemonTCG.Spielfeld
 
         }
         //###########################################################
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Eine ausgewählte Karte wird festgehalten und mit Hilfe der Maus über das Spielfeld bewegt
         //###########################################################     
         public void Karte_Bewegen(Karte karte)
         {
@@ -98,7 +103,7 @@ namespace PokemonTCG.Spielfeld
 
 
                     // Nur setzen, wenn es eine Pokemon Karte 
-                    if(karte.S_art == "Pokémon")
+                    if(karte.S_art == "Pokémon" && O_hand.B_brettAusgefahren == false)
                     {
                         int slot = O_kartenslot.Slot_Hover(karte, false);
 
@@ -143,11 +148,12 @@ namespace PokemonTCG.Spielfeld
             
         }
         //###########################################################
-
-
-
-
-        
+        //
+        //
+        //
+        //
+        //
+        // Es wird eine Karte gezogen, indem man mit der Maus auf das Deck am rechten Spielfeldrand klickt
         //###########################################################
         public void Karte_Ziehen()
         {
@@ -187,11 +193,12 @@ namespace PokemonTCG.Spielfeld
                         
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Es wird eine bestimmte Anzahl an KArten vom Deck entfernt und der Hánd zugefügt
         //###########################################################
         public void Karte_Ziehen(int anzahl)
         {
@@ -203,11 +210,12 @@ namespace PokemonTCG.Spielfeld
 
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Eine Karte aus der Hand wird aufs Deck zurück gelegt
         //###########################################################
         public void Karte_Zurücklegen(int id)
         {
@@ -220,11 +228,12 @@ namespace PokemonTCG.Spielfeld
 
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // Die 6 Preiskarten werden vom Deck in den vorgesehenen Slot gelegt
         //###########################################################
         public void Preiskarten()
         {
@@ -239,64 +248,46 @@ namespace PokemonTCG.Spielfeld
 
         }
         //###########################################################
-
-
-
-
-
-        Starthand so verändern:
-        Deck mischen, bis ein Basis Pokemon an erster stelle steht,
-        dann 7 Karten ziehen
+        //
+        //
+        //
+        //
+        //
+        // Die Starthand mit 7 KArten wird der Hand hinzugefügt (mindestens 1 Basis Pokémon)
         //###########################################################
         public void Starthand()
         {
 
             bool starthand = false;
-            int anzahl;
 
             while (starthand == false)
             {
-                anzahl = 0;
+                O_deck.Deck_Mischen();
 
-                Karte_Ziehen(7);
+                Karte oben = O_deck.Karte_Zeigen(0);
 
-                Karte[] arr = O_hand.Hand_Zeigen();
-
-                for (int i = 0; i < arr.Length; i++)
+                if (oben.S_art == "Pokémon" && oben.S_vorentwicklung == "")
                 {
-                    if (O_hand.Basis_Pokemon(i))
-                    {
-                        anzahl += 1;
-                    }
-                }
-
-                if (anzahl > 0)
-                {
+                    Karte_Ziehen(7);
                     starthand = true;
                 }
-                else
-                {
-                    O_hand.Hand_Abwerfen();
-                }
             }
-            Preiskarten();
 
+            Preiskarten();
         }
         //###########################################################
-
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        // 
         //###########################################################
         public void Draw_Hand()
         {
             O_hand.Draw();
         }
         //###########################################################
-
-
     }
 }
 

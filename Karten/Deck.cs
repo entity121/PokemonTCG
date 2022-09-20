@@ -22,9 +22,12 @@ namespace PokemonTCG.Karten
         private Karte[] Ao_inhalt;
         private int I_slotID;
         //#############################
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         //KONSTRUKTOR
         //#######################################
         public Deck(string name,Karte[]deck){
@@ -37,11 +40,11 @@ namespace PokemonTCG.Karten
             this.Deck_Mischen();
         }
         //#######################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
         // Das Deck eines Spielers wird gemischt
         //#################################################
         public void Deck_Mischen()
@@ -102,11 +105,11 @@ namespace PokemonTCG.Karten
             
         }
         //#################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
         // Anhand ihrem Index im Deck wird eine Karte heraus gezogen
         //#################################################
         public Karte Karte_Ausgeben(int index)
@@ -121,11 +124,23 @@ namespace PokemonTCG.Karten
             return karte;
         }
         //#################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
+        //#################################################
+        public Karte Karte_Zeigen(int index)
+        {
+            return Ao_inhalt[index];
+        }
+        //#################################################
+        //
+        //
+        //
+        //
+        //
         // Eine Karte wird aufs Deck zurück gelegt
         //#################################################
         public void Karte_Aufnehmen(Karte karte)
@@ -133,11 +148,11 @@ namespace PokemonTCG.Karten
             Deck_Größe_Ändern("größer",0,karte);
         }
         //#################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
         // Die Größe des Decks ändert sich und die "Lücken" schließen sich
         //#################################################
         private void Deck_Größe_Ändern(string befehl,int deckStelle,Karte karte)
@@ -172,9 +187,11 @@ namespace PokemonTCG.Karten
             }
         }
         //#################################################
-
-
-
+        //
+        //
+        //
+        //
+        //
         // Die Anzahl der Karten, die noch im Deck sind, wird ausgegeben 
         //#################################################
         public int Kartenanzahl_Ausgeben()

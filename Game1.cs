@@ -61,7 +61,7 @@ namespace PokemonTCG
             graphics.PreferredBackBufferWidth = I_bildschirm_W;
             graphics.PreferredBackBufferHeight = I_bildschirm_H;
             graphics.ApplyChanges();
-            graphics.ToggleFullScreen();
+            //graphics.ToggleFullScreen();
 
 
             I_verschiebungMatte = (I_bildschirm_W - I_bildschirm_H) / 2;
@@ -285,6 +285,7 @@ namespace PokemonTCG
                 spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
                 Textbox.Draw(spriteBatch, font, D_skalierung, T2D_confirm);
             }
+
 
             spriteBatch.End();
             base.Draw(gameTime);
