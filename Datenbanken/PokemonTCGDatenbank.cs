@@ -76,6 +76,8 @@ namespace PokemonTCG.Datenbanken
 
         //###########################################################
         Deck deck;
+        // id 1-5 sind eigene Decks
+        // 6=Glumanda , 7=Schiggy , 8=Bisasam
         public Deck Deck_Abrufen(int id)
         {
             SQLiteConnection verbindung = Verbindung_Herstellen();

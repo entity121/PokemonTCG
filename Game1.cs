@@ -6,6 +6,7 @@ using PokemonTCG.Spielfeld;
 using System.Windows;
 using System.Threading;
 using PokemonTCG.Textboxen;
+using PokemonTCG.ComputerGegner;
 
 
 namespace PokemonTCG
@@ -49,6 +50,7 @@ namespace PokemonTCG
 
         // Die Objekte für den Spieler und den Gegner
         Spieler SPIELER;
+        KI GEGNER;
 
         //#############################
 
@@ -143,9 +145,8 @@ namespace PokemonTCG
 
             // Spieler und Gegner
             SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Bretter/Holz"),slot);
-            // TODO : Gegner
+            GEGNER = new KI(slot);
 
-            Lt2d_karten = null;
         }
         //###########################################################
 
