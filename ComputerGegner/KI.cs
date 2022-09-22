@@ -29,27 +29,66 @@ namespace PokemonTCG.ComputerGegner
         //#####################################################################
         private void Aktives_Pokemon_Setzen()
         {
+
             List<Karte> basis = new List<Karte>();
             List<Karte> hand = O_gegner.O_hand.Hand_Ausgeben();
 
             // Alle Basis Pokemon in eine extra Liste eintragen
             for (int i = 0; i < hand.Count; i++)
             {
-                if(hand[i].S_art == "Pokémon" && hand[i].S_vorentwicklung == "")
+                if(Basis_Pokemon(hand[i]))
                 {
                     basis.Add(hand[i]);
                 }
             }
 
 
-
-
+            // weitere Basis Pokemon auf die Bank setzen
             for(int i = 0; i < basis.Count; i++)
             {
                 O_gegner.Karte_Setzen(basis[i], i + 1);
             }
 
+        }
+        //#####################################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //#####################################################################
+        private bool Basis_Pokemon(Karte k)
+        {
+            if (k.S_art == "Pokémon" && k.S_vorentwicklung == "")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //#####################################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //#####################################################################
+        private void Karte_Auf_Bank()
+        {
+            List<Karte> basis = new List<Karte>();
+            List<Karte> hand = O_gegner.O_hand.Hand_Ausgeben();
 
+            for(int i = 0; i < hand.Count; i++)
+            {
+                if (Basis_Pokemon(hand[i]))
+                {
+                    basis.Add(hand[i]);
+                }
+            }
 
         }
         //#####################################################################
@@ -78,6 +117,7 @@ namespace PokemonTCG.ComputerGegner
         {
             O_gegner.Karten_Ziehen(1);
 
+            //Karte_Auf_Bank();
 
         }
         //#####################################################################

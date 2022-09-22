@@ -48,13 +48,58 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Aktives_Pokemon_Setzen()
         {
+            int slotsCheck = 1;
+
+
+            // Endloser Loop, bis die gewünschte Anzahl Basis Pokeon gesetzt wurde
             while(Spielzug.B_spielerAktiv == false)
             {
+                // Brett hovern um Karten zu bewegen und zu setzen
                 Brett_Hover();
 
-                if (O_kartenslot.Get_Kartenslot(1, 'w').B_besetzt == true)
+                // Es wird gezählt wie viele Kartenslots besetzt sind (aktiv + bank)
+                int slotsBesetzt = 0;
+                for(int i = 1; i <= 6; i++)
                 {
-                    Spielzug.B_spielerAktiv = true;
+                    if (O_kartenslot.Get_Kartenslot(i, 'w').B_besetzt==true)
+                    {
+                        slotsBesetzt++;
+                    }
+                }
+
+                // Anzahl besetzter Slots mit der Check Zahl vergleichen sonstweiter Loopen
+                if (slotsBesetzt == slotsCheck)
+                {
+
+                    // Prüfen, ob noch weitere Basis Pokemon in der Hand sind ...
+                    int basis = 0;
+                    Karte[] hand = O_hand.Hand_Zeigen();
+
+                    for(int i = 0; i < hand.Length; i++)
+                    {
+                        if(hand[i].S_art=="Pokémon" && hand[i].S_vorentwicklung == "")
+                        {
+                            basis++;
+                        }
+                    }
+
+                    // ... wenn ja kann man eine weitere KArte auf die Bank setzten, wenn man will
+                    if (basis > 0)
+                    {
+                        if (Textbox.Auswahlbox("Eine weitere Karte auf die Bank legen?"))
+                        {
+                            slotsCheck++;
+                        }
+                        else
+                        {
+                            Spielzug.B_spielerAktiv = true;
+                        }
+                    }
+                    else
+                    {
+                        Spielzug.B_spielerAktiv = true;
+                    }
+
                 }
             }
         }

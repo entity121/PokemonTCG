@@ -65,7 +65,14 @@ namespace PokemonTCG.ComputerGegner
         {
             for (int i = 0; i < anzahl; i++)
             {
-                O_hand.Karte_Aufnehmen(O_deck.Karte_Ausgeben(0));
+                if (O_deck.Kartenanzahl_Ausgeben() > 0)
+                {
+                    O_hand.Karte_Aufnehmen(O_deck.Karte_Ausgeben(0));
+                }
+                else
+                {
+                    // VERLOREN
+                }
             }
         }
         //#####################################################################
