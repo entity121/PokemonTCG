@@ -259,7 +259,7 @@ namespace PokemonTCG.Spielfeld
                 if (L_slotsWeiß[i].Slot_Position().Contains(mousePoint) && i >= 1 && i <= 6)
                 {
 
-                    if (Spielzug.B_ziehen == false)
+                    if (Spielzug.B_ziehen == false || Spielzug.B_spielerAktiv == false)
                     {
                         if (L_slotsWeiß[i].B_besetzt == false && energie == false && karte.S_vorentwicklung == "")
                         {

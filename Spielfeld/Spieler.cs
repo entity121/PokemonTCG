@@ -52,7 +52,6 @@ namespace PokemonTCG.Spielfeld
             {
                 Brett_Hover();
 
-
                 if (O_kartenslot.Get_Kartenslot(1, 'w').B_besetzt == true)
                 {
                     Spielzug.B_spielerAktiv = true;

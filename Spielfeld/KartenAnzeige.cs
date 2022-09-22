@@ -69,14 +69,26 @@ namespace PokemonTCG.Spielfeld
             if (ID_hand > 0)
             {
                 spriteBatch.Draw(Lt2d_karten[ID_hand], Position(scale), Color.White);
+                if(Spielzug.B_spielerAktiv == false)
+                {
+                    ID_hand = 0;
+                }
             }
             else if(ID_slot > 0 && ID_slot < 264)
             {
                 spriteBatch.Draw(Lt2d_karten[ID_slot], Position(scale), Color.White);
+                if (Spielzug.B_spielerAktiv == false)
+                {
+                    ID_slot = 0;
+                }
             }
             else if (ID_gezogen > 0)
             {
                 spriteBatch.Draw(Lt2d_karten[ID_gezogen], Position(scale), Color.White);
+                if (Spielzug.B_spielerAktiv == false)
+                {
+                    ID_gezogen = 0;
+                }
             }
         }
         //#################################################

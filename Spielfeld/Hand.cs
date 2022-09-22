@@ -285,9 +285,9 @@ namespace PokemonTCG.Spielfeld
                     KartenAnzeige.Set_AnzeigeID("hand",A2o_karten[I_reiheAngezeigt, i].I_ID);
                     return i;
                 }
-                else
-                {
-                    KartenAnzeige.Set_AnzeigeID("hand",0);
+                else if(Spielzug.B_spielerAktiv==true)
+                {                 
+                    KartenAnzeige.Set_AnzeigeID("hand", 0);
                 }
             }
             return -1;
