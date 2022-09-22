@@ -165,8 +165,9 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public Karte Get_Karte_In_Hand(int id)
         {
-            // return Lo_karten[id];
+
             return A2o_karten[I_reiheAngezeigt, id];
+
         }
         //###########################################################
         //

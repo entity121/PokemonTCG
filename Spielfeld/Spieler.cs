@@ -44,6 +44,27 @@ namespace PokemonTCG.Spielfeld
         //
         //
         //
+        //
+        //###########################################################
+        public void Aktives_Pokemon_Setzen()
+        {
+            while(Spielzug.B_spielerAktiv == false)
+            {
+                Brett_Hover();
+
+
+                if (O_kartenslot.Get_Kartenslot(1, 'w').B_besetzt == true)
+                {
+                    Spielzug.B_spielerAktiv = true;
+                }
+            }
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
         // Der Spieler befindet sich mit der Maus über dem Brett
         //###########################################################
         public void Brett_Hover()
@@ -67,9 +88,11 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public void Karte_Hover() {
 
-            if (O_hand.Karte_Hover() != -1)
+            int position = O_hand.Karte_Hover();
+
+            if (position>=0)
             {
-                Karte_Bewegen(O_hand.Karte_Hover());
+                Karte_Bewegen(position);
             }
 
         }
@@ -302,48 +325,3 @@ namespace PokemonTCG.Spielfeld
     }
 }
 
-
-/* UNGENUTZTE FUNKTIONEN
- 
-        //###########################################################
-        public Hand Get_Hand()
-        {
-            return this.O_hand;
-        }
-        //###########################################################
-
-
-
-
-
-
-
-
-        //###########################################################
-        public void Slot_Füllen(int slotID,Karte karte)
-        {
-            O_kartenslot.Slot_Ändern(slotID, karte, 'w');
-        }
-        //###########################################################
-
-
-
-
-        //###########################################################
-        public void DeckGröße_Prüfen()
-        {
-            int deckGröße = O_deck.Kartenanzahl_Ausgeben();
-
-            if (deckGröße > 0)
-            {
-
-            }
-            else
-            {
-
-            }
-
-        }
-        //###########################################################
-     
-*/

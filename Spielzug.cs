@@ -11,6 +11,7 @@ namespace PokemonTCG
         public static bool B_spielStart = true;
         public static bool B_spielerZug = true;
 
+        public static bool B_spielerAktiv = false;
 
 
         public static bool B_ziehen = true;

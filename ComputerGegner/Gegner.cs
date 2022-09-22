@@ -9,10 +9,10 @@ namespace PokemonTCG.ComputerGegner
     class Gegner
     {
 
-        Hand O_hand;
-        PokemonTCG.Karten.Deck O_deck;
-        Kartenslot O_kartenslot;
-        Aktionen O_aktionen;
+        public Hand O_hand;
+        public PokemonTCG.Karten.Deck O_deck;
+        public Kartenslot O_kartenslot;
+        public Aktionen O_aktionen;
 
         //##########################################
         public Gegner(Kartenslot slot)
@@ -49,6 +49,33 @@ namespace PokemonTCG.ComputerGegner
         //
         //
         //#####################################################################
+        public void Karte_Setzen(Karte k,int slotID)
+        {
+            O_kartenslot.Slot_Ändern(slotID, k.I_ID, 'r');
+        }
+        //#####################################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //#####################################################################
+        public void Karten_Ziehen(int anzahl)
+        {
+            for (int i = 0; i < anzahl; i++)
+            {
+                O_hand.Karte_Aufnehmen(O_deck.Karte_Ausgeben(0));
+            }
+        }
+        //#####################################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //#####################################################################
         public void Starthand()
         {
             bool starthand = false;
@@ -73,21 +100,7 @@ namespace PokemonTCG.ComputerGegner
         //
         //
         //
-        //#####################################################################
-        public void Karten_Ziehen(int anzahl)
-        {
-            for(int i = 0; i < anzahl; i++)
-            {
-                O_hand.Karte_Aufnehmen(O_deck.Karte_Ausgeben(0));
-            }
-        }
-        //#####################################################################
-        //
-        //
-        //
-        //
-        //
-        //
+        
 
     }
 }

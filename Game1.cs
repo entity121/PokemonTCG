@@ -53,9 +53,12 @@ namespace PokemonTCG
         KI GEGNER;
 
         //#############################
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         //#######################################
         public Game1()
         {
@@ -74,21 +77,24 @@ namespace PokemonTCG
            
         }
         //#######################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         //###########################################################
         protected override void Initialize()
         {
             base.Initialize();
         }
         //###########################################################
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         //###########################################################
         protected override void LoadContent()
         {
@@ -145,15 +151,17 @@ namespace PokemonTCG
 
             // Spieler und Gegner
             SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Bretter/Holz"),slot);
+            SPIELER.Starthand();
             GEGNER = new KI(slot);
 
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         //###########################################################
         private void Schriftzeichen_Laden()
         {
@@ -188,11 +196,12 @@ namespace PokemonTCG
             }
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         Thread thr;
         //###########################################################
         protected override void Update(GameTime gameTime)
@@ -215,32 +224,49 @@ namespace PokemonTCG
             base.Update(gameTime);
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         //###########################################################
         private void Update_Funktionen()
         {
             // Ein Münzwurf soll bestimmen, welcher Spieler anfangen darf
             if(Spielzug.B_spielStart == true) 
             {
-                SPIELER.Starthand();
-                //Gegner Starthand
-
-                Spielzug.Spielstart();
+                if(Spielzug.B_spielerAktiv == true)
+                {
+                    Spielzug.Spielstart();
+                }
+                else
+                {
+                    Textbox.Infobox("Bitte setze ein aktives Basis Pokemon");
+                    SPIELER.Aktives_Pokemon_Setzen();
+                }
             }
 
-            if(Spielzug.B_spielerZug == true) {Maus_Update();}
+
+            // Eine Globale Variable bestimmt, ob der Spieler ...  
+            if(Spielzug.B_spielerZug == true) 
+            {            
+                Maus_Update();
+            }
+            // ... oder der Gegner am Zug
+            else
+            {
+                GEGNER.Gegner_Zug();
+            }
 
         }
         //###########################################################
-
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         //###########################################################
         public void Maus_Update()
         {
@@ -251,10 +277,12 @@ namespace PokemonTCG
 
         }
         //###########################################################
-
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
         //###########################################################
         protected override void Draw(GameTime gameTime)
         {
@@ -300,7 +328,12 @@ namespace PokemonTCG
             
         }
         //###########################################################
-
+        //
+        //
+        //
+        //
+        //
+        //
 
 
 

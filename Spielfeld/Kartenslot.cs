@@ -43,7 +43,7 @@ namespace PokemonTCG.Spielfeld
         private double skalierung;
         private int verschiebung;
 
-        private bool B_besetzt;
+        public bool B_besetzt;
         private int I_karteID;
 
         private Texture2D T2D_auswahlS;
