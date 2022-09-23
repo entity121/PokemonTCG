@@ -18,11 +18,12 @@ namespace PokemonTCG.Spielfeld
         PokemonTCGDatenbank datenbank = new PokemonTCGDatenbank();
 
         private Deck O_deck;
-        private Hand O_hand;
+        public Hand O_hand;
         private Kartenslot O_kartenslot;
+        public Aktionen O_aktionen;
         private MouseState lastState;
         private Karte O_karteHalten;
-        private int I_karteHaltenPosition = -1;
+        public int I_karteHaltenPosition = -1;
         //.......
         //.......
         //#############################
@@ -39,6 +40,22 @@ namespace PokemonTCG.Spielfeld
             O_kartenslot.Slot_Ändern(0, 0, 'w');
         }
         //#######################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
+        public void Spieler_Zug()
+        {
+            Brett_Hover();
+            O_kartenslot.Slot_Hover();
+            Karte_Ziehen();
+            if (O_aktionen != null) { O_aktionen.Aktionen_Ausführen(); }
+            
+        }
+        //###########################################################
         //
         //
         //
@@ -147,7 +164,7 @@ namespace PokemonTCG.Spielfeld
         //
         //
         // Eine ausgewählte Karte wird festgehalten und mit Hilfe der Maus über das Spielfeld bewegt
-        //###########################################################     
+        //###########################################################
         public void Karte_Bewegen(int position)
         {
             //Point mousePoint = MausPunkt.MausPoint();
@@ -182,7 +199,7 @@ namespace PokemonTCG.Spielfeld
 
                             if(slot == 1)
                             {
-                                O_kartenslot.Aktionen_Erstellen();
+                                O_aktionen = O_kartenslot.Aktionen_Erstellen();
                             }                          
                         }
                         
@@ -208,7 +225,7 @@ namespace PokemonTCG.Spielfeld
                             O_hand.Karte_Entfernen(O_karteHalten);
                             if(slot == 1)
                             {
-                                O_kartenslot.Aktionen_Erstellen();
+                                O_aktionen = O_kartenslot.Aktionen_Erstellen();
                             }                         
                         }
                     }
@@ -360,12 +377,7 @@ namespace PokemonTCG.Spielfeld
         //
         //
         // 
-        //###########################################################
-        public void Draw_Hand()
-        {
-            O_hand.Draw(I_karteHaltenPosition);
-        }
-        //###########################################################
+
     }
 }
 

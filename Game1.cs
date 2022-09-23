@@ -251,29 +251,13 @@ namespace PokemonTCG
             // Eine Globale Variable bestimmt, ob der Spieler ...  
             if(Spielzug.B_spielerZug == true) 
             {            
-                Maus_Update();
+                SPIELER. Spieler_Zug();
             }
             // ... oder der Gegner am Zug
             else
             {
                 GEGNER.Gegner_Zug();
             }
-
-        }
-        //###########################################################
-        //
-        //
-        //
-        //
-        //
-        //
-        //###########################################################
-        public void Maus_Update()
-        {
-
-            SPIELER.Brett_Hover();
-            slot.Slot_Hover();
-            SPIELER.Karte_Ziehen();           
 
         }
         //###########################################################
@@ -294,10 +278,14 @@ namespace PokemonTCG
             spriteBatch.Draw(T2D_hintergrund, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(T2D_spielmatte, new Rectangle(I_verschiebungMatte, 0, I_bildschirm_H, I_bildschirm_H), Color.White);
 
-            slot.Draw(T2D_auswahlS,T2D_auswahlW,font,Lt2d_elemente);
+            slot.Draw();
 
-            SPIELER.Draw_Hand();
+            if (SPIELER.O_aktionen != null)
+            {
+                SPIELER.O_aktionen.Draw(T2D_auswahlS, T2D_auswahlW, spriteBatch, font, Lt2d_elemente);
+            }
 
+            SPIELER.O_hand.Draw(SPIELER.I_karteHaltenPosition);
 
 
             if (KartenAnzeige.ID_gezogen != 0)

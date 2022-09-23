@@ -230,10 +230,6 @@ namespace PokemonTCG.Spielfeld
                     KartenAnzeige.Set_AnzeigeID("slot", L_slotsRot[i].I_karteID);
                     break;
                 }
-                else if (O_aktionen!=null && O_aktionen.Hover())
-                {
-                    KartenAnzeige.Set_AnzeigeID("slot", L_slotsWeiß[1].I_karteID);
-                }
                 else
                 {
                     KartenAnzeige.Set_AnzeigeID("slot", 0);
@@ -313,9 +309,9 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Aktionen_Erstellen()
+        public Aktionen Aktionen_Erstellen()
         {
-            O_aktionen = new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung);
+            return new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung);
         }
         //###########################################################
 
@@ -334,7 +330,7 @@ namespace PokemonTCG.Spielfeld
 
 
         //###########################################################
-        public void Draw(Texture2D auswahlS, Texture2D auswahlW, SpriteFont font,List<Texture2D>elemente)
+        public void Draw()
         {
             // Die Kartenfelder nach ID. Rote und weiße Seite getrennt
             for (int i = 0; i < L_slotsWeiß.Count; i++)
@@ -350,12 +346,6 @@ namespace PokemonTCG.Spielfeld
                 }
 
                 spriteBatch.Draw(Lt2d_karten[L_slotsRot[i].I_karteID], L_slotsRot[i].Slot_Position(), Color.White);
-            }
-
-
-            if (O_aktionen != null)
-            {
-                O_aktionen.Draw(auswahlS,auswahlW,spriteBatch,font,elemente);
             }
 
         }

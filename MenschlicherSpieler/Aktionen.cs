@@ -4,6 +4,7 @@ using System.Text;
 using PokemonTCG.Karten;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 
 
@@ -16,6 +17,9 @@ namespace PokemonTCG.Spielfeld
         private int I_y;
         private int I_w;
         private int I_h;
+
+        private int I_x2 = 1600;
+        private int I_y2 = 800;
 
         private int I_wAuswahl;
         private int I_hAuswahl;
@@ -45,7 +49,7 @@ namespace PokemonTCG.Spielfeld
 
         private string[] elementReihenfolge = new string[] { "Elektro", "Farblos", "Feuer", "Kampf", "Pflanze", "Psycho", "Wasser" };
 
-
+        private MouseState lastState;
 
 
         //###########################################################
@@ -147,35 +151,46 @@ namespace PokemonTCG.Spielfeld
         //
         //
         //
-        // Da Ä,Ö;Ü nicht als Buchstaben dargestellt weden können, müssen diese 
-        // in die Entsprechenden Umlaute ae,oe,ue umgewandelt werden
+        //
         //###########################################################
-        private string Umlaute_Übersetzen(string s)
+        public void Aktionen_Ausführen()
         {
-            char[] buchstaben = s.ToCharArray();
-            string erg = "";
-
-            for(int i = 0; i < buchstaben.Length; i++)
+            Hover();
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
+        private void Click(int id)
+        {
+            var mouseState = Mouse.GetState();
+            if(mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
-                if (buchstaben[i] == 'ä')
+                switch (id)
                 {
-                    erg += "ae";
-                }
-                else if(buchstaben[i] == 'ö')
-                {
-                    erg += "oe";
-                }
-                else if(buchstaben[i] == 'ü')
-                {
-                    erg += "ue";
-                }
-                else
-                {
-                    erg += buchstaben[i];
+                    case 0:
+                        { };
+                        break;
+                    case 1:
+                        { };
+                        break;
+                    case 2:
+                        { };
+                        break;
+                    case 3:
+                        { };
+                        break;
+                    case 4:
+                        { Zug_Beenden(); };
+                        Diese Funktion fortsetzen oder Gegner Zug 1
+                        break;
                 }
             }
 
-            return erg;
         }
         //###########################################################
         //
@@ -226,9 +241,29 @@ namespace PokemonTCG.Spielfeld
             {
                 if (Position(i).Contains(mousePoint))
                 {
+                    if (i == 0) { Click(0); }
+                    else if (i == 1 && felder == 2) { Click(3); }
+                    else if (i == 1 && felder == 3)
+                    {
+                        if (B_angriff2 == true) { Click(1); }
+                        else if(B_fähigkeit==true){ Click(2); }
+                    }
+                    else if (i==2 && felder == 3) { Click(3); }
+                    else if(i==1 && felder == 4) { Click(1); }
+                    else if(i==2 && felder == 4) { Click(2); }
+                    else if(i==3 && felder == 4) { Click(3); }
+
                     I_hover = i;
+                    KartenAnzeige.Set_AnzeigeID("slot", O_karte.I_ID);
                     return true;
                 }
+            }
+
+            if (new Rectangle(I_x2, I_y2, I_wAuswahl, I_hAuswahl).Contains(mousePoint))
+            {
+                I_hover = 4;
+                Click(4);
+                return true;
             }
 
             I_hover = -1;
@@ -252,6 +287,54 @@ namespace PokemonTCG.Spielfeld
         //
         //
         //
+        //
+        //###########################################################
+        private Vector2 DMG_Position(int y)
+        {
+            return new Vector2(I_x + I_wAuswahl - 50, I_y + 35 + (I_hAuswahl * y));
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        // Da Ä,Ö;Ü nicht als Buchstaben dargestellt weden können, müssen diese 
+        // in die Entsprechenden Umlaute ae,oe,ue umgewandelt werden
+        //###########################################################
+        private string Umlaute_Übersetzen(string s)
+        {
+            char[] buchstaben = s.ToCharArray();
+            string erg = "";
+
+            for (int i = 0; i < buchstaben.Length; i++)
+            {
+                if (buchstaben[i] == 'ä')
+                {
+                    erg += "ae";
+                }
+                else if (buchstaben[i] == 'ö')
+                {
+                    erg += "oe";
+                }
+                else if (buchstaben[i] == 'ü')
+                {
+                    erg += "ue";
+                }
+                else
+                {
+                    erg += buchstaben[i];
+                }
+            }
+
+            return erg;
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
         // Die Koordinate der ElementSymbole zu den entsprechenden Attacken
         //###########################################################
         private Rectangle Position(int x, int y)
@@ -259,18 +342,7 @@ namespace PokemonTCG.Spielfeld
             return new Rectangle(I_x + (15 * x)+15, I_y + (I_hAuswahl * y)+(I_hAuswahl-25), 15, 15);
         }
         //###########################################################
-        //
-        //
-        //
-        //
-        //
-        // Die Koordinate der Scadenszahl einer Attacke
-        //###########################################################
-        private Vector2 DMG_Position(int y)
-        {
-            return new Vector2(I_x + I_wAuswahl - 50, I_y + 35 + (I_hAuswahl * y));
-        }
-        //###########################################################
+
         //
         //
         //
@@ -326,6 +398,19 @@ namespace PokemonTCG.Spielfeld
 
 
             return erg;
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
+        private void Zug_Beenden()
+        {
+            Textbox.Infobox("Zug beendet");
+            Spielzug.B_spielerZug = false;
         }
         //###########################################################
         //
@@ -474,9 +559,24 @@ namespace PokemonTCG.Spielfeld
                     spriteBatch.Draw(elemente[7], Position(i, v), Color.White);
                 }             
                 
-            }         
+            }
             //###################################
 
+
+
+            // Zug beenden
+            //###################################
+            if(I_hover == 4)
+            {
+                spriteBatch.Draw(auswahlW, new Rectangle(I_x2, I_y2, I_wAuswahl, I_hAuswahl), Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(auswahlS, new Rectangle(I_x2, I_y2, I_wAuswahl, I_hAuswahl), Color.White);
+            }
+
+            spriteBatch.DrawString(font, "Zug Beenden", new Vector2(I_x2 + (int)(10 * D_scale), I_y2 + (int)(10 * D_scale)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            //###################################
 
 
         }
