@@ -5,6 +5,7 @@ using PokemonTCG.Karten;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using PokemonTCG.MenschlicherSpieler;
 
 
 
@@ -46,6 +47,8 @@ namespace PokemonTCG.Spielfeld
         private List<string> Ls_kartenEnergie;
         List<string> Ls_e1 = new List<string>();
         List<string> Ls_e2 = new List<string>();
+
+        List<Karte> Lo_abgeworfeneKarten;
 
         private string[] elementReihenfolge = new string[] { "Elektro", "Farblos", "Feuer", "Kampf", "Pflanze", "Psycho", "Wasser" };
 
@@ -165,32 +168,173 @@ namespace PokemonTCG.Spielfeld
         //
         //
         //###########################################################
+        private bool Aktion_Einsetzbar(string[]arr)
+        {
+            List<string> l = Liste_Übertragen();
+
+            int anzahl = arr.Length;
+            int count = 0;
+
+            for(int i = 0; i < anzahl; i++)
+            {
+                if (arr[i] != "Farblos")
+                {
+                    for (int j = 0; j < l.Count; j++)
+                    {
+                        if (l[j] == arr[i])
+                        {
+                            l.RemoveAt(j);
+                            count++;
+                        }
+                    }
+                }
+                else
+                {
+                    if (l.Count > 0)
+                    {
+                        l.RemoveAt(0);
+                        count++;
+                    }
+                }
+            }
+
+            if(count == anzahl)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
         private void Click(int id)
         {
             var mouseState = Mouse.GetState();
-            if(mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if(mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed && Spielzug.B_spielStart == false)
             {
                 switch (id)
                 {
                     case 0:
-                        { };
+                        { Angriff_1(); };
                         break;
                     case 1:
-                        { };
+                        { Angriff_2(); };
                         break;
                     case 2:
-                        { };
+                        { Pokemon_Power(); };
                         break;
                     case 3:
-                        { };
+                        { Rückzug(); };
                         break;
                     case 4:
-                        { Zug_Beenden(); };
-                        Diese Funktion fortsetzen oder Gegner Zug 1
+                        { Zug_Beenden(); };                       
                         break;
                 }
             }
+            lastState = mouseState;
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
+        private void Angriff_1()
+        {
+            if (Aktion_Einsetzbar(As_kosten1))
+            {
+                Textbox.Infobox(O_karte.S_angriff1);
+            }
+            else
+            {
+                Textbox.Infobox("Nicht genug Energie");
+            }
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
+        private void Angriff_2()
+        {
+            if (Aktion_Einsetzbar(As_kosten2))
+            {
+                Textbox.Infobox(O_karte.S_angriff2);
+            }
+            else
+            {
+                Textbox.Infobox("Nicht genug Energie");
+            }
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
+        private void Pokemon_Power()
+        {
+            Textbox.Infobox("Pokemon Power");
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
+        private void Rückzug()
+        {
 
+            string[] rüKosten = new string[I_rückzugskosten];
+            for (int i = 0; i < I_rückzugskosten; i++)
+            {
+                rüKosten[i] = "Farblos";
+            }
+
+            if (Aktion_Einsetzbar(rüKosten))
+            {
+                if (KartenAuswahl.Energie_Auswählen(O_karte.Ls_energieAngelegt,I_rückzugskosten))
+                {
+                    this.Ls_kartenEnergie = O_karte.Ls_energieAngelegt;
+                    Rückzug
+                }              
+
+            }
+            else
+            {
+                Textbox.Infobox("Nicht genug Energie");
+            }
+
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
+        //
+        //###########################################################
+        private void Zug_Beenden()
+        {
+            Textbox.Infobox("Zug beendet");
+            Spielzug.B_spielerZug = false;
         }
         //###########################################################
         //
@@ -267,6 +411,7 @@ namespace PokemonTCG.Spielfeld
             }
 
             I_hover = -1;
+            lastState = Mouse.GetState();
             return false;
         }
         //###########################################################
@@ -407,26 +552,13 @@ namespace PokemonTCG.Spielfeld
         //
         //
         //###########################################################
-        private void Zug_Beenden()
-        {
-            Textbox.Infobox("Zug beendet");
-            Spielzug.B_spielerZug = false;
-        }
-        //###########################################################
-        //
-        //
-        //
-        //
-        //
-        //
-        //###########################################################
         public void Draw(Texture2D auswahlS, Texture2D auswahlW, SpriteBatch spriteBatch, SpriteFont font, List<Texture2D> elemente)
         {
 
             
             // 1. Auwahhlmöglichkeit einer Karte
             //###################################
-            if(I_hover == 0)
+            if(I_hover == 0 && Aktion_Einsetzbar(As_kosten1))
             {
                 spriteBatch.Draw(auswahlW, Position(0), Color.White);
             }
@@ -434,9 +566,16 @@ namespace PokemonTCG.Spielfeld
             {
                 spriteBatch.Draw(auswahlS, Position(0), Color.White);
             }
-            
 
-            spriteBatch.DrawString(font, S_angriff1, new Vector2(I_x + (int)(10*D_scale), I_y + (int)(10 * D_scale)), Color.Black,0,new Vector2(0,0), (float)(1.4*D_scale), SpriteEffects.None,0);
+            if (Aktion_Einsetzbar(As_kosten1))
+            {
+                spriteBatch.DrawString(font, S_angriff1, new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            }
+            else
+            {
+                spriteBatch.DrawString(font, S_angriff1, new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale)), Color.Gray, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+
+            }
 
 
             Ls_e1 = Liste_Übertragen();
@@ -455,7 +594,16 @@ namespace PokemonTCG.Spielfeld
 
             if (I_schaden1 > 0)
             {
-                spriteBatch.DrawString(font, I_schaden1.ToString(),DMG_Position(0),Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+                if (Aktion_Einsetzbar(As_kosten1))
+                {
+                    spriteBatch.DrawString(font, I_schaden1.ToString(), DMG_Position(0), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, I_schaden1.ToString(), DMG_Position(0), Color.Gray, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+
+                }
             }
             //###################################
 
@@ -466,7 +614,7 @@ namespace PokemonTCG.Spielfeld
             //###################################
             if (B_angriff2 == true)
             {
-                if (I_hover == 1)
+                if (I_hover == 1 && Aktion_Einsetzbar(As_kosten2))
                 {
                     spriteBatch.Draw(auswahlW, Position(1), Color.White);
                 }
@@ -475,7 +623,16 @@ namespace PokemonTCG.Spielfeld
                     spriteBatch.Draw(auswahlS, Position(1), Color.White);
                 }
 
-                spriteBatch.DrawString(font, S_angriff2, new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + I_hAuswahl), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+
+                if (Aktion_Einsetzbar(As_kosten2))
+                {
+                    spriteBatch.DrawString(font, S_angriff2, new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + I_hAuswahl), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, S_angriff2, new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + I_hAuswahl), Color.Gray, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+
+                }
 
 
                 Ls_e2 = Liste_Übertragen();
@@ -495,7 +652,14 @@ namespace PokemonTCG.Spielfeld
 
                 if (I_schaden2 > 0)
                 {
-                    spriteBatch.DrawString(font, I_schaden2.ToString(), DMG_Position(1), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+                    if (Aktion_Einsetzbar(As_kosten2))
+                    {
+                        spriteBatch.DrawString(font, I_schaden2.ToString(), DMG_Position(1), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+                    }
+                    else
+                    {
+                        spriteBatch.DrawString(font, I_schaden2.ToString(), DMG_Position(1), Color.Gray, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+                    }
                 }
 
             }
@@ -535,7 +699,13 @@ namespace PokemonTCG.Spielfeld
             if(B_angriff2 == true) { v += 1; }
             if(B_fähigkeit == true) { v += 1; }
 
-            if (I_hover == v)
+            string[] rüKosten = new string[I_rückzugskosten];
+            for(int i = 0; i < I_rückzugskosten; i++)
+            {
+                rüKosten[i] = "Farblos";
+            }
+
+            if (I_hover == v && Aktion_Einsetzbar(rüKosten))
             {
                 spriteBatch.Draw(auswahlW, Position(v), Color.White);
             }
@@ -544,10 +714,17 @@ namespace PokemonTCG.Spielfeld
                 spriteBatch.Draw(auswahlS, Position(v), Color.White);
             }
 
-            spriteBatch.DrawString(font, "Rueckzug", new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + (v * I_hAuswahl)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
-            
 
-            for(int i = 0; i < I_rückzugskosten; i++)
+            if (Aktion_Einsetzbar(rüKosten))
+            {
+                spriteBatch.DrawString(font, "Rueckzug", new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + (v * I_hAuswahl)), Color.Black, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            }
+            else
+            {
+                spriteBatch.DrawString(font, "Rueckzug", new Vector2(I_x + (int)(10 * D_scale), I_y + (int)(10 * D_scale) + (v * I_hAuswahl)), Color.Gray, 0, new Vector2(0, 0), (float)(1.4 * D_scale), SpriteEffects.None, 0);
+            }
+
+            for (int i = 0; i < I_rückzugskosten; i++)
             {
                 spriteBatch.Draw(elemente[1], Position(i,v), Color.White);
                 try

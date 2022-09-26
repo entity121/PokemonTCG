@@ -7,6 +7,7 @@ using System.Windows;
 using System.Threading;
 using PokemonTCG.Textboxen;
 using PokemonTCG.ComputerGegner;
+using PokemonTCG.MenschlicherSpieler;
 
 
 namespace PokemonTCG
@@ -135,6 +136,8 @@ namespace PokemonTCG
 
             Münze.T2D_brettKlein = Content.Load<Texture2D>("Bretter/Brett_klein");
             Textbox.T2D_textbox = Content.Load<Texture2D>("Bretter/Brett_textbox");
+
+            KartenAuswahl.T2D_brett = Content.Load<Texture2D>("Bretter/Holz");
 
             string[] elemente = new string[] { "Elektro_Symbol", "Farblos_Symbol", "Feuer_Symbol", "Kampf_Symbol", "Pflanze_Symbol", "Psycho_Symbol", "Wasser_Symbol", "Verblasst" };
             for(int i = 0; i < elemente.Length; i++)
@@ -308,6 +311,13 @@ namespace PokemonTCG
             {
                 spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
                 Textbox.Draw(spriteBatch, font, D_skalierung, T2D_confirm);
+            }
+
+
+            if(KartenAuswahl.B_wählen == true)
+            {
+                spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
+                KartenAuswahl.Draw(spriteBatch,Lt2d_elemente);
             }
 
 

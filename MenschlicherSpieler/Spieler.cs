@@ -19,6 +19,7 @@ namespace PokemonTCG.Spielfeld
 
         private Deck O_deck;
         public Hand O_hand;
+        private Abwurfstapel O_abwurfstapel;
         private Kartenslot O_kartenslot;
         public Aktionen O_aktionen;
         private MouseState lastState;
@@ -35,6 +36,7 @@ namespace PokemonTCG.Spielfeld
             this.O_hand = new Hand(skalierung,sprite,list,holz);
             this.O_deck = datenbank.Deck_Abrufen(deck);
             this.O_kartenslot = kartenslot;
+            this.O_abwurfstapel = new Abwurfstapel('w');
 
             // Das Deck soll auf das Spielfeld gelegt werden (rein Visueller Zweck)
             O_kartenslot.Slot_Ändern(0, 0, 'w');
@@ -163,6 +165,20 @@ namespace PokemonTCG.Spielfeld
         //
         //
         //
+        //
+        //###########################################################
+        public void Karte_Abwerfen(Karte k)
+        {
+            O_abwurfstapel.Karte_Aufnehmen(k);
+
+            O_kartenslot.Slot_Ändern(7,O_abwurfstapel.Abwurfstapel_Ausgeben()[O_abwurfstapel.Anzahl_Ausgeben()-1].I_ID,'w');
+        }
+        //###########################################################
+        //
+        //
+        //
+        //
+        //
         // Eine ausgewählte Karte wird festgehalten und mit Hilfe der Maus über das Spielfeld bewegt
         //###########################################################
         public void Karte_Bewegen(int position)
@@ -210,6 +226,7 @@ namespace PokemonTCG.Spielfeld
                     else if(O_hand.Get_Karte_In_Hand(position).S_art == "Trainer" && O_hand.Brett_Hover() == false)
                     {
                         O_hand.Karte_Entfernen(O_karteHalten);
+                        Karte_Abwerfen(O_karteHalten);
                     }
 
 
@@ -223,6 +240,7 @@ namespace PokemonTCG.Spielfeld
                             O_kartenslot.Get_Karte(slot).Energie_Anlegen(O_hand.Get_Karte_In_Hand(position).S_typ);
                             O_kartenslot.Get_Karte(slot).Energie_Zeigen();
                             O_hand.Karte_Entfernen(O_karteHalten);
+                            Karte_Abwerfen(O_karteHalten);
                             if(slot == 1)
                             {
                                 O_aktionen = O_kartenslot.Aktionen_Erstellen();
