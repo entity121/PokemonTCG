@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using PokemonTCG.Karten;
 
-namespace PokemonTCG.Karten
+namespace PokemonTCG.MenschlicherSpieler
 {
     class Abwurfstapel
     {

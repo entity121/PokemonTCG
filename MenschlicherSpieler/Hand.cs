@@ -5,10 +5,11 @@ using PokemonTCG.Karten;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PokemonTCG.Spielfeld;
 
 using System.Threading;
 
-namespace PokemonTCG.Spielfeld
+namespace PokemonTCG.MenschlicherSpieler
 {
     class Hand
     {

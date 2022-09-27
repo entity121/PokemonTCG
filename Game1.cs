@@ -48,7 +48,9 @@ namespace PokemonTCG
         private List<Texture2D> Lt2d_marken = new List<Texture2D>();
         private List<Texture2D> Lt2d_elemente = new List<Texture2D>();
 
-        Kartenslot slot = new Kartenslot();
+        BankAuswahl O_bankAuswahl;
+
+        Kartenslot slot = new Kartenslot(O_bankAuswahl);
 
         // Die Objekte für den Spieler und den Gegner
         Spieler SPIELER;
@@ -158,8 +160,12 @@ namespace PokemonTCG
             // Die einzelnen Kartenslots, die auf dem Spielfeld platziert sind
             slot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, Lt2d_karten, spriteBatch);
 
+
+            O_bankAuswahl = new BankAuswahl(slot); 
+
+
             // Spieler und Gegner
-            SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Bretter/Holz"),slot);
+            SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Bretter/Holz"),slot,bankAuswahl);
             SPIELER.Starthand();
             GEGNER = new KI(slot);
 

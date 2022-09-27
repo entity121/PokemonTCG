@@ -6,10 +6,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using PokemonTCG.MenschlicherSpieler;
+using PokemonTCG.Spielfeld;
 
 
 
-namespace PokemonTCG.Spielfeld
+namespace PokemonTCG.MenschlicherSpieler
 {
     class Aktionen
     {
@@ -52,6 +53,8 @@ namespace PokemonTCG.Spielfeld
 
         private string[] elementReihenfolge = new string[] { "Elektro", "Farblos", "Feuer", "Kampf", "Pflanze", "Psycho", "Wasser" };
 
+        BankAuswahl O_bankauswahl;
+
         private MouseState lastState;
 
 
@@ -59,6 +62,8 @@ namespace PokemonTCG.Spielfeld
         public Aktionen(Karte karte, int x, int y, double scale)
         {
             this.O_karte = karte;
+
+            this.O_bankauswahl = new BankAuswahl( Karten auf BAnk als Array)
 
             this.Ls_kartenEnergie = karte.Ls_energieAngelegt;
 

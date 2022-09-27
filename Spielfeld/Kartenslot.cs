@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms;
 using PokemonTCG.Karten;
+using PokemonTCG.MenschlicherSpieler;
 
 namespace PokemonTCG.Spielfeld
 {
@@ -59,8 +60,9 @@ namespace PokemonTCG.Spielfeld
         
 
         private SpriteBatch spriteBatch;
-
+        private BankAuswahl O_bankauswahl;
         private Aktionen O_aktionen;
+
 
         private MouseState lastState = Mouse.GetState();
         //#############################
@@ -68,7 +70,10 @@ namespace PokemonTCG.Spielfeld
 
 
         //#######################################
-        public Kartenslot() { }
+        public Kartenslot() 
+        {
+
+        }
 
         // Die Kartenslots der weißen und roten Seite werden mit den selben ID's hoch gezählt
         //#######################################
@@ -311,7 +316,7 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public Aktionen Aktionen_Erstellen()
         {
-            return new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung);
+            return new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung, this);
         }
         //###########################################################
 
