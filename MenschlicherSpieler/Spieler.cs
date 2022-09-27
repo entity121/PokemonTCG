@@ -25,7 +25,6 @@ namespace PokemonTCG.MenschlicherSpieler
         public Aktionen O_aktionen;
         private MouseState lastState;
         private Karte O_karteHalten;
-        private BankAuswahl O_bankAuswahl;
         public int I_karteHaltenPosition = -1;
         //.......
         //.......
@@ -33,13 +32,12 @@ namespace PokemonTCG.MenschlicherSpieler
 
         //KONSTRUKTOR
         //#######################################
-        public Spieler(int deck,double skalierung,SpriteBatch sprite,List<Texture2D>list,Texture2D holz,Kartenslot kartenslot,BankAuswahl bankAuswahl)
+        public Spieler(int deck,double skalierung,SpriteBatch sprite,List<Texture2D>list,Texture2D holz,Kartenslot kartenslot)
         {
             this.O_hand = new Hand(skalierung,sprite,list,holz);
             this.O_deck = datenbank.Deck_Abrufen(deck);
             this.O_kartenslot = kartenslot;
             this.O_abwurfstapel = new Abwurfstapel('w');
-            this.O_bankAuswahl = bankAuswahl;
 
             // Das Deck soll auf das Spielfeld gelegt werden (rein Visueller Zweck)
             O_kartenslot.Slot_Ändern(0, 0, 'w');

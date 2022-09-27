@@ -11,11 +11,14 @@ namespace PokemonTCG.MenschlicherSpieler
 
         Karte[] Ao_kartenBank;
 
+
         public BankAuswahl(Karte [] bank)
         {
             this.Ao_kartenBank = bank;
-
         }
+
+
+        Größtenteils übernehmen von ElementAuswahl
 
 
 

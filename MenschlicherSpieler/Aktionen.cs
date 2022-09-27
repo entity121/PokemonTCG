@@ -59,11 +59,11 @@ namespace PokemonTCG.MenschlicherSpieler
 
 
         //###########################################################
-        public Aktionen(Karte karte, int x, int y, double scale)
+        public Aktionen(Karte karte, int x, int y, double scale,Karte[]bank)
         {
             this.O_karte = karte;
 
-            this.O_bankauswahl = new BankAuswahl( Karten auf BAnk als Array)
+            this.O_bankauswahl = new BankAuswahl(bank);
 
             this.Ls_kartenEnergie = karte.Ls_energieAngelegt;
 

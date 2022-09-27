@@ -50,7 +50,7 @@ namespace PokemonTCG
 
         BankAuswahl O_bankAuswahl;
 
-        Kartenslot slot = new Kartenslot(O_bankAuswahl);
+        Kartenslot slot = new Kartenslot();
 
         // Die Objekte für den Spieler und den Gegner
         Spieler SPIELER;
@@ -161,11 +161,8 @@ namespace PokemonTCG
             slot.Slots_Erstellen(D_skalierung, I_verschiebungMatte, Lt2d_karten, spriteBatch);
 
 
-            O_bankAuswahl = new BankAuswahl(slot); 
-
-
             // Spieler und Gegner
-            SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Bretter/Holz"),slot,bankAuswahl);
+            SPIELER = new Spieler(6, D_skalierung, spriteBatch, Lt2d_karten, Content.Load<Texture2D>("Bretter/Holz"),slot);
             SPIELER.Starthand();
             GEGNER = new KI(slot);
 

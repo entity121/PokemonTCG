@@ -316,7 +316,17 @@ namespace PokemonTCG.Spielfeld
         //###########################################################
         public Aktionen Aktionen_Erstellen()
         {
-            return new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung, this);
+            List<Karte> bank = new List<Karte>();
+
+            for(int i = 1; i <= 5; i++)
+            {
+                if (Get_Kartenslot(i, 'W').B_besetzt == true)
+                {
+                    bank.Add(Get_Karte(i));
+                }
+            }
+
+            return new Aktionen(L_slotsWeiß[1].karte, (Ai_slotX_weiß[1] + I_slotW + verschiebung), Ai_slotY_weiß[1], skalierung, bank.ToArray());
         }
         //###########################################################
 
