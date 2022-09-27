@@ -22,7 +22,7 @@ namespace PokemonTCG
         //###########################################################
         public static void Spielstart()
         {
-            B_spielerZug = Münze.Münzwurf();
+            /*B_spielerZug = Münze.Münzwurf();
 
             if (B_spielerZug == true)
             {
@@ -31,8 +31,8 @@ namespace PokemonTCG
             else
             {
                 B_spielerZug = Münze.Münzwurf();
-            }
-
+            }*/
+            B_spielerZug = true;
             B_spielStart = false;
         }
         //###########################################################

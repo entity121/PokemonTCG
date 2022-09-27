@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PokemonTCG.MenschlicherSpieler
 {
-    public static class KartenAuswahl
+    public static class ElementAuswahl
     {
         public static bool B_wählen = false;
         public static Texture2D T2D_brett;
@@ -21,15 +21,22 @@ namespace PokemonTCG.MenschlicherSpieler
         private static int I_elX = 100;
         private static int I_elY = 100;
 
+        private static int I_el2X = 155;
+
         private static int I_brW = 1000;
         private static int I_brH = 400;
         private static int I_brX = (1920/2)-(500);
         private static int I_brY = 300;
 
-        private static int I_buW = 100;
-        private static int I_buH = 100;
+        private static int I_buW = 150;
+        private static int I_buH = 50;
         private static int I_buX = 200;
-        private static int I_buY = 200;
+        private static int I_buY = 300;
+
+        private static int I_bu2X = 400;
+
+        private static bool B_OK_hover = false;
+        private static bool B_Abb_hover = false;
 
         private static MouseState lastState = Mouse.GetState();
         //
@@ -39,9 +46,12 @@ namespace PokemonTCG.MenschlicherSpieler
         //
         //
         //###########################################################
-        public static bool Energie_Auswählen(List<string>l , int benötigt)
+        public static bool[] Energie_Auswählen(List<string>l)
         {
             B_wählen = true;
+            Li_draw = new List<int>();
+            Lb_wahl = new List<bool>();
+
             for(int i = 0; i < l.Count; i++)
             {
                 Li_draw.Add(Energie_Übersetzen(l[i]));
@@ -54,33 +64,7 @@ namespace PokemonTCG.MenschlicherSpieler
                 Button_Hover();
             }
 
-
-            int anzahl = 0;
-            for(int i = 0; i < Lb_wahl.Count; i++)
-            {
-                if (Lb_wahl[i] == true)
-                {
-                    anzahl++;
-                }
-            }
-
-            if (anzahl == benötigt)
-            {
-
-                for (int i = 0; i < Lb_wahl.Count; i++)
-                {
-                    if (Lb_wahl[i] == true)
-                    {
-                        l.RemoveAt(i);
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return Lb_wahl.ToArray();
 
         }
         //###########################################################
@@ -96,13 +80,39 @@ namespace PokemonTCG.MenschlicherSpieler
             var mouseState = Mouse.GetState();
             Point point = MausPunkt.MausPoint();
 
+            // OK Button
             if(new Rectangle(I_brX + I_buX, I_brY + I_buY, I_buW, I_buH).Contains(point))
             {
+                B_OK_hover = true;
                 if(mouseState.LeftButton==Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton!= Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 {
                     B_wählen = false;
                 }
             }
+            else
+            {
+                B_OK_hover = false;
+            }
+
+            // Abbrechen Button
+            if (new Rectangle(I_brX + I_buX + I_bu2X, I_brY + I_buY, I_buW, I_buH).Contains(point))
+            {
+                B_Abb_hover = true;
+                if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && lastState.LeftButton != Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                {
+                    for(int i = 0; i < Lb_wahl.Count; i++)
+                    {
+                        Lb_wahl[i] = false;
+                    }
+
+                    B_wählen = false;
+                }
+            }
+            else
+            {
+                B_Abb_hover = false;
+            }
+
         } 
         //###########################################################
         //
@@ -140,7 +150,7 @@ namespace PokemonTCG.MenschlicherSpieler
         //###########################################################
         private static Rectangle Element_Position(int id)
         {
-            return new Rectangle(I_brX + (I_elX * id) + 50, I_brY + I_elY, I_elW, I_elH);
+            return new Rectangle(I_brX + (I_el2X * id) + 50, I_brY + I_elY, I_elW, I_elH);
         }
         //###########################################################
         //
@@ -171,7 +181,7 @@ namespace PokemonTCG.MenschlicherSpieler
         //
         //
         //###########################################################
-        public static void Draw(SpriteBatch sb, List<Texture2D>elemente)
+        public static void Draw(SpriteBatch sb, List<Texture2D>elemente, Texture2D[]buttons)
         {
 
             sb.Draw(T2D_brett, new Rectangle(I_brX, I_brY, I_brW, I_brH), Color.White);
@@ -185,8 +195,28 @@ namespace PokemonTCG.MenschlicherSpieler
                 }
             }
 
-            sb.Draw(T2D_brett, new Rectangle(I_brX+I_buX,I_brY+I_buY,I_buW,I_buH), Color.White);
-            
+
+            // OK Button
+            if (B_OK_hover == true)
+            {
+                sb.Draw(buttons[1], new Rectangle(I_brX + I_buX, I_brY + I_buY, I_buW, I_buH), Color.White);
+            }
+            else
+            {
+                sb.Draw(buttons[0], new Rectangle(I_brX + I_buX, I_brY + I_buY, I_buW, I_buH), Color.White);
+            }
+
+            // Abbruch Button
+            if(B_Abb_hover == true)
+            {
+                sb.Draw(buttons[3], new Rectangle(I_brX + I_buX + I_bu2X, I_brY + I_buY, I_buW, I_buH), Color.White);
+            }
+            else
+            {
+                sb.Draw(buttons[2], new Rectangle(I_brX + I_buX + I_bu2X, I_brY + I_buY, I_buW, I_buH), Color.White);
+            }
+
+
         }
         //###########################################################
         //

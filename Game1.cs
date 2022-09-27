@@ -40,6 +40,7 @@ namespace PokemonTCG
         private Texture2D T2D_auswahlS;
         private Texture2D T2D_auswahlW;
 
+        private Texture2D[] T2D_ja_nein = new Texture2D[4];
         private Texture2D[] T2D_confirm = new Texture2D[4];
 
         // Inhalt: 0 = Kartenrücken , 1-263 = Pokemon Karten nach ID , 264 = Leerer Slot
@@ -120,10 +121,15 @@ namespace PokemonTCG
             T2D_auswahlW = Content.Load<Texture2D>("Bretter/Brett_aktionen_weiß");
 
             // Für die selbst erstellte Confirm Box
-            T2D_confirm[0] = Content.Load<Texture2D>("Buttons/JA_S");
-            T2D_confirm[1] = Content.Load<Texture2D>("Buttons/JA_W");
-            T2D_confirm[2] = Content.Load<Texture2D>("Buttons/NEIN_S");
-            T2D_confirm[3] = Content.Load<Texture2D>("Buttons/NEIN_W");
+            T2D_ja_nein[0] = Content.Load<Texture2D>("Buttons/JA_S");
+            T2D_ja_nein[1] = Content.Load<Texture2D>("Buttons/JA_W");
+            T2D_ja_nein[2] = Content.Load<Texture2D>("Buttons/NEIN_S");
+            T2D_ja_nein[3] = Content.Load<Texture2D>("Buttons/NEIN_W");
+
+            T2D_confirm[0] = Content.Load<Texture2D>("Buttons/OK_S");
+            T2D_confirm[1] = Content.Load<Texture2D>("Buttons/OK_W");
+            T2D_confirm[2] = Content.Load<Texture2D>("Buttons/Abbruch_S");
+            T2D_confirm[3] = Content.Load<Texture2D>("Buttons/Abbruch_W");
 
 
             // Für die selbst erstellte Schriftart
@@ -137,7 +143,7 @@ namespace PokemonTCG
             Münze.T2D_brettKlein = Content.Load<Texture2D>("Bretter/Brett_klein");
             Textbox.T2D_textbox = Content.Load<Texture2D>("Bretter/Brett_textbox");
 
-            KartenAuswahl.T2D_brett = Content.Load<Texture2D>("Bretter/Holz");
+            ElementAuswahl.T2D_brett = Content.Load<Texture2D>("Bretter/Holz");
 
             string[] elemente = new string[] { "Elektro_Symbol", "Farblos_Symbol", "Feuer_Symbol", "Kampf_Symbol", "Pflanze_Symbol", "Psycho_Symbol", "Wasser_Symbol", "Verblasst" };
             for(int i = 0; i < elemente.Length; i++)
@@ -310,14 +316,14 @@ namespace PokemonTCG
             if(Textbox.B_textbox == true)
             {
                 spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
-                Textbox.Draw(spriteBatch, font, D_skalierung, T2D_confirm);
+                Textbox.Draw(spriteBatch, font, D_skalierung, T2D_ja_nein);
             }
 
 
-            if(KartenAuswahl.B_wählen == true)
+            if(ElementAuswahl.B_wählen == true)
             {
                 spriteBatch.Draw(T2D_tranzparenz_weiß, new Vector2(0, 0), Color.White);
-                KartenAuswahl.Draw(spriteBatch,Lt2d_elemente);
+                ElementAuswahl.Draw(spriteBatch,Lt2d_elemente,T2D_confirm);
             }
 
 

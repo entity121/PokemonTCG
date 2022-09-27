@@ -310,12 +310,38 @@ namespace PokemonTCG.Spielfeld
 
             if (Aktion_Einsetzbar(rüKosten))
             {
-                if (KartenAuswahl.Energie_Auswählen(O_karte.Ls_energieAngelegt,I_rückzugskosten))
-                {
-                    this.Ls_kartenEnergie = O_karte.Ls_energieAngelegt;
-                    Rückzug
-                }              
 
+                bool[] auswahl = ElementAuswahl.Energie_Auswählen(O_karte.Ls_energieAngelegt);
+
+                int anzahl = 0;
+                for(int i = 0; i < auswahl.Length; i++)
+                {
+                    if (auswahl[i] == true)
+                    {
+                        anzahl++;
+                    }
+                }
+
+                if (anzahl == O_karte.I_rückzugskosten)
+                {
+
+                    for(int i = 0; i < auswahl.Length; i++)
+                    {
+                        if (auswahl[i] == true)
+                        {
+                            O_karte.Ls_energieAngelegt.RemoveAt(i);
+                            this.Ls_kartenEnergie = O_karte.Ls_energieAngelegt;
+                            //Rückzug
+                        }
+                    }
+
+                }
+                else
+                {
+                    Textbox.Infobox("Rückzug abgebrochen");
+                }
+                
+                    this.Ls_kartenEnergie = O_karte.Ls_energieAngelegt;
             }
             else
             {
